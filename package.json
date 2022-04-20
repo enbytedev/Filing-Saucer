@@ -1,5 +1,5 @@
 {
-  "name": "aerial-file",
+  "name": "filing-saucer",
   "version": "1.0.0",
   "description": "Successor to A-Share.",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aerial-Laptop/Aerial-File.git"
+    "url": "git+https://github.com/Aerial-Laptop/Filing-Saucer.git"
   },
   "author": "enbyte",
   "license": "GPL-3.0-only",
   "bugs": {
-    "url": "https://github.com/Aerial-Laptop/Aerial-File/issues"
+    "url": "https://github.com/Aerial-Laptop/Filing-Saucer/issues"
   },
-  "homepage": "https://github.com/Aerial-Laptop/Aerial-File#readme",
+  "homepage": "https://github.com/Aerial-Laptop/Filing-Saucer#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
