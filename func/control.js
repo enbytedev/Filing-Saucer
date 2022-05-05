@@ -61,11 +61,11 @@ const upload = async (req, res) => {
   let disc = `${generate(6)}`
   let deletion = `${generate(8)}`
   let tempFile = `uploads/temp/${req.file.originalname}`
-  var discFile = `uploads/${disc}-${req.file.originalname}`
   const reg0 = /[|]/
   const reg1 = /["]/
   let nameFix0 = req.file.originalname.replace(reg0, "-")
   let nameFix1 = nameFix0.replace(reg1, "-")
+  var discFile = `uploads/${disc}-${nameFix1}`
   fs.rename(tempFile, discFile, function (err) {
     if (err) throw err
     console.log(`--\nUpload complete!\nUploaded to: ${discFile}\n${req.file.originalname} --> ${disc}-${nameFix1}\n--`)
