@@ -23,6 +23,32 @@ function generate(n) {
 
 /*
 
+Regex loop
+
+a, String to operate on
+b, First regex to use
+c, Optional second regex to use
+d, Optional third regex to use
+*/
+function regexSafety(a, b, c, d) {
+  do {
+    a = a.replace(b, "-")
+  } while (a.match(b));
+  if (c != null) {
+    do {
+      a = a.replace(c, "-")
+    } while (a.match(c));
+  }
+  if (d != null) {
+    do {
+      a = a.replace(d, "-")
+    } while (a.match(d));
+  }
+  return ("" + a);
+}
+
+/*
+
 Read file
 
 */
@@ -60,29 +86,26 @@ const upload = async (req, res) => {
       message: `Failed to upload file: ${req.file.originalname}. ${err}`,
     });
   }
-  // Naming and such.
+  // Generate random numbers
   let disc = `${generate(6)}`
   let deletion = `${generate(8)}`
-  let tempFile = `uploads/temp/${req.file.originalname}`
-  const reg0 = /[|]/
-  const reg1 = /["]/
-  let nameFix0 = req.file.originalname.replace(reg0, "-")
-  let nameFix1 = nameFix0.replace(reg1, "-")
-  var discFile = `uploads/${disc}-${nameFix1}`
+  // Ensure the response is safe for web viewing and client app
+  let safeName = regexSafety(req.file.originalname, /[|]/, /["]/, /[ ]/)
+  var finalFile = `uploads/${disc}-${safeName}`
   // Move file out of temp
-  fs.rename(tempFile, discFile, function (err) {
+  fs.rename(`uploads/temp/${req.file.originalname}`, finalFile, function (err) {
     if (err) throw err
-    console.log(`--\nUpload complete!\nUploaded to: ${discFile}\n${req.file.originalname} --> ${disc}-${nameFix1}\n--`)
+    console.log(`--\nUpload complete!\nUploaded to: ${finalFile}\n${req.file.originalname} --> ${disc}-${safeName}\n--`)
   })
-  // Write registry entry.
-  fs.writeFile(`./registry/`+deletion, `${disc}-${nameFix1}`, (err) => {
+  // Write registry entry
+  fs.writeFile(`./registry/`+deletion, `${disc}-${safeName}`, (err) => {
     if (err) {
       throw err;
     }
   })
-  // Respond to client.
+  // Respond to client
   res.status(200).send({
-    message: `${disc}-${nameFix1}|${deletion}`,
+    message: `${disc}-${safeName}|${deletion}`,
   });
 };
 
