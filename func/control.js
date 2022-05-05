@@ -62,18 +62,21 @@ const upload = async (req, res) => {
   let deletion = `${generate(8)}`
   let tempFile = `uploads/temp/${req.file.originalname}`
   var discFile = `uploads/${disc}-${req.file.originalname}`
-  
+  const reg0 = /[|]/
+  const reg1 = /["]/
+  let nameFix0 = req.file.originalname.replace(reg0, "-")
+  let nameFix1 = nameFix0.replace(reg1, "-")
   fs.rename(tempFile, discFile, function (err) {
     if (err) throw err
-    console.log(`--\nUpload complete!\nUploaded to: ${discFile}\n${req.file.originalname} --> ${disc}-${req.file.originalname}\n--`)
+    console.log(`--\nUpload complete!\nUploaded to: ${discFile}\n${req.file.originalname} --> ${disc}-${nameFix1}\n--`)
   })
-  fs.writeFile(`./registry/`+deletion, `${disc}-${req.file.originalname}`, (err) => {
+  fs.writeFile(`./registry/`+deletion, `${disc}-${nameFix1}`, (err) => {
     if (err) {
       throw err;
     }
   })
   res.status(200).send({
-    message: `${disc}-${req.file.originalname} | ${deletion}`,
+    message: `${disc}-${nameFix1}|${deletion}`,
   });
 };
 
