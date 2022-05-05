@@ -47,17 +47,20 @@ const upload = async (req, res) => {
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please attach your desired file!" });
     }
-
+// Catch errors
   } catch (err) {
+    // File size limiting
     if (err.code == "LIMIT_FILE_SIZE") {
       return res.status(500).send({
         message: "Attempted to upload a file that is too large!",
       });
     }
+    // Misc. failure
     res.status(500).send({
       message: `Failed to upload file: ${req.file.originalname}. ${err}`,
     });
   }
+  // Naming and such.
   let disc = `${generate(6)}`
   let deletion = `${generate(8)}`
   let tempFile = `uploads/temp/${req.file.originalname}`
@@ -66,15 +69,18 @@ const upload = async (req, res) => {
   let nameFix0 = req.file.originalname.replace(reg0, "-")
   let nameFix1 = nameFix0.replace(reg1, "-")
   var discFile = `uploads/${disc}-${nameFix1}`
+  // Move file out of temp
   fs.rename(tempFile, discFile, function (err) {
     if (err) throw err
     console.log(`--\nUpload complete!\nUploaded to: ${discFile}\n${req.file.originalname} --> ${disc}-${nameFix1}\n--`)
   })
+  // Write registry entry.
   fs.writeFile(`./registry/`+deletion, `${disc}-${nameFix1}`, (err) => {
     if (err) {
       throw err;
     }
   })
+  // Respond to client.
   res.status(200).send({
     message: `${disc}-${nameFix1}|${deletion}`,
   });
