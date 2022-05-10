@@ -1,5 +1,5 @@
 <p align="center">
-  <a><img src="https://raw.githubusercontent.com/Aerial-Laptop/Filing-Saucer/main/icon.png" width="250" height="250" /></a>
+  <a><img src="./static/icon.png" width="250" height="250" /></a>
 
   <h2 align="center">Filing Saucer // Server</h2>
  <p align="center"><i>"like a flying saucer, but for files... like in the cloud..."</i></p>
@@ -23,5 +23,7 @@
     <a href="/">
       <img alt="Status" src="https://img.shields.io/badge/Status-Stable-008000?style=for-the-badge" />
     </a>
-
+<hr>
+    Site Administrators:
+    If applicable, it is encouraged that you load any compiled custom <a href="https://github.com/Aerial-Laptop/Filing-Saucer-Client/">Filing Saucer Client (FSC)</a> as <code>FSClient.jar</code> within <code>/static</code><br>
 </p>

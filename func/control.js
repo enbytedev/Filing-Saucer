@@ -23,6 +23,32 @@ function generate(n) {
 
 /*
 
+Regex loop
+
+a, String to operate on
+b, First regex to use
+c, Optional second regex to use
+d, Optional third regex to use
+*/
+function regexSafety(a, b, c, d) {
+  do {
+    a = a.replace(b, "-")
+  } while (a.match(b));
+  if (c != null) {
+    do {
+      a = a.replace(c, "-")
+    } while (a.match(c));
+  }
+  if (d != null) {
+    do {
+      a = a.replace(d, "-")
+    } while (a.match(d));
+  }
+  return ("" + a);
+}
+
+/*
+
 Read file
 
 */
@@ -47,33 +73,39 @@ const upload = async (req, res) => {
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please attach your desired file!" });
     }
-
+// Catch errors
   } catch (err) {
+    // File size limiting
     if (err.code == "LIMIT_FILE_SIZE") {
       return res.status(500).send({
         message: "Attempted to upload a file that is too large!",
       });
     }
+    // Misc. failure
     res.status(500).send({
       message: `Failed to upload file: ${req.file.originalname}. ${err}`,
     });
   }
+  // Generate random numbers
   let disc = `${generate(6)}`
   let deletion = `${generate(8)}`
-  let tempFile = `uploads/temp/${req.file.originalname}`
-  var discFile = `uploads/${disc}-${req.file.originalname}`
-  
-  fs.rename(tempFile, discFile, function (err) {
+  // Ensure the response is safe for web viewing and client app
+  let safeName = regexSafety(req.file.originalname, /[|]/, /["]/, /[ ]/)
+  var finalFile = `uploads/${disc}-${safeName}`
+  // Move file out of temp
+  fs.rename(`uploads/temp/${req.file.originalname}`, finalFile, function (err) {
     if (err) throw err
-    console.log(`--\nUpload complete!\nUploaded to: ${discFile}\n${req.file.originalname} --> ${disc}-${req.file.originalname}\n--`)
+    console.log(`--\nUpload complete!\nUploaded to: ${finalFile}\n${req.file.originalname} --> ${disc}-${safeName}\n--`)
   })
-  fs.writeFile(`./registry/`+deletion, `${disc}-${req.file.originalname}`, (err) => {
+  // Write registry entry
+  fs.writeFile(`./uploads/registry/`+deletion, `${disc}-${safeName}`, (err) => {
     if (err) {
       throw err;
     }
   })
+  // Respond to client
   res.status(200).send({
-    message: `${disc}-${req.file.originalname} | ${deletion}`,
+    message: `${disc}-${safeName}|${deletion}`,
   });
 };
 
@@ -106,14 +138,14 @@ Delete the specified file!
 const deletion = (req, res) => {
   const regId = req.params.name;
   
-  var output = read(__basedir+'/registry/'+regId, function(data) {
+  var output = read(__basedir+'/uploads/registry/'+regId, function(data) {
     fs.unlink(__basedir+'/uploads/'+data, (err) => {
       if (err) {
         console.error(err)
         return
       }
     })
-    fs.unlink(__basedir+'/registry/'+regId, (err) => {
+    fs.unlink(__basedir+'/uploads/registry/'+regId, (err) => {
       if (err) {
         console.error(err)
         return
@@ -126,6 +158,7 @@ const deletion = (req, res) => {
     message: `Deleted | ${regId}`,
   });
 };
+
 module.exports = {
   upload,
   download,
