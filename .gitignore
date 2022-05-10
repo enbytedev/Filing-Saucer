@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/**
 
-registry/**
-!registry/init.txt
+uploads/registry/**
+!uploads/registry/init.txt
+.idea/**

@@ -98,7 +98,7 @@ const upload = async (req, res) => {
     console.log(`--\nUpload complete!\nUploaded to: ${finalFile}\n${req.file.originalname} --> ${disc}-${safeName}\n--`)
   })
   // Write registry entry
-  fs.writeFile(`./registry/`+deletion, `${disc}-${safeName}`, (err) => {
+  fs.writeFile(`./uploads/registry/`+deletion, `${disc}-${safeName}`, (err) => {
     if (err) {
       throw err;
     }
@@ -138,14 +138,14 @@ Delete the specified file!
 const deletion = (req, res) => {
   const regId = req.params.name;
   
-  var output = read(__basedir+'/registry/'+regId, function(data) {
+  var output = read(__basedir+'/uploads/registry/'+regId, function(data) {
     fs.unlink(__basedir+'/uploads/'+data, (err) => {
       if (err) {
         console.error(err)
         return
       }
     })
-    fs.unlink(__basedir+'/registry/'+regId, (err) => {
+    fs.unlink(__basedir+'/uploads/registry/'+regId, (err) => {
       if (err) {
         console.error(err)
         return
@@ -158,6 +158,7 @@ const deletion = (req, res) => {
     message: `Deleted | ${regId}`,
   });
 };
+
 module.exports = {
   upload,
   download,
