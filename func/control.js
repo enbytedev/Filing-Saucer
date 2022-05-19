@@ -111,6 +111,25 @@ const upload = async (req, res) => {
 
 /*
 
+View route
+--
+
+Views the requested file!
+*/
+const view = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = __basedir + "/uploads/";
+  res.sendFile(directoryPath + fileName, fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not view the requested file... " + err,
+      });
+    }
+  });
+};
+
+/*
+
 Download route
 --
 
@@ -161,6 +180,7 @@ const deletion = (req, res) => {
 
 module.exports = {
   upload,
+  view,
   download,
   deletion,
 };
