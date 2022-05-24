@@ -24,6 +24,5 @@
       <img alt="Status" src="https://img.shields.io/badge/Status-Stable-008000?style=for-the-badge" />
     </a>
 <hr>
-    Site Administrators:
-    If applicable, it is encouraged that you load any compiled custom <a href="https://github.com/Aerial-Laptop/Filing-Saucer-Client/">Filing Saucer Client (FSC)</a> as <code>FSClient.jar</code> within <code>/static</code><br>
+    <a href="https://github.com/Aerial-Laptop/.github/blob/main/al-docs/NODEJS-SETUP.md">General Setup Documentation for NodeJS</a> from Aerial Laptop
 </p>
