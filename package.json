@@ -1,8 +1,8 @@
 {
   "name": "filing-saucer",
   "version": "1.0.0",
-  "description": "Successor to A-Share.",
-  "main": "index.js",
+  "description": "A file sharing server, intended to be the successor to A-Share! Users may use an API via POST and GET requests to exchange files.",
+  "main": "main.js",
   "scripts": {
     "test": "node main.js"
   },
