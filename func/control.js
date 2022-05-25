@@ -1,5 +1,12 @@
+const config = require("../config.json");
 const uploadFile = require("./upload");
-const fs = require('fs')
+const fs = require('fs');
+
+var url = `${config.url}/`
+if (config.port != "80" && config.port != "443") {
+    url = `${config.url}:${config.port}/`
+}
+console.log("URL is set to " + url + "\nThe port is EXCLUDED for ports 80 & 443.")
 
 /*
 
@@ -77,14 +84,10 @@ const upload = async (req, res) => {
   } catch (err) {
     // File size limiting
     if (err.code == "LIMIT_FILE_SIZE") {
-      return res.status(500).send({
-        message: "Attempted to upload a file that is too large!",
-      });
+       res.render('info.ejs', {title: `Failure!`, desc: `Attached file was too large!`});
     }
     // Misc. failure
-    res.status(500).send({
-      message: `Failed to upload file: ${req.file.originalname}. ${err}`,
-    });
+        res.render('info.ejs', {title: `Failure!`, desc: `Reason unknown!`});
   }
   // Generate random numbers
   let disc = `${generate(6)}`
@@ -103,11 +106,32 @@ const upload = async (req, res) => {
       throw err;
     }
   })
-  // Respond to client
-  res.status(200).send({
-    message: `${disc}-${safeName}|${deletion}`,
-  });
+res.render('upload.ejs', {shareLink: `${url}share/${disc}-${safeName}`, deletionLink: `${url}delete/${deletion}`});
 };
+
+/*
+
+Webclient route
+
+*/
+const web = async (req, res) => {
+    res.render('web.ejs');
+}
+
+/*
+
+Share route
+
+*/
+const share = async (req, res) => {
+  var path = __basedir+'/uploads/'+req.params.name;
+try {
+  stats = fs.statSync(path);
+  res.render('share.ejs', {file: `${req.params.name}`, viewLink: `${url}view/${req.params.name}`, downloadLink: `${url}download/${req.params.name}`});
+} catch{
+  res.render('info.ejs', {title: `Failure!`, desc: `File ${req.params.name} does not exist in this server's content datastore!`});
+  }
+}
 
 /*
 
@@ -121,9 +145,7 @@ const view = (req, res) => {
   const directoryPath = __basedir + "/uploads/";
   res.sendFile(directoryPath + fileName, fileName, (err) => {
     if (err) {
-      res.status(500).send({
-        message: "Could not view the requested file... " + err,
-      });
+        res.render('info.ejs', {title: `Failure!`, desc: `File ${fileName} does not exist in this server's content datastore!`});
     }
   });
 };
@@ -140,9 +162,7 @@ const download = (req, res) => {
   const directoryPath = __basedir + "/uploads/";
   res.download(directoryPath + fileName, fileName, (err) => {
     if (err) {
-      res.status(500).send({
-        message: "Could not download the requested file... " + err,
-      });
+        res.render('info.ejs', {title: `Failure!`, desc: `File ${fileName} does not exist in this server's content datastore!`});
     }
   });
 };
@@ -156,30 +176,36 @@ Delete the specified file!
 */
 const deletion = (req, res) => {
   const regId = req.params.name;
-  
+  var path = __basedir+'/uploads/registry/'+regId;
+try {
+  stats = fs.statSync(path);
   var output = read(__basedir+'/uploads/registry/'+regId, function(data) {
-    fs.unlink(__basedir+'/uploads/'+data, (err) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-    })
-    fs.unlink(__basedir+'/uploads/registry/'+regId, (err) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-    })
+      fs.unlink(__basedir+'/uploads/'+data, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      })
+      fs.unlink(__basedir+'/uploads/registry/'+regId, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      })
   })
-  
-  console.log(`--\nRemoved: ${regId}\n--`)
-  res.status(200).send({
-    message: `Deleted | ${regId}`,
-  });
-};
+    console.log(`--\nRemoved: ${regId}\n--`)
+    res.render('info.ejs', {title: `Success!`, desc: `File associated with ${regId} was successfully deleted!`});
+    } catch (e) {
+    res.render('info.ejs', {title: `Failure!`, desc: `Token ${regId} does not exist in this server's registry!`});
+}
+
+
+}
 
 module.exports = {
   upload,
+  web,
+  share,
   view,
   download,
   deletion,
