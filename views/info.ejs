@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>FilingSaucer Web Client</title>
-  <meta property="og:title" content="A-Share">
-  <meta property="og:site_name" content="">
+  <meta property="og:title" content="File shared via FilingSaucer">
+  <meta property="og:site_name" content="FilingSaucer">
   <meta property="og:url" content="">
-  <meta property="og:description" content="Share your files and delete them with a randomly generated OTP.">
+  <meta property="og:description" content="A file exchange webapp with easy upload and deletion!">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="">
+  <meta property="og:image" content="./icon.png">
 </head>
 <body>
   <div class="jumbotron">
     <p align="center"><a><img src="../icon.png" width="200" height="200" /></a></p>
-    <h1 align="center"><%= issue %></h1>
-<div class="container col-sm-12" id="choose-files" oncopy="return false" oncut="return false" onpaste="return false">
-    <form align="center" action="/uploadfile" method="post" enctype="multipart/form-data">
+    <h1 align="center"><%= title %></h1>
+<div align="center" class="container col-sm-12" id="choose-files" oncopy="return false" oncut="return false" onpaste="return false">
       <hr>
+      <h4><%= desc %></h4>
 </div>
   <div class="jumbotron">
   </div>

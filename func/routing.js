@@ -5,7 +5,7 @@ const rateLimit = require('express-rate-limit')
  
 const accessLimit = rateLimit({
     windowMs: 5 * 60 * 1000,
-    max: 5,
+    max: 65,
     standardHeaders: true,
     legacyHeaders: false,
     message: 'Too many access requests created from this IP, please try again after 5 minutes!',
@@ -20,8 +20,9 @@ const apiLimit = rateLimit({
 
 let routes = (app) => {
     // Web client
-    router.get("/", controller.web);
+    router.get("/", accessLimit, controller.web);
     // Access content
+    router.get("/share/:name", accessLimit, controller.share);
     router.get("/view/:name", accessLimit, controller.view);
     router.get("/download/:name", accessLimit, controller.download);
     // API

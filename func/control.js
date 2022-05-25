@@ -84,14 +84,10 @@ const upload = async (req, res) => {
   } catch (err) {
     // File size limiting
     if (err.code == "LIMIT_FILE_SIZE") {
-      return res.status(500).send({
-        message: "Attempted to upload a file that is too large!",
-      });
+       res.render('info.ejs', {title: `Failure!`, desc: `Attached file was too large!`});
     }
     // Misc. failure
-    res.status(500).send({
-      message: `Failed to upload file: ${req.file.originalname}. ${err}`,
-    });
+        res.render('info.ejs', {title: `Failure!`, desc: `Reason unknown!`});
   }
   // Generate random numbers
   let disc = `${generate(6)}`
@@ -110,7 +106,7 @@ const upload = async (req, res) => {
       throw err;
     }
   })
-res.render('upload.ejs', {viewLink: `${url}view/${disc}-${safeName}`, deletionLink: `${url}delete/${deletion}`});
+res.render('upload.ejs', {shareLink: `${url}share/${disc}-${safeName}`, deletionLink: `${url}delete/${deletion}`});
 };
 
 /*
@@ -121,6 +117,22 @@ Webclient route
 const web = async (req, res) => {
     res.render('web.ejs');
 }
+
+/*
+
+Share route
+
+*/
+const share = async (req, res) => {
+  var path = __basedir+'/uploads/'+req.params.name;
+try {
+  stats = fs.statSync(path);
+  res.render('share.ejs', {file: `${req.params.name}`, viewLink: `${url}view/${req.params.name}`, downloadLink: `${url}download/${req.params.name}`});
+} catch{
+  res.render('info.ejs', {title: `Failure!`, desc: `File ${req.params.name} does not exist in this server's content datastore!`});
+  }
+}
+
 /*
 
 View route
@@ -133,7 +145,7 @@ const view = (req, res) => {
   const directoryPath = __basedir + "/uploads/";
   res.sendFile(directoryPath + fileName, fileName, (err) => {
     if (err) {
-        res.render('info.ejs', {issue: "File not found!"});
+        res.render('info.ejs', {title: `Failure!`, desc: `File ${fileName} does not exist in this server's content datastore!`});
     }
   });
 };
@@ -150,7 +162,7 @@ const download = (req, res) => {
   const directoryPath = __basedir + "/uploads/";
   res.download(directoryPath + fileName, fileName, (err) => {
     if (err) {
-        res.render('info.ejs', {issue: "File not found!"});
+        res.render('info.ejs', {title: `Failure!`, desc: `File ${fileName} does not exist in this server's content datastore!`});
     }
   });
 };
@@ -182,9 +194,9 @@ try {
       })
   })
     console.log(`--\nRemoved: ${regId}\n--`)
-    res.render('info.ejs', {issue: `File associated with ${regId} was successfully deleted!`});
+    res.render('info.ejs', {title: `Success!`, desc: `File associated with ${regId} was successfully deleted!`});
     } catch (e) {
-    res.render('info.ejs', {issue: `Token ${regId} does not exist in this server's registry!`});
+    res.render('info.ejs', {title: `Failure!`, desc: `Token ${regId} does not exist in this server's registry!`});
 }
 
 
@@ -193,6 +205,7 @@ try {
 module.exports = {
   upload,
   web,
+  share,
   view,
   download,
   deletion,
