@@ -1,5 +1,12 @@
+const config = require("../config.json");
 const uploadFile = require("./upload");
-const fs = require('fs')
+const fs = require('fs');
+
+var url = `${config.url}/`
+if (config.port != "80" && config.port != "443") {
+    url = `${config.url}:${config.port}/`
+}
+console.log("URL is set to" + url + "\nThe port is EXCLUDED for ports 80 & 443.")
 
 /*
 
@@ -103,12 +110,17 @@ const upload = async (req, res) => {
       throw err;
     }
   })
-  // Respond to client
-  res.status(200).send({
-    message: `${disc}-${safeName}|${deletion}`,
-  });
+res.render('success.ejs', {viewLink: `${url}view/${disc}-${safeName}`, deletionLink: `${url}delete/${deletion}`});
 };
 
+/*
+
+Webclient route
+
+*/
+const web = async (req, res) => {
+    res.render('web.ejs');
+}
 /*
 
 View route
@@ -156,7 +168,6 @@ Delete the specified file!
 */
 const deletion = (req, res) => {
   const regId = req.params.name;
-  
   var output = read(__basedir+'/uploads/registry/'+regId, function(data) {
     fs.unlink(__basedir+'/uploads/'+data, (err) => {
       if (err) {
@@ -180,6 +191,7 @@ const deletion = (req, res) => {
 
 module.exports = {
   upload,
+  web,
   view,
   download,
   deletion,
