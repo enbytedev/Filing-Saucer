@@ -2,8 +2,11 @@ const config = require("../config.json");
 const uploadFile = require("./upload");
 const fs = require('fs');
 
+// Set URL
 var url = `${config.url}/`
-if (config.port != "80" && config.port != "443") {
+if (config.forcePortRemovalInApp == true) {
+    url = `${config.url}/`
+} else if (config.port != "80" && config.port != "443") {
     url = `${config.url}:${config.port}/`
 }
 console.log("URL is set to " + url + "\nThe port is EXCLUDED for ports 80 & 443.")
