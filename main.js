@@ -17,5 +17,5 @@ app.set('view engine', 'ejs');
 app.post('/uploadfile', controller.upload);
 // Open app.
 app.listen(port, () => {
-  console.log(`FilingSaucer started successfuly on port ${port}!`);
+  console.log(`FilingSaucer started successfully on port ${port}!`);
 });

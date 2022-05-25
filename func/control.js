@@ -6,7 +6,7 @@ var url = `${config.url}/`
 if (config.port != "80" && config.port != "443") {
     url = `${config.url}:${config.port}/`
 }
-console.log("URL is set to" + url + "\nThe port is EXCLUDED for ports 80 & 443.")
+console.log("URL is set to " + url + "\nThe port is EXCLUDED for ports 80 & 443.")
 
 /*
 
@@ -110,7 +110,7 @@ const upload = async (req, res) => {
       throw err;
     }
   })
-res.render('success.ejs', {viewLink: `${url}view/${disc}-${safeName}`, deletionLink: `${url}delete/${deletion}`});
+res.render('upload.ejs', {viewLink: `${url}view/${disc}-${safeName}`, deletionLink: `${url}delete/${deletion}`});
 };
 
 /*
@@ -133,9 +133,7 @@ const view = (req, res) => {
   const directoryPath = __basedir + "/uploads/";
   res.sendFile(directoryPath + fileName, fileName, (err) => {
     if (err) {
-      res.status(500).send({
-        message: "Could not view the requested file... " + err,
-      });
+        res.render('info.ejs', {issue: "File not found!"});
     }
   });
 };
@@ -152,9 +150,7 @@ const download = (req, res) => {
   const directoryPath = __basedir + "/uploads/";
   res.download(directoryPath + fileName, fileName, (err) => {
     if (err) {
-      res.status(500).send({
-        message: "Could not download the requested file... " + err,
-      });
+        res.render('info.ejs', {issue: "File not found!"});
     }
   });
 };
@@ -168,26 +164,31 @@ Delete the specified file!
 */
 const deletion = (req, res) => {
   const regId = req.params.name;
+  var path = __basedir+'/uploads/registry/'+regId;
+try {
+  stats = fs.statSync(path);
   var output = read(__basedir+'/uploads/registry/'+regId, function(data) {
-    fs.unlink(__basedir+'/uploads/'+data, (err) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-    })
-    fs.unlink(__basedir+'/uploads/registry/'+regId, (err) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-    })
+      fs.unlink(__basedir+'/uploads/'+data, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      })
+      fs.unlink(__basedir+'/uploads/registry/'+regId, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      })
   })
-  
-  console.log(`--\nRemoved: ${regId}\n--`)
-  res.status(200).send({
-    message: `Deleted | ${regId}`,
-  });
-};
+    console.log(`--\nRemoved: ${regId}\n--`)
+    res.render('info.ejs', {issue: `File associated with ${regId} was successfully deleted!`});
+    } catch (e) {
+    res.render('info.ejs', {issue: `Token ${regId} does not exist in this server's registry!`});
+}
+
+
+}
 
 module.exports = {
   upload,
