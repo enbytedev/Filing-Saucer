@@ -5,14 +5,14 @@ const rateLimit = require('express-rate-limit')
  
 const accessLimit = rateLimit({
     windowMs: 5 * 60 * 1000,
-    max: 65,
+    max: process.env.accessLimit,
     standardHeaders: true,
     legacyHeaders: false,
     message: 'Too many access requests created from this IP, please try again after 5 minutes!',
 })
 const apiLimit = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 8,
+    max: process.env.apiLimit,
     standardHeaders: true,
     legacyHeaders: false,
     message: 'Too many upload/deletion requests created from this IP, please try again after 15 minutes!',

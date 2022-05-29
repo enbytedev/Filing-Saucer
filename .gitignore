@@ -4,3 +4,4 @@ node_modules/**
 uploads/**
 !**/.init
 .idea/**
+.env

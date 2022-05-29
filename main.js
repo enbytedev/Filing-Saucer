@@ -1,11 +1,11 @@
+require('dotenv').config()
 const cors = require("cors");
 const express = require("express");
 const app = express();
-const {origin, port} = require('./config.json');
 const controller = require("./func/control");
 global.__basedir = __dirname;
 var corsOptions = {
-  origin: `${origin}`
+  origin: `http://localhost:8081`
 };
 app.use(cors(corsOptions));
 const initRoutes = require("./func/routing");
@@ -16,6 +16,6 @@ initRoutes(app);
 app.set('view engine', 'ejs');
 app.post('/uploadfile', controller.upload);
 // Open app.
-app.listen(port, () => {
-  console.log(`FilingSaucer started successfully on port ${port}!`);
+app.listen(process.env.port, () => {
+  console.log(`FilingSaucer started successfully on port ${process.env.port}!`);
 });

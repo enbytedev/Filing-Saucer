@@ -1,15 +1,18 @@
-const config = require("../config.json");
+//require('dotenv').config()
 const uploadFile = require("./upload");
 const fs = require('fs');
 
+const url = `${process.env.url}`
+const port = `${process.env.port}`
+
 // Set URL
-var url = `${config.url}/`
-if (config.forcePortRemovalInApp == true) {
-    url = `${config.url}/`
-} else if (config.port != "80" && config.port != "443") {
-    url = `${config.url}:${config.port}/`
+var urlFull = url
+if (process.env.forcePortRemovalInApp == true) {
+    urlFull = url
+} else if (port != "80" && port != "443") {
+    urlFull = `${url}:${port}/`
 }
-console.log("URL is set to " + url + "\nThe port is EXCLUDED for ports 80 & 443.")
+console.log("URL is set to " + urlFull + "\nThe port is EXCLUDED for ports 80 & 443.")
 
 /*
 
@@ -109,7 +112,7 @@ const upload = async (req, res) => {
       throw err;
     }
   })
-res.render('upload.ejs', {shareLink: `${url}share/${disc}-${safeName}`, deletionLink: `${url}delete/${deletion}`});
+res.render('upload.ejs', {shareLink: `${urlFull}share/${disc}-${safeName}`, deletionLink: `${urlFull}delete/${deletion}`});
 };
 
 /*
@@ -130,7 +133,7 @@ const share = async (req, res) => {
   var path = __basedir+'/uploads/'+req.params.name;
 try {
   stats = fs.statSync(path);
-  res.render('share.ejs', {file: `${req.params.name}`, viewLink: `${url}view/${req.params.name}`, downloadLink: `${url}download/${req.params.name}`});
+  res.render('share.ejs', {file: `${req.params.name}`, viewLink: `${urlFull}view/${req.params.name}`, downloadLink: `${urlFull}download/${req.params.name}`});
 } catch{
   res.render('info.ejs', {title: `Failure!`, desc: `File ${req.params.name} does not exist in this server's content datastore!`});
   }
