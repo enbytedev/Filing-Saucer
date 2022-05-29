@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/Aerial-Laptop/Filing-Saucer#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.17.3",
     "express-rate-limit": "^6.4.0",

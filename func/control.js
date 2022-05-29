@@ -5,6 +5,8 @@ const fs = require('fs');
 const url = `${process.env.url}`
 const port = `${process.env.port}`
 
+var colors = require('colors');
+
 // Set URL
 var urlFull = url
 if (process.env.forcePortRemovalInApp == true) {
@@ -12,7 +14,7 @@ if (process.env.forcePortRemovalInApp == true) {
 } else if (port != "80" && port != "443") {
     urlFull = `${url}:${port}/`
 }
-console.log("URL is set to " + urlFull + "\nThe port is EXCLUDED for ports 80 & 443.")
+console.log("URL is set to ".blue + urlFull + "\nThe port is EXCLUDED for ports 80 & 443.".blue)
 
 /*
 

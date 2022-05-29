@@ -3,6 +3,9 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 const controller = require("./func/control");
+require("./aerialhelper");
+var colors = require('colors');
+
 global.__basedir = __dirname;
 var corsOptions = {
   origin: `http://localhost:8081`
@@ -17,5 +20,5 @@ app.set('view engine', 'ejs');
 app.post('/uploadfile', controller.upload);
 // Open app.
 app.listen(process.env.port, () => {
-  console.log(`FilingSaucer started successfully on port ${process.env.port}!`);
+  console.log(`FilingSaucer started successfully on port ${process.env.port}!`.green.bold);
 });
