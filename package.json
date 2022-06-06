@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A file sharing server, intended to be the successor to A-Share! Users may use an API via POST and GET requests to exchange files.",
   "main": "main.js",
+  "bin": "main.js",
   "scripts": {
     "test": "node main.js"
   },
@@ -18,11 +19,25 @@
   "homepage": "https://github.com/Aerial-Laptop/Filing-Saucer#readme",
   "dependencies": {
     "colors": "^1.4.0",
+    "command-line-args": "^5.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.17.3",
     "express-rate-limit": "^6.4.0",
-    "multer": "^1.4.4"
+    "multer": "^1.4.4",
+    "prompt-sync": "^4.2.0"
+  },
+  "pkg": {
+    "scripts": "func/**/*.js",
+    "assets": [
+      "views/**/*.ejs",
+      "static/**"
+    ],
+    "targets": [
+      "node14-macos-arm64",
+      "node14-linux-arm64"
+    ],
+    "outputPath": "dist"
   }
 }

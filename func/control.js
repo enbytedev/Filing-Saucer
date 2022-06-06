@@ -10,7 +10,7 @@ var colors = require('colors');
 // Set URL
 var urlFull = url
 if (forcePortRm == "true") {
-    urlFull = url
+    urlFull = `${url}/`
     console.log("URL is set to ".blue + urlFull + "\nPort removal is FORCED per your dotenv.".yellow)
 } else if (port != "80" && port != "443") {
     urlFull = `${url}:${port}/`
