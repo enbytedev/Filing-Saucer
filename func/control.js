@@ -103,14 +103,14 @@ const upload = async (req, res) => {
   let deletion = `${generate(8)}`
   // Ensure the response is safe for web viewing and client app
   let safeName = regexSafety(req.file.originalname, /[|]/, /["]/, /[ ]/)
-  var finalFile = `uploads/${disc}-${safeName}`
+  var finalFile = `./Filing-Saucer/uploads/${disc}-${safeName}`
   // Move file out of temp
-  fs.rename(`uploads/temp/${req.file.originalname}`, finalFile, function (err) {
+  fs.rename(`./Filing-Saucer/uploads/temp/${req.file.originalname}`, finalFile, function (err) {
     if (err) throw err
     console.log(`--\nUpload complete!\nUploaded to: ${finalFile}\n${req.file.originalname} --> ${disc}-${safeName}\n--`)
   })
   // Write registry entry
-  fs.writeFile(`./uploads/registry/`+deletion, `${disc}-${safeName}`, (err) => {
+  fs.writeFile(`./Filing-Saucer/registry/`+deletion, `${disc}-${safeName}`, (err) => {
     if (err) {
       throw err;
     }
@@ -133,11 +133,11 @@ Share route
 
 */
 const share = async (req, res) => {
-  var path = __basedir+'/uploads/'+req.params.name;
+  var path = './Filing-Saucer/uploads/'+req.params.name;
 try {
   stats = fs.statSync(path);
   res.render('share.ejs', {file: `${req.params.name}`, viewLink: `${urlFull}view/${req.params.name}`, downloadLink: `${urlFull}download/${req.params.name}`});
-} catch{
+} catch {
   res.render('info.ejs', {title: `Failure!`, desc: `File ${req.params.name} does not exist in this server's content datastore!`});
   }
 }
@@ -151,8 +151,8 @@ Views the requested file!
 */
 const view = (req, res) => {
   const fileName = req.params.name;
-  const directoryPath = __basedir + "/uploads/";
-  res.sendFile(directoryPath + fileName, fileName, (err) => {
+  const directoryPath = "./Filing-Saucer/uploads/";
+  res.sendFile(fileName, { root: directoryPath }, (err) => {
     if (err) {
         res.render('info.ejs', {title: `Failure!`, desc: `File ${fileName} does not exist in this server's content datastore!`});
     }
@@ -168,7 +168,7 @@ Downloads the requested file!
 */
 const download = (req, res) => {
   const fileName = req.params.name;
-  const directoryPath = __basedir + "/uploads/";
+  const directoryPath = "./Filing-Saucer/uploads/";
   res.download(directoryPath + fileName, fileName, (err) => {
     if (err) {
         res.render('info.ejs', {title: `Failure!`, desc: `File ${fileName} does not exist in this server's content datastore!`});
@@ -185,17 +185,17 @@ Delete the specified file!
 */
 const deletion = (req, res) => {
   const regId = req.params.name;
-  var path = __basedir+'/uploads/registry/'+regId;
+  var path = './Filing-Saucer/registry/'+regId;
 try {
   stats = fs.statSync(path);
-  var output = read(__basedir+'/uploads/registry/'+regId, function(data) {
-      fs.unlink(__basedir+'/uploads/'+data, (err) => {
+  var output = read('./Filing-Saucer/registry/'+regId, function(data) {
+      fs.unlink('./Filing-Saucer/uploads/'+data, (err) => {
         if (err) {
           console.error(err)
           return
         }
       })
-      fs.unlink(__basedir+'/uploads/registry/'+regId, (err) => {
+      fs.unlink('./Filing-Saucer/registry/'+regId, (err) => {
         if (err) {
           console.error(err)
           return

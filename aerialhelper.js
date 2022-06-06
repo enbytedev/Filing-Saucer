@@ -9,11 +9,37 @@ var colors = require('colors');
 var colors = require('colors/safe');
 
 // Main
+fileSetup();
 versionCheck();
 
 // File setup.
 function fileSetup() {
-    
+    // Filing Saucer Setup
+    var fs = require('fs');
+    var dirUploads = `./Filing-Saucer/uploads/temp/`;
+    var dirRegistry = `./Filing-Saucer/registry/`;
+    var dirViews = `./views/`;
+    var dirStatic = `./static/`;
+    try {
+        if (!fs.existsSync(dirUploads)) {
+            fs.mkdirSync(dirUploads, { recursive: true });
+            console.log("> ".green.bold+"Successfully created the UPLOADS directory.".cyan);
+        }
+        if (!fs.existsSync(dirRegistry)) {
+            fs.mkdirSync(dirRegistry, { recursive: true });
+            console.log("> ".green.bold+"Successfully created the REGISTRY directory.".cyan);
+        }
+        if (!fs.existsSync(dirViews)) {
+            fs.mkdirSync(dirViews, { recursive: true });
+            console.log("> ".green.bold+"Successfully created the VIEWS directory.".cyan);
+            require("./fileSetup");
+        }
+        if (!fs.existsSync(dirStatic)) {
+            console.log("/!\\ ".yellow.bold+"The static/ directory does not exist! Please populate it with your static/icon.png and static/btmright.png for a complete instance.".yellow.italic);
+        }
+    } catch {
+        console.log("!!! Unable to create directories! Potential fixes:\n> Run from CLI\n> Run as root".red.bold)
+    }
 }
 
 

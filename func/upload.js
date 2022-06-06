@@ -3,7 +3,7 @@ const multer = require("multer");
 const maxSize = 2 * 2048 * 2048;
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, __basedir + "/uploads/temp");
+    cb(null, "./Filing-Saucer/uploads/temp");
   },
   filename: (req, file, cb) => {
     console.log(`--\nUpload started: ${file.originalname}\n--`);
