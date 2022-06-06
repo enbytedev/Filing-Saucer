@@ -10,7 +10,7 @@ var colors = require('colors');
 // Set URL
 var urlFull = url
 if (process.env.forcePortRemovalInApp == true) {
-    urlFull = url
+    urlFull = `${url}/`
 } else if (port != "80" && port != "443") {
     urlFull = `${url}:${port}/`
 }

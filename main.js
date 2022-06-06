@@ -2,6 +2,18 @@ require('dotenv').config()
 const cors = require("cors");
 const express = require("express");
 const app = express();
+const optionDefinitions = [
+  { name: 'configure', alias: 'c', type: Boolean }
+]
+const commandLineArgs = require('command-line-args')
+const options = commandLineArgs(optionDefinitions)
+const cliArgs = JSON.stringify(options);
+const cliArgsParsed = JSON.parse(cliArgs);
+if (cliArgsParsed.configure) {
+  require("./func/configure.js")
+  process.exit()
+}
+
 const controller = require("./func/control");
 require("./aerialhelper");
 var colors = require('colors');
@@ -21,4 +33,5 @@ app.post('/uploadfile', controller.upload);
 // Open app.
 app.listen(process.env.port, () => {
   console.log(`FilingSaucer started successfully on port ${process.env.port}!`.green.bold);
+  console.log(`To change configuration options, please run application with --configure`.green.italic);
 });
