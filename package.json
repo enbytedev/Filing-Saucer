@@ -5,7 +5,8 @@
   "main": "main.js",
   "bin": "main.js",
   "scripts": {
-    "test": "node main.js"
+    "test": "node main.js",
+    "build": "pkg package.json"
   },
   "repository": {
     "type": "git",
