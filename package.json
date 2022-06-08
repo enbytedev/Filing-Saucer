@@ -6,6 +6,8 @@
   "bin": "main.js",
   "scripts": {
     "test": "node main.js",
+    "start": "node main.js",
+    "conf": "node main.js -c",
     "build": "pkg package.json"
   },
   "repository": {

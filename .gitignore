@@ -5,3 +5,4 @@ uploads/**
 !**/.init
 .idea/**
 .env
+dist/**

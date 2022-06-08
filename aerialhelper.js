@@ -23,15 +23,15 @@ function fileSetup() {
     try {
         if (!fs.existsSync(dirUploads)) {
             fs.mkdirSync(dirUploads, { recursive: true });
-            console.log("> ".green.bold+"Successfully created the UPLOADS directory.".cyan);
+            console.log("> ".green.bold+"Successfully created the UPLOADS directory: ".cyan+"./Filing-Saucer/uploads/temp/".blue);
         }
         if (!fs.existsSync(dirRegistry)) {
             fs.mkdirSync(dirRegistry, { recursive: true });
-            console.log("> ".green.bold+"Successfully created the REGISTRY directory.".cyan);
+            console.log("> ".green.bold+"Successfully created the REGISTRY directory: ".cyan+"./Filing-Saucer/registry/".blue);
         }
         if (!fs.existsSync(dirViews)) {
             fs.mkdirSync(dirViews, { recursive: true });
-            console.log("> ".green.bold+"Successfully created the VIEWS directory.".cyan);
+            console.log("> ".green.bold+"Successfully created the VIEWS directory: ".cyan+"./views/".blue);
             require("./fileSetup");
         }
         if (!fs.existsSync(dirStatic)) {

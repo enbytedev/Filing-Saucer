@@ -29,7 +29,8 @@ if (cliArgsParsed.configure) {
   var createStream = fs.createWriteStream(`./.env`);
   createStream.end();
     fs.writeFileSync(`./.env`, formatted);
-  console.log(`> Filing Saucer has successfully been configured with the following options:\n${formatted}\n\n> Filing Saucer will now exit. Please start without the --configure option to proceed to the application.`)
+  console.log("> ".green.bold+"Successfully created the configuration file: ".cyan+"./.env".blue);
+  console.log("> ".green.bold+`Filing Saucer has successfully been configured with the following options:\n${formatted}\n\n`+"> ".green.bold+`Filing Saucer will now exit. Please start without the --configure option to proceed to the application.`.cyan)
   process.exit()
 }
 if (process.env.port == undefined) {
@@ -38,7 +39,10 @@ if (process.env.port == undefined) {
 }
 
 const controller = require("./func/control");
-require("./aerialhelper");
+
+if (process.pkg) {
+  require("./aerialhelper");  
+}
 
 global.__basedir = __dirname;
 var corsOptions = {
