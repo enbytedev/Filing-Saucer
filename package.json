@@ -38,8 +38,9 @@
       "static/**"
     ],
     "targets": [
-      "node14-macos-arm64",
-      "node14-linux-arm64"
+      "linux",
+      "macos",
+      "win"
     ],
     "outputPath": "dist"
   }
