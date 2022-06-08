@@ -102,7 +102,14 @@ const upload = async (req, res) => {
   let disc = `${generate(6)}`
   let deletion = `${generate(8)}`
   // Ensure the response is safe for web viewing and client app
-  let safeName = regexSafety(req.file.originalname, /[|]/, /["]/, /[ ]/)
+  // In try/catch since if an upload is too large, originalname won't exist causing the application to crash. Mostly mitigated via use of PM2, but disruptive nonetheless.
+  try {
+    var safeName = regexSafety(req.file.originalname, /[|]/, /["]/, /[ ]/)
+  } catch {
+    console.log("File was too large!");
+    return
+  }
+
   var finalFile = `./Filing-Saucer/uploads/${disc}-${safeName}`
   // Move file out of temp
   fs.rename(`./Filing-Saucer/uploads/temp/${req.file.originalname}`, finalFile, function (err) {

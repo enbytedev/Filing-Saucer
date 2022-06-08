@@ -24,5 +24,6 @@
       <img alt="Status" src="https://img.shields.io/badge/Status-Stable-008000?style=for-the-badge" />
     </a>
 <hr>
+    <p><b>For running via source code:</b></p>
     <a href="https://github.com/Aerial-Laptop/.github/blob/main/al-docs/NODEJS-SETUP.md">General Setup Documentation for NodeJS</a> from Aerial Laptop
 </p>
