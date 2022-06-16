@@ -5,10 +5,7 @@
   "main": "main.js",
   "bin": "main.js",
   "scripts": {
-    "test": "node main.js",
-    "start": "node main.js",
-    "conf": "node main.js -c",
-    "build": "pkg package.json"
+    "test": "node main.js"
   },
   "repository": {
     "type": "git",
@@ -29,18 +26,5 @@
     "express-rate-limit": "^6.4.0",
     "multer": "^1.4.4",
     "prompt-sync": "^4.2.0"
-  },
-  "pkg": {
-    "scripts": "func/**/*.js",
-    "assets": [
-      "views/**/*.ejs",
-      "static/**"
-    ],
-    "targets": [
-      "linux",
-      "macos",
-      "win"
-    ],
-    "outputPath": "dist"
   }
 }
