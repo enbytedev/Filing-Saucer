@@ -1,14 +1,18 @@
+require('dotenv').config({path:"__dirname/.env"});
 const fs = require('fs');
 var colors = require('colors');
 var colors = require('colors/safe');
+
+const appName = process.env.applicationName;
+const orgName = process.env.organizationName;
 
 var web = `
 <html lang="en">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
 <head>
     <meta charset="UTF-8">
-    <title>FilingSaucer Web Client</title>
-  <meta property="og:title" content="FilingSaucer Web Client">
+    <title>${appName} Web Client</title>
+  <meta property="og:title" content="${appName} Web Client">
   <meta property="og:site_name" content="">
   <meta property="og:url" content="">
   <meta property="og:description" content="A file exchange webapp with easy upload and deletion!">
@@ -58,9 +62,9 @@ var info = `
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
 <head>
     <meta charset="UTF-8">
-    <title>FilingSaucer Web Client</title>
-  <meta property="og:title" content="File shared via FilingSaucer">
-  <meta property="og:site_name" content="FilingSaucer">
+    <title>${appName} Web Client</title>
+  <meta property="og:title" content="File shared via ${appName}">
+  <meta property="og:site_name" content="${appName}">
   <meta property="og:url" content="">
   <meta property="og:description" content="A file exchange webapp with easy upload and deletion!">
   <meta property="og:type" content="article">
@@ -89,9 +93,9 @@ var share = `
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
 <head>
     <meta charset="UTF-8">
-    <title>FilingSaucer Web Client</title>
-  <meta property="og:title" content="File shared via FilingSaucer">
-  <meta property="og:site_name" content="FilingSaucer">
+    <title>${appName} Web Client</title>
+  <meta property="og:title" content="File shared via ${appName}">
+  <meta property="og:site_name" content="${appName}">
   <meta property="og:url" content="">
   <meta property="og:description" content="A file has been shared With you!">
   <meta property="og:type" content="article">
@@ -123,9 +127,9 @@ var upload = `
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
 <head>
     <meta charset="UTF-8">
-    <title>FilingSaucer Web Client</title>
-  <meta property="og:title" content="File shared via FilingSaucer">
-  <meta property="og:site_name" content="FilingSaucer">
+    <title>${appName} Web Client</title>
+  <meta property="og:title" content="File shared via ${appName}">
+  <meta property="og:site_name" content="${appName}">
   <meta property="og:url" content="">
   <meta property="og:description" content="A file exchange webapp with easy upload and deletion!">
   <meta property="og:type" content="article">
@@ -151,22 +155,16 @@ var upload = `
 </html>
 `
 
-var createStream = fs.createWriteStream(`./views/web.ejs`);
-createStream.end();
+// var createStream = fs.createWriteStream(`./views/web.ejs`);
+// createStream.end();
 fs.writeFileSync(`./views/web.ejs`, web);
 console.log("> ".green.bold+"Successfully created the web.ejs page.".grey);
 
-var createStream = fs.createWriteStream(`./views/info.ejs`);
-createStream.end();
 fs.writeFileSync(`./views/info.ejs`, info);
 console.log("> ".green.bold+"Successfully created the info.ejs page.".grey);
 
-var createStream = fs.createWriteStream(`./views/share.ejs`);
-createStream.end();
 fs.writeFileSync(`./views/share.ejs`, share);
 console.log("> ".green.bold+"Successfully created the share.ejs page.".grey);
 
-var createStream = fs.createWriteStream(`./views/upload.ejs`);
-createStream.end();
 fs.writeFileSync(`./views/upload.ejs`, upload);
 console.log("> ".green.bold+"Successfully created the upload.ejs page.".grey);

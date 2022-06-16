@@ -1,7 +1,7 @@
 const fs = require('fs');
 const https = require('https');
-const {url, majVersion, minVersion} = require('./.aerialhelper.json');
-const fileName = './.aerialhelper.json';
+const {url, majVersion, minVersion, codebase} = require(`${__basedir}/scripts/aeriallaptop/.dist.json`);
+const fileName = `${__basedir}/scripts/aeriallaptop/.dist.json`;
 const file = require(fileName);
 
 let fallback = "https://raw.githubusercontent.com/Aerial-Laptop/.github/main/al-docs/fallback.json";
@@ -14,32 +14,8 @@ versionCheck();
 
 // File setup.
 function fileSetup() {
-    // Filing Saucer Setup
-    var fs = require('fs');
-    var dirUploads = `./Filing-Saucer/uploads/temp/`;
-    var dirRegistry = `./Filing-Saucer/registry/`;
-    var dirViews = `./views/`;
-    var dirStatic = `./static/`;
-    try {
-        if (!fs.existsSync(dirUploads)) {
-            fs.mkdirSync(dirUploads, { recursive: true });
-            console.log("> ".green.bold+"Successfully created the UPLOADS directory: ".cyan+"./Filing-Saucer/uploads/temp/".blue);
-        }
-        if (!fs.existsSync(dirRegistry)) {
-            fs.mkdirSync(dirRegistry, { recursive: true });
-            console.log("> ".green.bold+"Successfully created the REGISTRY directory: ".cyan+"./Filing-Saucer/registry/".blue);
-        }
-        if (!fs.existsSync(dirViews)) {
-            fs.mkdirSync(dirViews, { recursive: true });
-            console.log("> ".green.bold+"Successfully created the VIEWS directory: ".cyan+"./views/".blue);
-            require("./fileSetup");
-        }
-        if (!fs.existsSync(dirStatic)) {
-            console.log("/!\\ ".yellow.bold+"The static/ directory does not exist! Please populate it with your static/icon.png and static/btmright.png for a complete instance.".yellow.italic);
-        }
-    } catch {
-        console.log("!!! Unable to create directories! Potential fixes:\n> Run from CLI\n> Run as root".red.bold)
-    }
+    let setupFilename = `setup${codebase}`;
+    require(`./${setupFilename}`);
 }
 
 
@@ -98,7 +74,7 @@ function useFallback() {
         });
         res.on("end", () => {
             let json = JSON.parse(body);
-            file.url = json.FilingSaucer;
+            file.url = json[codebase];
             fs.writeFile(fileName, JSON.stringify(file), function writeJSON(err) {
                 if (err) return console.log(err);
                 console.log('Corrected URL'.cyan);
