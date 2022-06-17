@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit')
 const uploadRoute = require(`${__scriptsDir}/routing/upload`);
 const deleteRoute = require(`${__scriptsDir}/routing/delete`);
 const accessRoute = require(`${__scriptsDir}/routing/access`);
-
+const historyRoute = require(`${__scriptsDir}/routing/history`);
 
 
 const accessLimit = rateLimit({
@@ -29,6 +29,7 @@ let routes = (app) => {
     router.get("/share/:name", accessLimit, accessRoute.share);
     router.get("/view/:name", accessLimit, accessRoute.view);
     router.get("/download/:name", accessLimit, accessRoute.download);
+    router.get("/history", accessLimit, historyRoute.history);
     // API
     router.post("/upload", apiLimit, uploadRoute.upload);
     router.get("/delete/:name", apiLimit, deleteRoute.deletion);

@@ -21,6 +21,11 @@ const deletion = (req, res) => {
         })
     })
       console.log(`--\nRemoved: ${regId}\n--`)
+      try {
+        res.clearCookie(`${regId}`);
+      } catch {
+        console.log("Could not remove cookie.")
+      }
       res.render('info.ejs', {title: `Success!`, desc: `File associated with ${regId} was successfully deleted!`});
     } catch (e) {
       res.render('info.ejs', {title: `Failure!`, desc: `Failed to delete ${regId}! Unknown error.`});

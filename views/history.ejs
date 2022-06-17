@@ -1,0 +1,95 @@
+
+<html lang="en">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <head>
+    <meta charset="UTF-8">
+    <title>FilingSaucer Web Client</title>
+    <meta property="og:title" content="View your history on FilingSaucer">
+    <meta property="og:site_name" content="FilingSaucer">
+    <meta property="og:url" content="">
+    <meta property="og:description" content="A file exchange webapp with easy upload and deletion!">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="./icon.png">
+  </head>
+  <body>
+    <div class="titlebar">
+      <a href="/">
+        <i class="fa-solid fa-arrow-left-long"></i> Home </a>
+    </div>
+    <div class="jumbotron">
+      <p align="center">
+        <a>
+          <img src="../icon.png" width="200" height="200" />
+        </a>
+      </p>
+      <h1 align="center"><%= message %> </h1>
+      <div align="center" style="width: 100%; display: table;">
+        <div style="display: table-row">
+          <div style="width: 600px;"><% for (var file of files) { %> <div class="file">
+              <a href="/share/<%= file%>" target="_blank">
+                <button class="blueButton">Open <br><%= file%> </button>
+              </a>
+            </div><% } %> </div>
+          <div style="display: table-cell;">
+            <div style="width: 600px;"><% for (var token of tokens) { %> <a href="/delete/<%= token%>">
+                <div class="file">
+                  <button class="deleteButton">Delete <br><%= file%> </button>
+                </div>
+              </a><% } %> </div>
+          </div>
+        </div>
+      </div>
+      <div class="jumbotron"></div>
+      <p class="text-center text-muted">
+        <small>Cookies must be enabled for this to function.</small>
+        <br>
+        <br>
+      <p align="right">
+        <a>
+          <img src="../btmright.png" width="200" height="200" />
+        </a>
+      </p>
+  </body>
+  <style>
+    .blueButton {
+      background-color: #008CBA;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    .deleteButton {
+      background-color: #9f0000;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    .titlebar {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .titlebar a {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 24px;
+    }
+  </style>
+</html>

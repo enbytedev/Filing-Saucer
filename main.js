@@ -11,6 +11,7 @@ var colors = require('colors');
 
 const express = require("express");
 const app = express();
+const cookieParser = require('cookie-parser');
 
 // CLI constants
 const optionDefinitions = [
@@ -55,6 +56,7 @@ const uploadRoute = require(`${__scriptsDir}/routing/upload`);
 const initRoutes = require("./scripts/routing");
 
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 // Create static route for home page, assets, etc.
 app.use(express.static('static'));
 initRoutes(app);

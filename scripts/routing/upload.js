@@ -73,7 +73,7 @@ function generate(n) {
       console.log("File was too large!");
       return
     }
-  
+
     var finalFile = `./content/uploads/${disc}-${safeName}`
     // Move file out of temp
     fs.rename(`./content/uploads/temp/${req.file.originalname}`, finalFile, function (err) {
@@ -86,6 +86,15 @@ function generate(n) {
         throw err;
       }
     })
+  try {
+    res.cookie(`${deletion}`, `${disc}-${safeName}`, {
+      maxAge: 17280000 * 1000, // 200 days
+      httpOnly: true,
+      secure: false
+  });
+  } catch {
+    console.log("Failed to send user cookie.")
+  }
   res.render('upload.ejs', {shareLink: `${urlFull}share/${disc}-${safeName}`, deletionLink: `${urlFull}delete/${deletion}`});
   };
 
