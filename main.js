@@ -1,4 +1,7 @@
 global.__basedir = __dirname;
+global.__scriptsDir = __dirname + '/scripts';
+global.__registryDir = __dirname + '/content/registry';
+global.__uploadsDir = __dirname + '/content/uploads';
 
 require('dotenv').config({path:"./.env"})
 if (process.env.aerialhelper === "true" || process.env.aerialhelper === true) {
@@ -33,8 +36,22 @@ if (process.env.port == undefined) {
   process.exit()
 }
 
+// Set URL
+const url = `${process.env.url}`
+const port = `${process.env.port}`
+const forcePortRm = `${process.env.forcePortRemovalInApp}`
+global.urlFull = url
+if (forcePortRm == "true") {
+  global.urlFull = `${url}/`
+  console.log("URL is set to ".blue + urlFull + "\nPort removal is FORCED per your configuration.".yellow)
+} else {
+  global.urlFull = `${url}:${port}/`
+  console.log("URL is set to ".blue + urlFull + "\nTo force port removal, please edit your configuration.".blue)
+}
+
+
 // Require controller and routing
-const controller = require("./scripts/control");
+const uploadRoute = require(`${__scriptsDir}/routing/upload`);
 const initRoutes = require("./scripts/routing");
 
 app.use(express.urlencoded({ extended: true }));
@@ -42,9 +59,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('static'));
 initRoutes(app);
 app.set('view engine', 'ejs');
-app.post('/uploadfile', controller.upload);
+app.post('/uploadfile', uploadRoute.upload);
 // Open app.
 app.listen(process.env.port, () => {
   console.log(`FilingSaucer started successfully on port ${process.env.port}!`.green.bold);
-  console.log(`To change configuration options, please run application with --configure`.green.italic);
+  console.log(`To change configuration options, please run application with --configure (-c)`.green.italic);
 });
