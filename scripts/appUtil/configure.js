@@ -12,6 +12,7 @@ var accessLimit = prompt("==> (40)".gray.bold+" Access Limit (/share, /view, /do
 var apiLimit = prompt("==> (10)".gray.bold+" API Limit (/delete, /upload PER 15 MINUTES): ".blue);
 var applicationName = prompt("==> (FilingSaucer)".gray.bold+" Application Name: ".blue);
 var organizationName = prompt("==> (Aerial Laptop)".gray.bold+" Organization Name: ".blue);
+var aerialhelper = prompt("==> (true)".gray.bold+" Enable AerialHelper: ".blue);
 if (port == "") {port = 8080;}
 if (url == "") {url = `http://localhost`;}
 if (forcePortRemovalInApp == "") {forcePortRemovalInApp = false;}
@@ -19,6 +20,7 @@ if (accessLimit == "") {accessLimit = 40;}
 if (apiLimit == "") {apiLimit = 10;}
 if (applicationName == "") {applicationName = "FilingSaucer";}
 if (organizationName == "") {organizationName = "Aerial Laptop";}
+if (aerialhelper == "") {aerialhelper = true;}
 
 var formatted = `port=${port}
 url=${url}
@@ -26,7 +28,8 @@ forcePortRemovalInApp=${forcePortRemovalInApp}
 accessLimit=${accessLimit}
 apiLimit=${apiLimit}
 applicationName=${applicationName}
-organizationName=${organizationName}`
+organizationName=${organizationName}
+aerialhelper=${aerialhelper}`
 var createStream = fs.createWriteStream(`./.env`);
 createStream.end();
 fs.writeFileSync(`./.env`, formatted);

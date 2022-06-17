@@ -1,9 +1,12 @@
 global.__basedir = __dirname;
 
 require('dotenv').config({path:"./.env"})
-require("./scripts/aeriallaptop/aerialhelper");
-const express = require("express");
+if (process.env.aerialhelper === "true" || process.env.aerialhelper === true) {
+  require("./scripts/aeriallaptop/aerialhelper");
+}
 var colors = require('colors');
+
+const express = require("express");
 const app = express();
 
 // CLI constants
@@ -18,7 +21,7 @@ const cliArgsParsed = JSON.parse(cliArgs);
 
 // CLI arg handling
 if (cliArgsParsed.configure) {
-require("./scripts/configure");
+require("./scripts/appUtil/configure");
 }
 if (cliArgsParsed.regen) {
 require('./scripts/appUtil/regenFiles');
