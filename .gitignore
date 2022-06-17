@@ -6,3 +6,4 @@ uploads/**
 .idea/**
 .env
 dist/**
+filing-saucer.tar.gz
