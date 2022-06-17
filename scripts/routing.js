@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("./control");
 const rateLimit = require('express-rate-limit')
- 
+const uploadRoute = require(`${__scriptsDir}/routing/upload`);
+const deleteRoute = require(`${__scriptsDir}/routing/delete`);
+const accessRoute = require(`${__scriptsDir}/routing/access`);
+const historyRoute = require(`${__scriptsDir}/routing/history`);
+
+
 const accessLimit = rateLimit({
     windowMs: 5 * 60 * 1000,
     max: process.env.accessLimit,
@@ -19,15 +23,16 @@ const apiLimit = rateLimit({
 })
 
 let routes = (app) => {
-    // Web client
-    router.get("/", accessLimit, controller.web);
+    // Home
+    router.get("/", accessLimit, accessRoute.home);
     // Access content
-    router.get("/share/:name", accessLimit, controller.share);
-    router.get("/view/:name", accessLimit, controller.view);
-    router.get("/download/:name", accessLimit, controller.download);
+    router.get("/share/:name", accessLimit, accessRoute.share);
+    router.get("/view/:name", accessLimit, accessRoute.view);
+    router.get("/download/:name", accessLimit, accessRoute.download);
+    router.get("/history", accessLimit, historyRoute.history);
     // API
-    router.post("/upload", apiLimit, controller.upload);
-    router.get("/delete/:name", apiLimit, controller.deletion);
+    router.post("/upload", apiLimit, uploadRoute.upload);
+    router.get("/delete/:name", apiLimit, deleteRoute.deletion);
     app.use(router);
 };
 module.exports = routes;
