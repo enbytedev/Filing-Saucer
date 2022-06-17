@@ -5,7 +5,8 @@
   "main": "main.js",
   "bin": "main.js",
   "scripts": {
-    "test": "node main.js"
+    "test": "node main.js",
+    "archive": "tar --exclude='./content/**' --exclude='./node_modules/**' --exclude='./.git/**' --exclude='./.env' --exclude='./filing-saucer.tar.gz' -cvzf filing-saucer.tar.gz ./"
   },
   "repository": {
     "type": "git",

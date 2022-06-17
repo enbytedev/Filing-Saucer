@@ -44,10 +44,10 @@ var web = `
         Though not a requirement to satisfy the license of this project, Aerial Laptop, Enbyte, and all participating contributors to make this possible would greatly appreciate that the above badge remain visible on any modifications to this homepage. <br>
           In addition, we would love to talk to developers who self-host their instance for feedback on this software! Feel free to contact us via <b>aeriallaptop (a) enbyte.dev</b>
       </details>
-      <details align="center">
-        <summary><b>Disclaimer / License</b></summary>
-        Aerial Laptop, Enbyte, and any other contributors/maintainers are not responsible for any aspect of user-hosted instances per "Disclaimer of Warranty" & "Limitation of Liability" in the <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html">GPL-3.0-only</a> <a href="https://spdx.org/licenses/GPL-3.0-only.html">(SPDX)</a> license.
-      </details>
+<details align="center">
+          <summary><b>Disclaimer / License</b></summary>
+          Aerial Laptop, Enbyte, and any other contributors/maintainers are not responsible for any aspect of user-hosted instances per "Disclaimer of Warranty" & "Limitation of Liability" in the <a href="https://www.gnu.org/licenses/agpl-3.0-standalone.html">AGPL-3.0-only</a> <a href="https://spdx.org/licenses/AGPL-3.0-only.html">(SPDX)</a> license.
+        </details>
   </div>
   <p class="text-center text-muted"><small>Uploaded files are occasionally purged and furthermore are subject to manual deletion. The host bears no liability for files uploaded and distributed through Filing Saucer, an open source project.</small><br>
   <p class="text-center text-muted"><small>If you suspect this application is being abused, please contact the email associated with this site's administrator.</small>
