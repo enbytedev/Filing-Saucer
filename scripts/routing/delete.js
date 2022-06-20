@@ -20,7 +20,7 @@ const deletion = (req, res) => {
           }
         })
     })
-      console.log(`--\nRemoved: ${regId}\n--`)
+      console.log("> ".green.bold+`Removed: ${regId}`.gray);
       try {
         res.clearCookie(`${regId}`);
       } catch {

@@ -78,7 +78,7 @@ function generate(n) {
     // Move file out of temp
     fs.rename(`./content/uploads/temp/${req.file.originalname}`, finalFile, function (err) {
       if (err) throw err
-      console.log(`--\nUpload complete!\nUploaded to: ${finalFile}\n${req.file.originalname} --> ${disc}-${safeName}\n--`)
+      console.log("> ".green.bold+`Upload complete: ${finalFile}`.gray);
     })
     // Write registry entry
     fs.writeFile(`./content/registry/`+deletion, `${disc}-${safeName}`, (err) => {
@@ -93,7 +93,7 @@ function generate(n) {
       secure: false
   });
   } catch {
-    console.log("Failed to send user cookie.")
+    console.log("X ".red.bold+`Failed to send cookie to uploader of  ${finalFile}.`.gray);
   }
   res.render('upload.ejs', {shareLink: `${urlFull}share/${disc}-${safeName}`, deletionLink: `${urlFull}delete/${deletion}`});
   };
