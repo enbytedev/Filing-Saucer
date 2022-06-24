@@ -3,6 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.8" /> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link href="style.css" rel="stylesheet" type="text/css"/>
   <head>
     <meta charset="UTF-8">
     <title>FilingSaucer Web Client</title>
@@ -33,6 +34,8 @@
         <a href="<%= viewLink %>" target="_blank">
           <h4><%= file %> </h4>
         </a>
+        <h6><i>If the file format can not be previewed by your browser, the file will be sent for download.</i></h6>
+        <br>
         <h3>Download File: </h3>
         <a href="<%= downloadLink %>" target="_blank">
           <h4><%= file %> </h4>
@@ -51,6 +54,7 @@
         </a>
       </p>
   </body>
+  <!-- The share titlebar is acting unexpectedly, requiring this to stay. -->
   <style>
     .titlebar {
       overflow: hidden;

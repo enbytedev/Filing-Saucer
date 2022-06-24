@@ -51,7 +51,7 @@ function generate(n) {
     try {
       await uploadFile(req, res);
       if (req.file == undefined) {
-        return res.status(400).send({ message: "Please attach your desired file!" });
+        res.render('info.ejs', {title: `Failure!`, desc: `Please attach your desired file!`});
       }
   // Catch errors
     } catch (err) {

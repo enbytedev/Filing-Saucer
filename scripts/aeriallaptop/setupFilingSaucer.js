@@ -2,7 +2,7 @@ const fs = require('fs');
 var dirUploads = `./content/uploads/temp/`;
 var dirRegistry = `./content/registry/`;
 var dirViews = `./views/`;
-var dirStatic = `./static/`;
+var dirStatic = `./content/static/`;
 try {
     if (!fs.existsSync(dirUploads)) {
         fs.mkdirSync(dirUploads, { recursive: true });
@@ -18,7 +18,7 @@ try {
         require("../appUtil/regenFiles");
     }
     if (!fs.existsSync(dirStatic)) {
-        console.log("/!\\ ".yellow.bold+"The static/ directory does not exist! Please populate it with your static/icon.png and static/btmright.png for a complete instance.".yellow.italic);
+        console.log("/!\\ ".yellow.bold+"The content/static/ directory does not exist! Please populate it with your static/icon.png and static/btmright.png for a complete instance.".yellow.italic);
     }
 } catch {
     console.log("!!! Unable to create directories! Potential fixes:\n> Run from CLI\n> Run as root".red.bold)

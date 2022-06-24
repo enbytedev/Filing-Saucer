@@ -10,6 +10,7 @@ var url = prompt("==> (http://localhost)".gray.bold+" URL: ".blue);
 var forcePortRemovalInApp = prompt("==> (false)".gray.bold+" Force Port Removal: ".blue);
 var accessLimit = prompt("==> (40)".gray.bold+" Access Limit (/share, /view, /download PER 5 MINUTES): ".blue);
 var apiLimit = prompt("==> (10)".gray.bold+" API Limit (/delete, /upload PER 15 MINUTES): ".blue);
+var maxSize = prompt("==> (8)".gray.bold+" Maximum file size in MB: ".blue);
 var applicationName = prompt("==> (FilingSaucer)".gray.bold+" Application Name: ".blue);
 var organizationName = prompt("==> (Aerial Laptop)".gray.bold+" Organization Name: ".blue);
 var aerialhelper = prompt("==> (true)".gray.bold+" Enable AerialHelper: ".blue);
@@ -18,6 +19,7 @@ if (url == "") {url = `http://localhost`;}
 if (forcePortRemovalInApp == "") {forcePortRemovalInApp = false;}
 if (accessLimit == "") {accessLimit = 40;}
 if (apiLimit == "") {apiLimit = 10;}
+if (maxSize == "") {maxSize = true;}
 if (applicationName == "") {applicationName = "FilingSaucer";}
 if (organizationName == "") {organizationName = "Aerial Laptop";}
 if (aerialhelper == "") {aerialhelper = true;}
@@ -27,6 +29,7 @@ url=${url}
 forcePortRemovalInApp=${forcePortRemovalInApp}
 accessLimit=${accessLimit}
 apiLimit=${apiLimit}
+maxSize=${maxSize}
 applicationName=${applicationName}
 organizationName=${organizationName}
 aerialhelper=${aerialhelper}`
