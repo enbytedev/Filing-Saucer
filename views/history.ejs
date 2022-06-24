@@ -3,6 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.8" /> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="style.css" rel="stylesheet" type="text/css"/>
     <head>
       <meta charset="UTF-8">
       <title>FilingSaucer Web Client</title>
@@ -35,7 +36,7 @@
             <div style="display: table-cell;">
               <div><% for (var token of tokens) { %> <a href="/delete/<%= token%>">
                   <div class="file">
-                    <button style="height: 150px;" class="deleteButton">Delete <br><%= token%> </button>
+                    <button style="height: 150px;" class="redButton">Delete <br><%= token%> </button>
                   </div>
                 </a><% } %> </div>
             </div>
@@ -52,46 +53,5 @@
           </a>
         </p>
     </body>
-    <style>
-      .blueButton {
-        background-color: #008CBA;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-      }
-  
-      .deleteButton {
-        background-color: #9f0000;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-      }
-  
-      .titlebar {
-        overflow: hidden;
-        background-color: #333;
-      }
-  
-      .titlebar a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 24px;
-      }
-    </style>
   </html>
   

@@ -15,8 +15,7 @@ const cookieParser = require('cookie-parser');
 
 // CLI constants
 const optionDefinitions = [
-  { name: 'configure', alias: 'c', type: Boolean },
-  { name: 'regen', alias: 'r', type: Boolean }
+  { name: 'configure', alias: 'c', type: Boolean }
 ]
 const commandLineArgs = require('command-line-args')
 const options = commandLineArgs(optionDefinitions)
@@ -26,9 +25,6 @@ const cliArgsParsed = JSON.parse(cliArgs);
 // CLI arg handling
 if (cliArgsParsed.configure) {
 require("./scripts/appUtil/configure");
-}
-if (cliArgsParsed.regen) {
-require('./scripts/appUtil/regenFiles');
 }
 
 // Exit if there is no configuration
@@ -58,7 +54,7 @@ const initRoutes = require("./scripts/routing");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // Create static route for home page, assets, etc.
-app.use(express.static('static'));
+app.use(express.static('content/static'));
 initRoutes(app);
 app.set('view engine', 'ejs');
 app.post('/uploadfile', uploadRoute.upload);
