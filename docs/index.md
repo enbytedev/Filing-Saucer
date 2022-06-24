@@ -1,37 +1,48 @@
-## Welcome to GitHub Pages
+## About
+Filing Saucer is a file sharing server accessed through a web GUI.
 
-You can use the [editor on GitHub](https://github.com/enbytedev/Filing-Saucer/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+----
+## Automatic Installation (macOS/Linux)
+Use the installation script:
+```
+bash <(curl -s https://al.enbyte.dev/dist/install.sh) -cb 1
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+----
+## Manual Installation (macOS/Linux/Windows)
 
-### Jekyll Themes
+### Clone Codebase
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/enbytedev/Filing-Saucer/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Clone the main branch
+```
+git clone https://github.com/enbytedev/Filing-Saucer
+```
 
-### Support or Contact
+Change into the cloned directory and run the following command:[^1]
+```
+npm i
+```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+
+### Configure
+Run the following command from within the project directory to configure Filing Saucer:
+```
+node main.js -c
+```
+
+
+### Run
+The entry point for Aerial Laptop codebases is `main.js`
+
+```
+node main.js
+```
+
+It is highly recommended that you install [PM2 by Keymetrics], a node process manager.[^2]
+```
+pm2 start main.js
+``` 
+
+----
+[^1]: Changing directories is done via `cd` on most systems.
+[^2]: It is recommended to use the argument *name* when starting a process with PM2. This is done by appending it to the command to create `pm2 start main.js --name Filing-Saucer`.
