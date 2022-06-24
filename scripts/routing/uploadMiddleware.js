@@ -1,7 +1,8 @@
+require('dotenv').config({path:"__dirname/.env"});
 const util = require("util");
 const multer = require("multer");
 var colors = require('colors');
-const maxSize = 2 * 2048 * 2048;
+const maxSize = process.env.maxSize * 1000 * 1000;
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./content/uploads/temp");
