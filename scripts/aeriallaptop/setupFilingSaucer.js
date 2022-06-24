@@ -2,7 +2,7 @@ const fs = require('fs');
 var dirUploads = `./content/uploads/temp/`;
 var dirRegistry = `./content/registry/`;
 var dirViews = `./views/`;
-var dirStatic = `./static/`;
+var dirStatic = `./content/static/`;
 try {
     if (!fs.existsSync(dirUploads)) {
         fs.mkdirSync(dirUploads, { recursive: true });
