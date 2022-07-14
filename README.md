@@ -1,7 +1,7 @@
 <p align="center">
-  <a><img src="./LOGO.png" width="250" height="250" /></a>
+  <a><img src="./PROJECT.png" width="250" height="250" /></a>
 
-  <h2 align="center">Filing Saucer // Server</h2>
+  <h2 align="center">Filing Saucer</h2>
  <p align="center"><i>"like a flying saucer, but for files... like in the cloud..."</i></p>
 <h5 align="center">A file sharing server with a full web client! Users may also use an API via POST and GET requests to exchange files. </h5>
 </p>
