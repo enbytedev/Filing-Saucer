@@ -1,19 +1,26 @@
 {
   "name": "filing-saucer",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "A file sharing server, intended to be the successor to A-Share! Users may use an API via POST and GET requests to exchange files.",
-  "main": "main.js",
+  "main": "src/index.js",
   "bin": "main.js",
+  "type": "module",
+  "private": true,
   "scripts": {
-    "test": "node main.js",
-    "archive": "tar --exclude='./content/**' --exclude='./node_modules/**' --exclude='./.git/**' --exclude='./.env' --exclude='./filing-saucer.tar.gz' -cvzf filing-saucer.tar.gz ./"
+    "test": "jest",
+    "clean:dist": "rm -r dist/ 2> /dev/null",
+    "clean:logs": "rm -r logs/ 2> /dev/null",
+    "clean": "npm run clean:dist && npm run clean:logs",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "restart": "npm run clean && npm run build && npm start"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Aerial-Laptop/Filing-Saucer.git"
   },
   "author": "enbyte",
-  "license": "GPL-3.0-only",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Aerial-Laptop/Filing-Saucer/issues"
   },
@@ -21,12 +28,24 @@
   "dependencies": {
     "colors": "^1.4.0",
     "command-line-args": "^5.2.1",
-    "cookie-parser": "^1.4.6",
+    "confectionery": "^0.0.1",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.17.3",
     "express-rate-limit": "^6.4.0",
-    "multer": "^1.4.4",
-    "prompt-sync": "^4.2.0"
+    "multer": "^1.4.5-lts.1",
+    "sugarcube": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/jest": "^28.1.8",
+    "@types/node": "^18.7.13",
+    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/parser": "^5.35.1",
+    "eslint": "^8.22.0",
+    "jest": "^28.1.3",
+    "ts-jest": "^28.0.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
   }
 }

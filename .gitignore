@@ -1,9 +1,5 @@
 .DS_Store
-node_modules/**
-
-uploads/**
-!**/.init
-.idea/**
 .env
-dist/**
-filing-saucer.tar.gz
+node_modules/
+dist/
+logs/

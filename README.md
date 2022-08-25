@@ -1,5 +1,5 @@
 <p align="center">
-  <a><img src="./PROJECT.png" width="250" height="250" /></a>
+  <a><img src="./ICON.png" width="250" height="250" /></a>
 
   <h2 align="center">Filing Saucer</h2>
  <p align="center"><i>"like a flying saucer, but for files... like in the cloud..."</i></p>
@@ -24,6 +24,4 @@
       <img alt="Status" src="https://img.shields.io/badge/Status-Stable-008000?style=for-the-badge" />
     </a>
 <hr>
-    <p><b>Installation Instructions:</b></p>
-    <a href="https://enbytedev.github.io/Filing-Saucer/">Filing Sacuer Setup Instructions</a>
 </p>
