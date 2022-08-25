@@ -14,8 +14,6 @@ function setup() {
         console.info("Logging to " + config.logPath, "Setup");
     }
 
-    console.debug("Configuring environment...", "Environment Setup");
-
     // Exit if any required variables are not set
     verifySet(config.port, "port");
     verifySet(config.fullUrl, "fullUrl");
@@ -32,11 +30,9 @@ function setup() {
 }
 
 function verifySet(variable: string, name: string) {
-    if (variable == '') {
-        console.error(name + " is not set!", "Environment Setup");
+    if (variable == '' || variable == undefined) {
+        console.error(name + " is not set!", "Environment");
         process.exit(1);
-    } else {
-        console.debug(name + " is set: " + variable, "Environment Setup");
     }
 }
 
