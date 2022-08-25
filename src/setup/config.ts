@@ -15,3 +15,10 @@ export default {
     checkUpdates: process.env.checkUpdates ?? '',
     logLevel: process.env.logLevel ?? ''
 }
+
+export const dbInfo = {
+    host: process.env.dbHost ?? '',
+    port: process.env.dbPort ?? '',
+    user: process.env.dbUser ?? '',
+    password: process.env.dbPassword ?? ''
+}

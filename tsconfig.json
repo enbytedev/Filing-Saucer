@@ -21,6 +21,7 @@
       "outDir": "./dist/",
       "types": [
         "node",
+        "mysql",
         "jest"
       ],
       "lib": [
