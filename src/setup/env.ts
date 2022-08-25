@@ -18,7 +18,7 @@ function setup() {
     verifySet(config.port, "port");
     verifySet(config.fullUrl, "fullUrl");
     verifySet(config.maxFileSizeMB, "maxFileSizeMB");
-    verifySet(config.accessRateLimit, "accessRateLimit");
+    verifySet(config.browserRateLimit, "accessRateLimit");
     verifySet(config.apiRateLimit, "apiRateLimit");
 
     // Check for updates if checkUpdates is true

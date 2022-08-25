@@ -8,7 +8,7 @@ dotenv.config()
 export default {
     port: process.env.port ?? '',
     fullUrl: process.env.fullUrl ?? '',
-    accessRateLimit: process.env.accessRateLimit ?? '',
+    browserRateLimit: process.env.browserRateLimit ?? '',
     apiRateLimit: process.env.apiRateLimit ?? '',
     maxFileSizeMB: process.env.maxFileSizeMB ?? '',
     logPath: process.env.logPath ?? '',
