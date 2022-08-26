@@ -1,4 +1,4 @@
-import config from '../setup/config.js';
+import config from '../../setup/config.js';
 import rateLimit from 'express-rate-limit';
 import { Express, Router } from 'express';
 import routes from './routes.js';
@@ -12,9 +12,10 @@ const browserRateLimit = rateLimit({
     message: 'Too many access requests created from this IP, please try again after 5 minutes!',
 })
 
-export const setRoutes = (app: Express) => {
+export const setRoutes = (app: Express, cb: Function) => {
     // Home
-    router.get("/", browserRateLimit, routes.staticRoutes.home);
+    router.get("/", browserRateLimit, routes.basicRoutes.home);
 
     app.use(router);
+    cb();
 }
