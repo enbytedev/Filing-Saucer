@@ -15,6 +15,7 @@ const browserRateLimit = rateLimit({
 export const setRoutes = (app: Express, cb: Function) => {
     // Home
     router.get("/", browserRateLimit, routes.basicRoutes.home);
+    router.get("/login", browserRateLimit, routes.authRoutes.login);
 
     app.use(router);
     cb();
