@@ -10,7 +10,7 @@ export const setRoutes = (app: Express, cb: Function) => {
 
     // auth
     router.get("/login", browserRateLimit, routes.authRoutes.login);
-
+    
     // api
     router.post("/api/login", apiRateLimit, routes.apiRoutes.login);
     app.use(router);
