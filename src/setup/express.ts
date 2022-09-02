@@ -25,8 +25,7 @@ export default function setupExpress() {
             resave: false, 
             saveUninitialized: false, 
             secret: "suuuper secret", 
-            cookie: { maxAge: 3600000, 
-            secure: false } }));
+            cookie: { maxAge: 3600000, secure: false } }));
     console.debug("Configured sessions!", "ExpressJS");
 
     // Set the routes via ./routes.js

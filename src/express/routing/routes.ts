@@ -1,3 +1,5 @@
+import { Request, Response, NextFunction } from 'express';
+import { UserSessionInterface } from './sessionInterfaces.js';
 import config from '../../setup/config.js';
 import rateLimit from 'express-rate-limit';
 import basicRoutes from "./basic/exports.js";
@@ -9,6 +11,22 @@ const routes = {
     authRoutes,
     apiRoutes,
 }
+
+export function restrictedContent(req: Request, res: Response, next: NextFunction) {
+    if ((req.session as UserSessionInterface).Email) {
+      next();
+    } else {
+      res.redirect("/login");
+    }
+  }
+  
+export function redirectLoggedIn(req: Request, res: Response, next: NextFunction) {
+    if ((req.session as UserSessionInterface).Email) {
+      res.redirect("/dash");
+    } else {
+      next();
+    }
+  }
 
 export const browserRateLimit = rateLimit({
     windowMs: 5 * 60 * 1000,
