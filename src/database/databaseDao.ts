@@ -1,51 +1,36 @@
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 import { dbInfo } from '../setup/config.js';
 
-export const connection = mysql.createPool({
+const connection = mysql.createPool({
     host     : dbInfo.host,
     port     : parseInt(dbInfo.port),
     user     : dbInfo.user,
     password : dbInfo.password,
-    database : dbInfo.database,
+    database : dbInfo.database, // Replaces `CREATE DATABASE IF NOT EXISTS filing_saucer;` for flexibility.
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
 
 export default {
-    newUser: (email: string, password: string) => {
+    newUser: async (email: string, password: string) => {
         connection.execute(`INSERT INTO users (userName, password) VALUES ('${email}', '${password}')`);
     },
-    loginUser: (email: string, password: string, callback: Function) => {
-        connection.query({sql: `SELECT * FROM users WHERE userName = '${email}'`, rowsAsArray: true}, (err: any, results: any) => {
-            if (err) {console.error(err);}
-            if (results[0] != undefined) {
-                if (results[0][2] == password) {
-                    callback(0);
-                } else {
-                    callback("The password provided is incorrect.");
-                }
-            } else {
-                callback("No user with that email address exists.");
-            }
-        });
+    loginUser: async (email: string, password: string) => {
+        return connection.execute('SELECT * FROM `users` WHERE `userName` = ? AND password = ?', [email, password]).then((results: any) => {
+            return results[0];
+        });;
     },
-}
+};
 
 export function setupDatabase() {
-    console.debug(`Successfully configured database:\nhost: ${dbInfo.host}\nport: ${dbInfo.port}\nuser: ${dbInfo.user}\npassword: *`, "Database");
+    console.debug(`Database information has been input as:\ndatabase name: ${dbInfo.database}\nhost: ${dbInfo.host}\nport: ${dbInfo.port}\nuser: ${dbInfo.user}\npassword: *`, "Database");
+        connection.execute(`CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, userName VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY (id));`).then(() => {
+            console.debug("Users table exists or has been created!", "Database");
+        }).catch((err: any) => {
+            console.error(err, "Database");
+            process.exit(1);
+        });
 
-    connection.query('CREATE DATABASE IF NOT EXISTS filing_saucer', function (err: Error) {
-        if (err) throw err;
-        console.debug("Successfully verified existence of database filing_saucer or created it if it did not exist", "Database");
-    })
-    connection.query('USE filing_saucer', function (err: Error) {
-        if (err) throw err;
-        console.debug("Successfully selected database", "Database");
-    })
-    connection.query('CREATE TABLE IF NOT EXISTS users (userId int(10) unsigned NOT NULL AUTO_INCREMENT, userName varchar(255) DEFAULT NULL, password varchar(255) DEFAULT NULL, primary key(userId), UNIQUE KEY `userName` (`userName`));', function (err: Error) {
-        if (err) throw err;
-        console.debug("Successfully verified existence of table users or created it if it did not exist", "Database");
-    })
     console.info("Successfully setup database", "Setup");
 }
