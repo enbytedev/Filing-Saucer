@@ -1,11 +1,15 @@
 import mysql from 'mysql2';
 import { dbInfo } from '../setup/config.js';
 
-export const connection = mysql.createConnection({
+export const connection = mysql.createPool({
     host     : dbInfo.host,
     port     : parseInt(dbInfo.port),
     user     : dbInfo.user,
     password : dbInfo.password,
+    database : dbInfo.database,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
 export default {
