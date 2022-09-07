@@ -1,30 +1,18 @@
 <html lang="en">
-  <meta name="viewport" content="width=device-width, initial-scale=0.8" /> <!-- Ensures proper rendering on mobile devices -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"> <!-- Font Awesome for emojis and symbols -->
-  <link href="/public/style.css" rel="stylesheet" type="text/css"/> <!-- Link to the style sheet -->
-  <head>
-    <meta charset="UTF-8">
-    <title>Dashboard || Filing Saucer</title>
-    <meta property="og:title" content="FilingSaucer Web Client">
-    <meta property="og:site_name" content="">
-    <meta property="og:url" content="">
-    <meta property="og:description" content="A file exchange webapp with easy upload and deletion!">
-    <meta property="og:type" content="article">
-    <meta property="og:image" content="">
-  </head>
+  <%- include('../partials/header.ejs') %>
   <body>
-<div class="section">
-  <img src="/public/ICON.png" alt="" height="200px" width="200px">
-  <div class="glass-pink" style="margin: 50;">
-    <h1>hello, <%- name %> ✨</h1>
-    <h2><i>your filing saucer dashboard is below</i></h2>
-    <button class="button-blue" onclick="window.location.href='/upload'">Upload File</button></a>
-    <button class="button-clear" onclick="window.location.href='/history'">History</button></a>
-    <button class="button-clear" onclick="window.location.href='/account'">Account Settings</button></a>
-  </div>
-  <div class="glass-blue">
-    <%- panel %>
-  </div>
-</div>
+    <div class="section">
+      <img src="/public/ICON.png" alt="" height="200px" width="200px">
+      <div class="glass-pink" style="margin: 50;">
+        <h1>hello, <%- name %> ✨</h1>
+        <h2><i>your filing saucer dashboard is below</i></h2>
+        <button class="button-blue" onclick="window.location.href='/upload'">Upload File</button></a>
+        <button class="button-clear" onclick="window.location.href='/history'">History</button></a>
+        <button class="button-clear" onclick="window.location.href='/account'">Account Settings</button></a>
+      </div>
+      <div class="glass-blue">
+        <%- panel %>
+      </div>
+    </div>
   </body>
-  </html>
+</html>
