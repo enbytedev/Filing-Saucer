@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import { setRoutes } from '../express/routing/router.js';
 import session from 'express-session';
-import uuid from 'node-uuid';
+import { v1 as uuidv1 } from 'uuid';
 import crypto from 'crypto';
 
 export const app = express();
@@ -19,7 +19,7 @@ export default function setupExpress() {
     // Configure user sessions
     app.use(session({
             genid: function(_req) {
-                return crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
+                return crypto.createHash('sha256').update(uuidv1()).update(crypto.randomBytes(256)).digest("hex");
             },
             resave: false, 
             saveUninitialized: false, 
