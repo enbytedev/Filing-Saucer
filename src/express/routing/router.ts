@@ -11,9 +11,11 @@ export const setRoutes = (app: Express, cb: Function) => {
 
     // auth
     router.get("/login", redirectLoggedIn, browserRateLimit, routes.authRoutes.login);
-    
+    router.get("/register", redirectLoggedIn, browserRateLimit, routes.authRoutes.register);
+
     // api
     router.post("/api/login", apiRateLimit, routes.apiRoutes.login);
+    router.post("/api/register", apiRateLimit, routes.apiRoutes.register);
     app.use(router);
     cb();
 }

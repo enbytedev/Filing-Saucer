@@ -1,0 +1,38 @@
+<html lang="en">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8" /> <!-- Ensures proper rendering on mobile devices -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"> <!-- Font Awesome for emojis and symbols -->
+  <link href="/public/style.css" rel="stylesheet" type="text/css"/> <!-- Link to the style sheet -->
+  <head>
+    <meta charset="UTF-8">
+    <title>Register | FilingSaucer Web Client</title>
+    <meta property="og:title" content="Login | FilingSaucer Web Client">
+    <meta property="og:site_name" content="">
+    <meta property="og:url" content="">
+    <meta property="og:description" content="A file exchange webapp with easy upload and deletion!">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="">
+  </head>
+  <body>
+<div class="section">
+  <a href="/"><img src="/public/ICON.png" alt=""></a>
+  <div class="glass-pink" style="margin: 50;">
+    <h1>Register</h1>
+    <h2><i>Please provide your details below...</i></h2>
+    <form method="post" action="/api/register">
+        <p>
+          <label for="email">Email:</label><br>
+          <input type="text" name="email" id="email">
+        </p>
+        <p>
+          <label for="password">Password:</label><br>
+          <input type="text" name="password" id="password">
+        </p>
+        <p>
+          <input class="button-blue" type="submit" value="Register">
+        </p>
+      </form>
+    <%- error %>
+  </div>
+</div>
+  </body>
+  </html>
