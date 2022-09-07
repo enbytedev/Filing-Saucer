@@ -13,13 +13,29 @@ const connection = mysql.createPool({
 });
 
 export default {
-    newUser: async (email: string, password: string) => {
-        connection.execute(`INSERT INTO users (userName, password) VALUES ('${email}', '${password}')`);
+    registerUser: async (email: string, password: string) => {
+        return connection.execute('SELECT * FROM `users` WHERE `userName` = ?', [email]).then((results: any) => { return results[0].length == 0; }).then((isUnique: boolean) => {
+            if (isUnique) {
+                if (email.length > 0 && password.length > 0) {
+                connection.execute('INSERT INTO `users` (`userName`, `password`) VALUES (?, ?)', [email, password]);
+                console.debug(`Successfully created user ${email}`, "Register");
+                return 0;
+                } else {
+                    return -1;
+                }
+            } else {
+                console.debug(`Did not create user ${email}. Email exists!`, "Register");
+                return 1;
+            }
+        }).catch((err: any) => {
+            console.error(err);
+            return -1;
+        });
     },
     loginUser: async (email: string, password: string) => {
         return connection.execute('SELECT * FROM `users` WHERE `userName` = ? AND password = ?', [email, password]).then((results: any) => {
             return results[0];
-        });;
+        });
     },
 };
 
