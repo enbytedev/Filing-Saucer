@@ -13,7 +13,7 @@ const routes = {
 }
 
 export function restrictedContent(req: Request, res: Response, next: NextFunction) {
-    if ((req.session as UserSessionInterface).Email) {
+    if ((req.session as UserSessionInterface).userName) {
       next();
     } else {
       res.redirect("/login");
@@ -21,7 +21,7 @@ export function restrictedContent(req: Request, res: Response, next: NextFunctio
   }
   
 export function redirectLoggedIn(req: Request, res: Response, next: NextFunction) {
-    if ((req.session as UserSessionInterface).Email) {
+    if ((req.session as UserSessionInterface).userName) {
       res.redirect("/dash");
     } else {
       next();

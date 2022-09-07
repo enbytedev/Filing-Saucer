@@ -5,8 +5,7 @@ import { UserSessionInterface } from '../sessionInterfaces.js';
 export default async (req: Request, res: Response) => {
     databaseDao.loginUser(req.body.email, req.body.password).then((results: any) => {
         console.log(results[0].userName);
-        (req.session as UserSessionInterface).Email = req.body.email;
-        (req.session as UserSessionInterface).UserName = req.body.email;
+        (req.session as UserSessionInterface).userName = req.body.email;
         console.debug(`Successfully logged in user ${req.body.email}`, "Login");
         res.redirect('/dash');
     }).catch(() => {
