@@ -4,10 +4,15 @@ import { UserSessionInterface } from '../sessionInterfaces.js';
 
 export default async (req: Request, res: Response) => {
     if (req.body.email == "" || req.body.password == "") { giveUserError("Please provide an email and password!"); return; }
-    databaseDao.loginUser(req.body.email, req.body.password, (isCorrect: boolean) => {
+
+    // Make email lowercase for database consistency.
+    let email = req.body.email.toLowerCase();
+    email = email.replace(/\s+/g, '');
+
+    databaseDao.loginUser(email, req.body.password, (isCorrect: boolean) => {
         if (isCorrect) {
-            (req.session as UserSessionInterface).userName = req.body.email;
-            console.debug(`Successfully logged in user ${req.body.email}`, "Login");
+            (req.session as UserSessionInterface).userName = email;
+            console.debug(`Successfully logged in user ${email}`, "Login");
             res.redirect('/dash');
         } else { giveUserError("Invalid email or password!"); }
     });
