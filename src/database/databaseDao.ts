@@ -22,6 +22,11 @@ export default {
     loginUser: async (email: string, password: string, cb: Function) => {
         login(email, password, (isCorrect: boolean) => { cb(isCorrect); });
     },
+    getName: async (email: string, cb: Function) => {
+        let rows: any = await connection.execute('SELECT `name` FROM `users` WHERE `email` = ?', [email]);
+        console.log(rows[0][0].name);
+        cb(rows[0][0].name);
+    }
 };
 
 export function setupDatabase() {

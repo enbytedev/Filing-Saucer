@@ -5,15 +5,17 @@ import rateLimit from 'express-rate-limit';
 import basicRoutes from "./basic/exports.js";
 import authRoutes from "./auth/export.js";
 import apiRoutes from './api/export.js';
+import userRoutes from './user/exports.js';
 
 const routes = {
     basicRoutes,
     authRoutes,
     apiRoutes,
+    userRoutes,
 }
 
 export function restrictedContent(req: Request, res: Response, next: NextFunction) {
-    if ((req.session as UserSessionInterface).userName) {
+    if ((req.session as UserSessionInterface).email) {
       next();
     } else {
       res.redirect("/login");
@@ -21,7 +23,7 @@ export function restrictedContent(req: Request, res: Response, next: NextFunctio
   }
   
 export function redirectLoggedIn(req: Request, res: Response, next: NextFunction) {
-    if ((req.session as UserSessionInterface).userName) {
+    if ((req.session as UserSessionInterface).email) {
       res.redirect("/dash");
     } else {
       next();

@@ -11,9 +11,12 @@ export default async (req: Request, res: Response) => {
 
     databaseDao.loginUser(email, req.body.password, (isCorrect: boolean) => {
         if (isCorrect) {
-            (req.session as UserSessionInterface).userName = email;
-            console.debug(`Successfully logged in user ${email}`, "Login");
-            res.redirect('/dash');
+            databaseDao.getName(email, (name: any) => {
+                (req.session as UserSessionInterface).email = email;
+                (req.session as UserSessionInterface).firstName = name;
+                console.debug(`Successfully logged in user ${email}`, "Login");
+                res.redirect('/dash');
+            });
         } else { giveUserError("Invalid email or password!"); }
     });
 

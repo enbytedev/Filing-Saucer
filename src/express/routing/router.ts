@@ -1,7 +1,7 @@
 import { Express, Router } from 'express';
 import routes from './routes.js';
 import { browserRateLimit, apiRateLimit } from './routes.js';
-import { redirectLoggedIn } from './routes.js';
+import { restrictedContent, redirectLoggedIn } from './routes.js';
 
 const router = Router();
 
@@ -12,6 +12,9 @@ export const setRoutes = (app: Express, cb: Function) => {
     // auth
     router.get("/login", redirectLoggedIn, browserRateLimit, routes.authRoutes.login);
     router.get("/register", redirectLoggedIn, browserRateLimit, routes.authRoutes.register);
+
+    // logged in
+    router.get("/dash", restrictedContent, browserRateLimit, routes.userRoutes.dash);
 
     // api
     router.post("/login", apiRateLimit, routes.apiRoutes.login);
