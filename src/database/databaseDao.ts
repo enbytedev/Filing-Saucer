@@ -2,7 +2,9 @@ import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 import { dbInfo } from '../setup/config.js';
 
-const connection = mysql.createPool({
+import login from './login.js';
+
+export const connection = mysql.createPool({
     host     : dbInfo.host,
     port     : parseInt(dbInfo.port),
     user     : dbInfo.user,
@@ -22,8 +24,8 @@ export default {
             return 0;
         }).catch((err: any) => { console.error(err); return -1; });
     },
-    loginUser: async (email: string, password: string) => {
-        return connection.execute('SELECT * FROM `users` WHERE `userName` = ? AND password = ?', [email, password]).then((results: any) => { return results[0];});
+    loginUser: async (email: string, password: string, cb: Function) => {
+        login(email, password, (isCorrect: boolean) => { cb(isCorrect); });
     },
 };
 
