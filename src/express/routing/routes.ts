@@ -6,12 +6,14 @@ import basicRoutes from "./basic/exports.js";
 import authRoutes from "./auth/export.js";
 import apiRoutes from './api/export.js';
 import userRoutes from './user/exports.js';
+import uploadRoutes from './upload/exports.js';
 
 const routes = {
     basicRoutes,
     authRoutes,
     apiRoutes,
     userRoutes,
+    uploadRoutes,
 }
 
 export function restrictedContent(req: Request, res: Response, next: NextFunction) {

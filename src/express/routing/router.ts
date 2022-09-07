@@ -19,6 +19,7 @@ export const setRoutes = (app: Express, cb: Function) => {
     // api
     router.post("/login", apiRateLimit, routes.apiRoutes.login);
     router.post("/register", apiRateLimit, routes.apiRoutes.register);
+    router.post("/upload", restrictedContent, apiRateLimit, routes.uploadRoutes.upload);
     app.use(router);
     cb();
 }
