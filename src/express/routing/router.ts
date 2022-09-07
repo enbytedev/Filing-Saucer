@@ -14,8 +14,8 @@ export const setRoutes = (app: Express, cb: Function) => {
     router.get("/register", redirectLoggedIn, browserRateLimit, routes.authRoutes.register);
 
     // api
-    router.post("/api/login", apiRateLimit, routes.apiRoutes.login);
-    router.post("/api/register", apiRateLimit, routes.apiRoutes.register);
+    router.post("/login", apiRateLimit, routes.apiRoutes.login);
+    router.post("/register", apiRateLimit, routes.apiRoutes.register);
     app.use(router);
     cb();
 }
