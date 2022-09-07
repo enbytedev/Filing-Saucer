@@ -1,8 +1,8 @@
 import mysql from 'mysql2/promise';
-import bcrypt from 'bcrypt';
 import { dbInfo } from '../setup/config.js';
 
 import login from './login.js';
+import register from './register.js';
 
 export const connection = mysql.createPool({
     host     : dbInfo.host,
@@ -16,26 +16,13 @@ export const connection = mysql.createPool({
 });
 
 export default {
-    registerUser: async (email: string, password: string) => {
-        return connection.execute('SELECT * FROM `users` WHERE `userName` = ?', [email]).then((results: any) => { return results[0].length == 0; }).then((isUnique: boolean) => {
-            if (password.length < 1) { return 2; }
-            if (!isUnique) { return 1; }
-            writeUserToDb(email, password);
-            return 0;
-        }).catch((err: any) => { console.error(err); return -1; });
+    registerUser: async (email: string, password: string, cb: Function) => {
+        register(email, password, (code: number) => { cb(code); });
     },
     loginUser: async (email: string, password: string, cb: Function) => {
         login(email, password, (isCorrect: boolean) => { cb(isCorrect); });
     },
 };
-
-function writeUserToDb(email: string, password: string) {
-    bcrypt.genSalt(10, function(_err, salt) {
-        bcrypt.hash(password, salt, function(_err, hash) {
-            connection.execute('INSERT INTO `users` (`userName`, `password`) VALUES (?, ?)', [email, hash]);
-        });
-    })
-}
 
 export function setupDatabase() {
     console.debug(`Database information has been input as:\ndatabase name: ${dbInfo.database}\nhost: ${dbInfo.host}\nport: ${dbInfo.port}\nuser: ${dbInfo.user}\npassword: *`, "Database");
