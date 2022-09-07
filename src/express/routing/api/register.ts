@@ -16,14 +16,16 @@ export default async (req: Request, res: Response) => {
     }
 
     // Register user in database and then log them in. Give error message for different conditions.
-    databaseDao.registerUser(email, req.body.password).then((results: number) => {
+    databaseDao.registerUser(email, req.body.password).then((results: any) => {
         if (results == 0) {
             (req.session as UserSessionInterface).userName = email;
             res.redirect('/dash');
-        } else if (results == 1) {
-            giveUserError("Email already in use!");
         } else if (results == -1) {
             giveUserError("Something went wrong!");
+        } else if (results == 1) {
+            giveUserError("This email is already in use!");
+        } else if (results == 2) {
+            giveUserError("Please provide a password!");
         }
     });
 

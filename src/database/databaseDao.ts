@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import bcrypt from 'bcrypt';
 import { dbInfo } from '../setup/config.js';
 
 const connection = mysql.createPool({
@@ -15,29 +16,24 @@ const connection = mysql.createPool({
 export default {
     registerUser: async (email: string, password: string) => {
         return connection.execute('SELECT * FROM `users` WHERE `userName` = ?', [email]).then((results: any) => { return results[0].length == 0; }).then((isUnique: boolean) => {
-            if (isUnique) {
-                if (email.length > 0 && password.length > 0) {
-                connection.execute('INSERT INTO `users` (`userName`, `password`) VALUES (?, ?)', [email, password]);
-                console.debug(`Successfully created user ${email}`, "Register");
-                return 0;
-                } else {
-                    return -1;
-                }
-            } else {
-                console.debug(`Did not create user ${email}. Email exists!`, "Register");
-                return 1;
-            }
-        }).catch((err: any) => {
-            console.error(err);
-            return -1;
-        });
+            if (password.length < 1) { return 2; }
+            if (!isUnique) { return 1; }
+            writeUserToDb(email, password);
+            return 0;
+        }).catch((err: any) => { console.error(err); return -1; });
     },
     loginUser: async (email: string, password: string) => {
-        return connection.execute('SELECT * FROM `users` WHERE `userName` = ? AND password = ?', [email, password]).then((results: any) => {
-            return results[0];
-        });
+        return connection.execute('SELECT * FROM `users` WHERE `userName` = ? AND password = ?', [email, password]).then((results: any) => { return results[0];});
     },
 };
+
+function writeUserToDb(email: string, password: string) {
+    bcrypt.genSalt(10, function(_err, salt) {
+        bcrypt.hash(password, salt, function(_err, hash) {
+            connection.execute('INSERT INTO `users` (`userName`, `password`) VALUES (?, ?)', [email, hash]);
+        });
+    })
+}
 
 export function setupDatabase() {
     console.debug(`Database information has been input as:\ndatabase name: ${dbInfo.database}\nhost: ${dbInfo.host}\nport: ${dbInfo.port}\nuser: ${dbInfo.user}\npassword: *`, "Database");
