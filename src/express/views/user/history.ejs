@@ -1,0 +1,26 @@
+<html lang="en">
+  <%- include('../partials/header.ejs') %>
+  <body>
+    <div class="section">
+      <img src="/public/ICON.png" alt="" height="200px" width="200px">
+      <div class="glass-pink" style="margin: 50;">
+        <h1>upload history</h1>
+        <h2><i>your previously uploaded files are listed below</i></h2>
+        <button class="button-blue" onclick="window.location.href='/dash'">Home</button></a>
+      </div>
+      <div class="glass-blue">
+        <h2>history.</h2><br>
+        <% for (var file of files) { %> <div class="file">
+            <h3><%= file %></h3>
+            <a href="/view/<%= file%>" target="_blank">
+              <button class="button-pink">Open</button>
+            </a>
+            <a href="/delete/<%= file%>" target="_blank">
+              <button class="button-blue">Delete</button>
+            </a>
+            <br>
+          </div><% } %>
+      </div>
+    </div>
+  </body>
+</html>

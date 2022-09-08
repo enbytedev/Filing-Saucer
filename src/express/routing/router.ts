@@ -15,6 +15,7 @@ export const setRoutes = (app: Express, cb: Function) => {
 
     // logged in
     router.get("/dash", restrictedContent, browserRateLimit, routes.userRoutes.dash);
+    router.get("/history", restrictedContent, browserRateLimit, routes.userRoutes.history);
 
     // api
     router.post("/login", apiRateLimit, routes.apiRoutes.login);

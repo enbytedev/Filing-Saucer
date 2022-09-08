@@ -29,6 +29,12 @@ export default {
     },
     newFileUpload: async (email: string, filename: string) => {
         fileUpload(email, filename);
+    },
+    getHistory: async (email: string | undefined, cb: Function) => {
+        if (email != undefined) {
+            let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `email` = ?', [email]);
+            cb(rows[0]);
+        }
     }
 };
 
