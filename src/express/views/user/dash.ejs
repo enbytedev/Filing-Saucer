@@ -10,7 +10,8 @@
         <button class="button-clear" onclick="window.location.href='/account'">Account Settings</button></a>
       </div>
       <div class="glass-blue">
-        <h2>upload</h2>
+        <h2>upload...</h2>
+        <%- info %>
         <form align="center" action="/upload" method="post" enctype="multipart/form-data">
           <input class="button-clear" style="border-radius: 4px;" type="file" name="file" id="uploads" />
           <br>
