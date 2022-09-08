@@ -7,7 +7,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "clean": "rimraf dist && rimraf logs",
+    "clean": "rimraf dist && rimraf logs && rimraf uploads",
     "start": "npm-run-all clean build launch --print-label",
     "build": "tsc -p tsconfig.json",
     "launch": "node dist/index.js"
