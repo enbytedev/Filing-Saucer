@@ -1,7 +1,7 @@
 import { Express, Router } from 'express';
-import routes from './routes.js';
-import { browserRateLimit, apiRateLimit } from './routes.js';
-import { restrictedContent, redirectLoggedIn } from './routes.js';
+import routes from './routesAggregate.js';
+import { browserRateLimit, apiRateLimit } from './routesAggregate.js';
+import { restrictedContent, redirectLoggedIn } from './routesAggregate.js';
 
 const router = Router();
 
