@@ -39,6 +39,9 @@ export default {
     },
     getUserNameFromFile: async (filename: string, cb: Function) => {
         getUserNameFromFile(filename, (name: string) => { cb(name); });
+    },
+    isNameTaken: async (filename: string) => {
+        let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `filename` = ?', [filename]); if (rows[0].length > 0) { return true; } else { return false; };
     }
 };
 

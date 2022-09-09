@@ -11,16 +11,20 @@ import { renderDash } from '../user/dash.js';
 const upload = util.promisify(multer({
     storage: multer.diskStorage({   
         destination: path.format({dir: config.uploadDirectory, base: ''}),
-        filename: (req, file, cb) => { cb(null, genName((req.session as UserSessionInterface).email, path.extname(file.originalname))); }
+        filename: async (req, file, cb) => { cb(null, await genName((req.session as UserSessionInterface).email, path.extname(file.originalname))); }
     }),
     limits: { fileSize: 1000000 * Number(config.maxFileSizeMB) },
 }).single('file'));
 
 let name = '';
 
-function genName(email: any, ext: string) {
+async function genName(email: any, ext: string) {
     name = crypto.createHash('shake256', {outputLength: 8}).update(uuidv1()).update(email).update(crypto.randomBytes(256)).digest("hex");
     name = name + ext.toLowerCase();
+    if (await databaseDao.isNameTaken(name)) {
+        console.warn("Name already taken, retrying... a system administrator should check resource usage if this recurs.", "Upload");
+        genName(email, ext);
+    }
     return name;
 }
 
