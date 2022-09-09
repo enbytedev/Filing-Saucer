@@ -49,6 +49,10 @@ export default {
     isNameTaken: async (filename: string) => {
         let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `filename` = ?', [filename]); if (rows[0].length > 0) { return true; } else { return false; };
     },
+    isCurrentUserOwner: async (filename: string, email: string) => {
+        return await connection.execute('SELECT `email` FROM `uploads` WHERE `filename` = ?', [filename]).then((rows: any) => {
+            if (rows[0][0].email == email) { return true; } else { return false; }; });
+    },
     setFilePrivate: async (filename: string, isPrivate: boolean) => {
         connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]);
     }

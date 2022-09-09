@@ -28,6 +28,7 @@ export const setRoutes = (app: Express, cb: Function) => {
     router.post("/login", apiRateLimit, routes.apiRoutes.login);
     router.post("/register", apiRateLimit, routes.apiRoutes.register);
     router.post("/upload", restrictedContent, apiRateLimit, routes.apiRoutes.upload);
+    router.get("/update/file/:name/:setting/:value", restrictedContent, apiRateLimit, routes.apiRoutes.updateFile);
 
     // 404
     router.get("*", browserRateLimit, routes.basicRoutes.notFound);

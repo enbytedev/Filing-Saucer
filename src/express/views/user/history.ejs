@@ -16,14 +16,14 @@
             <h3><%= bundle[1] %> <i>(<%= bundle[0] %>)</i></h3>
             <h4>uploaded <%= bundle[2] %></h4>
             <% if (bundle[3]) { %>
-            <a href="/modify/<%= bundle[0] %>/public">
+            <a href="/update/file/<%= bundle[0] %>/private/false">
               <button class="button-pink">Make Public</button>
             </a>
             <% } else { %>
             <a href="/share/<%= bundle[0] %>">
               <button class="button-pink">Open</button>
             </a>
-            <a href="/modify/<%= bundle[0] %>/private">
+            <a href="/update/file/<%= bundle[0] %>/private/true">
               <button class="button-blue">Make Private</button>
             </a>
             <% } %>
