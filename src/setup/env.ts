@@ -21,6 +21,7 @@ function setup() {
     verifySet(config.browserRateLimit, "accessRateLimit");
     verifySet(config.apiRateLimit, "apiRateLimit");
     verifySet(config.uploadDirectory, "uploadDirectory");
+    verifySet(config.maxUploadCount, "maxUploadCount");
 
     // Check for updates if checkUpdates is true
     if (config.checkUpdates == "true") {

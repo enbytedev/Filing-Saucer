@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import config from '../setup/config.js';
 import { dbInfo } from '../setup/config.js';
 
 import login from './login.js';
@@ -55,6 +56,9 @@ export default {
     },
     setFilePrivate: async (filename: string, isPrivate: boolean) => {
         connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]);
+    },
+    isUserFull: async (email: string) => {
+        return connection.execute('SELECT `email` FROM `uploads` WHERE `email` = ?', [email]).then((rows: any) => { return rows[0].length >= config.maxUploadCount; });
     }
 };
 

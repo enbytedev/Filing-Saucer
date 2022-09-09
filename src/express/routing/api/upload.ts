@@ -29,6 +29,7 @@ async function genName(email: any, ext: string) {
 }
 
 export default async (req: any, res: any) => {
+    if (await databaseDao.isUserFull(String((req.session as UserSessionInterface).email))) { renderDash(req, res, `you have uploaded the maximum number of files allowed. please delete a few to proceed...`); } else {
         try {
             await upload(req, res);
             if (req.file == undefined) { renderDash(req, res, `no file selected...`); }
@@ -39,4 +40,5 @@ export default async (req: any, res: any) => {
         } catch (err: any) {
             if (err.code == 'LIMIT_FILE_SIZE') { renderDash(req, res, `filesize exceeded ${config.maxFileSizeMB}MB; upload aborted...`); }
         }
+    }
 }

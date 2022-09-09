@@ -14,7 +14,8 @@ export default {
     logPath: process.env.logPath ?? '',
     checkUpdates: process.env.checkUpdates ?? '',
     logLevel: process.env.logLevel ?? '',
-    uploadDirectory: process.env.uploadDirectory ?? ''
+    uploadDirectory: process.env.uploadDirectory ?? '',
+    maxUploadCount: process.env.maxUploadCount ?? ''
 }
 
 export const dbInfo = {
