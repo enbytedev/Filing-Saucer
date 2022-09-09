@@ -8,6 +8,9 @@ import createUpload from './createUpload.js';
 import deleteUpload from './deleteUpload.js';
 import getUserNameFromFile from './getUserNameFromFile.js';
 import updateUser from './updateUser.js';
+import generateToken from './generateToken.js';
+import validateToken from './validateToken.js';
+import changePassword from './changePassword.js';
 
 export const connection = mysql.createPool({
     host     : dbInfo.host,
@@ -63,6 +66,16 @@ export default {
     },
     updateUser: async (email: string, name: string, newpassword: string | null, password: string, cb: Function) => {
         updateUser(email, name, newpassword, password, cb);
+    },
+    generateToken: async (email: string) => {
+        return generateToken(email);
+    },
+    validateToken: async (email: string, token: string) => {
+        return validateToken(email, token);
+    },
+    changePassword: async (email: string, password: string, cb: Function) => {
+        changePassword(email, password);
+        cb();
     }
 }
 
@@ -73,6 +86,9 @@ export function setupDatabase() {
         .catch((err: any) => { console.error(err, "Database"); process.exit(1); });
         connection.execute(`CREATE TABLE IF NOT EXISTS uploads (id INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) NOT NULL, filename VARCHAR(255) NOT NULL, originalname VARCHAR(255) NOT NULL, date VARCHAR(255) NOT NULL, private BIT NOT NULL, PRIMARY KEY (id));`)
         .then(() => { console.debug("Table `uploads` exists or has been created; ready to proceed!", "Database"); })
+        .catch((err: any) => { console.error(err, "Database"); process.exit(1); });
+        connection.execute(`CREATE TABLE IF NOT EXISTS tokens (id INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) NOT NULL, token VARCHAR(255) NOT NULL, expires VARCHAR(255) NOT NULL, PRIMARY KEY (id));`)
+        .then(() => { console.debug("Table `tokens` exists or has been created; ready to proceed!", "Database"); })
         .catch((err: any) => { console.error(err, "Database"); process.exit(1); });
 
     console.info("Successfully setup database", "Setup");

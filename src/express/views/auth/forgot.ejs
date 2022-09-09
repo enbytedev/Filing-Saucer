@@ -4,23 +4,18 @@
     <div class="section">
       <a href="/"><img src="/public/ICON.png" alt=""></a>
       <div class="glass-pink" style="margin: 50;">
-        <h1>Login</h1>
+        <h1>Reset Password</h1>
         <h2><i>Please provide your details below...</i></h2>
-        <form method="post" action="/login">
+        <form method="post" action="/forgot">
             <p>
               <label for="email">Email:</label><br>
               <input type="text" name="email" id="email">
             </p>
             <p>
-              <label for="password">Password:</label><br>
-              <input type="password" name="password" id="password">
-            </p>
-            <p>
-              <input class="button-blue" type="submit" value="Login">
+              <input class="button-blue" type="submit" value="Request Code">
             </p>
           </form>
-        <button class="button-clear" onclick="window.location.href='/forgot'">Forgot Password</button></a>
-        <%- error %>
+        <%- message %>
       </div>
     </div>
   </body>

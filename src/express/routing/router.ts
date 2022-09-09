@@ -12,6 +12,8 @@ export const setRoutes = (app: Express, cb: Function) => {
     // auth
     router.get("/login", redirectLoggedIn, browserRateLimit, routes.authRoutes.login);
     router.get("/register", redirectLoggedIn, browserRateLimit, routes.authRoutes.register);
+    router.get("/forgot", redirectLoggedIn, browserRateLimit, routes.authRoutes.forgot);
+    router.get("/reset", redirectLoggedIn, browserRateLimit, routes.authRoutes.reset);
 
     // share
     router.get("/share/:name", browserRateLimit, routes.shareRoutes.share);
@@ -31,6 +33,8 @@ export const setRoutes = (app: Express, cb: Function) => {
     router.post("/login", apiRateLimit, routes.apiRoutes.login);
     router.post("/register", apiRateLimit, routes.apiRoutes.register);
     router.post("/upload", restrictedContent, apiRateLimit, routes.apiRoutes.upload);
+    router.post("/forgot", apiRateLimit, routes.apiRoutes.requestReset);
+    router.post("/reset", apiRateLimit, routes.apiRoutes.resetPassword);
 
     // 404s
     router.get("*", browserRateLimit, routes.basicRoutes.notFound);

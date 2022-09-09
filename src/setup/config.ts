@@ -25,3 +25,11 @@ export const dbInfo = {
     password: process.env.dbPassword ?? '',
     database: process.env.dbName ?? ''
 }
+
+export const emailInfo = {
+    emailHost: process.env.emailHost ?? '',
+    emailPort: process.env.emailPort ?? '',
+    emailAccount: process.env.emailAccount ?? '',
+    emailPassword: process.env.emailPassword ?? '',
+    emailFrom: process.env.emailFrom ?? ''
+}
