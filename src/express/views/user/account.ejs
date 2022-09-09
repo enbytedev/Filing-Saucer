@@ -1,0 +1,35 @@
+<html lang="en">
+  <%- include('../partials/header.ejs') %>
+  <body>
+    <div class="section">
+      <img src="/public/ICON.png" alt="" height="200px" width="200px">
+      <div class="glass-pink" style="margin: 50;">
+        <h1>good to see you, <%- name %> ✨</h1>
+        <h2><i>your account information is below. feel free to make changes</i></h2>
+        <form method="post" action="/update/account">
+            <p>
+                <label for="email">Email (can not be changed):</label><br>
+                <input type="text" name="email" id="email" value="<%- email %>" readonly>
+            </p>
+            <p>
+                <label for="name">Name:</label><br>
+                <input type="text" name="name" id="name" value="<%- name %>">
+            </p>
+            <p>
+                <label for="password">Password:</label><br>
+                <input type="password" name="password" id="password" value="*****">
+            </p>
+            <p><hr>
+                <label for="oldpassword">(Old) Password to Confirm Changes:</label><br>
+                <input type="password" name="oldpassword" id="oldpassword" value="*****">
+            </p><br>
+                <input class="button-blue" type="submit" value="Save">
+            </p>
+        </form>
+        <button class="button-blue" onclick="window.location.href='/'">Home</button></a>
+        <!-- <h3><a href="/delete/account">delete account</a></h3> future feature -->
+        <h3><%- error %></h3>
+      </div>
+    </div>
+  </body>
+</html>

@@ -4,6 +4,7 @@ import logout from './logout.js';
 import upload from './upload.js';
 import deleteUpload from './deleteUpload.js';
 import updateFile from './updateFile.js';
+import updateAccount from './updateAccount.js';
 
 const apiRoutes = {
     login,
@@ -12,6 +13,7 @@ const apiRoutes = {
     upload,
     deleteUpload,
     updateFile,
+    updateAccount,
 }
 
 export default apiRoutes;

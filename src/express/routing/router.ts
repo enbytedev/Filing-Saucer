@@ -21,16 +21,18 @@ export const setRoutes = (app: Express, cb: Function) => {
     // logged in
     router.get("/dash", restrictedContent, browserRateLimit, routes.userRoutes.dash);
     router.get("/history", restrictedContent, browserRateLimit, routes.userRoutes.history);
+    router.get("/account", restrictedContent, browserRateLimit, routes.userRoutes.account);
 
     // api
     router.get("/logout", restrictedContent, apiRateLimit, routes.apiRoutes.logout);
     router.get("/delete/:name", restrictedContent, apiRateLimit, routes.apiRoutes.deleteUpload);
+    router.get("/update/file/:name/:setting/:value", restrictedContent, apiRateLimit, routes.apiRoutes.updateFile);
+    router.post("/update/account", restrictedContent, apiRateLimit, routes.apiRoutes.updateAccount);
     router.post("/login", apiRateLimit, routes.apiRoutes.login);
     router.post("/register", apiRateLimit, routes.apiRoutes.register);
     router.post("/upload", restrictedContent, apiRateLimit, routes.apiRoutes.upload);
-    router.get("/update/file/:name/:setting/:value", restrictedContent, apiRateLimit, routes.apiRoutes.updateFile);
 
-    // 404
+    // 404s
     router.get("*", browserRateLimit, routes.basicRoutes.notFound);
     
     app.use(router);

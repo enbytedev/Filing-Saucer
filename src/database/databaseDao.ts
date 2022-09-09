@@ -7,6 +7,7 @@ import register from './register.js';
 import createUpload from './createUpload.js';
 import deleteUpload from './deleteUpload.js';
 import getUserNameFromFile from './getUserNameFromFile.js';
+import updateUser from './updateUser.js';
 
 export const connection = mysql.createPool({
     host     : dbInfo.host,
@@ -27,7 +28,7 @@ export default {
         login(email, password, (isCorrect: boolean) => { cb(isCorrect); });
     },
     getUserNameFromEmail: async (email: string, cb: Function) => {
-        let rows: any = await connection.execute('SELECT `name` FROM `users` WHERE `email` = ?', [email]); cb(rows[0][0].name);
+        let rows: any = await connection.execute('SELECT `name` FROM `users` WHERE `email` = ?', [email]); cb(rows[0][0].name); return rows[0][0].name;
     },
     getHistory: async (email: string | undefined, cb: Function) => {
         if (email != undefined) { await connection.execute('SELECT `filename`, `originalname`, `date`, `private` FROM `uploads` WHERE `email` = ?', [email]).then((results: any) => { cb(results[0]); }); }
@@ -59,8 +60,11 @@ export default {
     },
     isUserFull: async (email: string) => {
         return connection.execute('SELECT `email` FROM `uploads` WHERE `email` = ?', [email]).then((rows: any) => { return rows[0].length >= config.maxUploadCount; });
+    },
+    updateUser: async (email: string, name: string, newpassword: string | null, password: string, cb: Function) => {
+        updateUser(email, name, newpassword, password, cb);
     }
-};
+}
 
 export function setupDatabase() {
     console.debug(`Database information has been input as:\ndatabase name: ${dbInfo.database}\nhost: ${dbInfo.host}\nport: ${dbInfo.port}\nuser: ${dbInfo.user}\npassword: *`, "Database");
