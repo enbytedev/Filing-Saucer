@@ -11,7 +11,7 @@ export default async (req: Request, res: Response) => {
 
     databaseDao.loginUser(email, req.body.password, (isCorrect: boolean) => {
         if (isCorrect) {
-            databaseDao.getName(email, (name: any) => {
+            databaseDao.getUserNameFromEmail(email, (name: any) => {
                 (req.session as UserSessionInterface).email = email;
                 (req.session as UserSessionInterface).firstName = name;
                 res.redirect('/dash');

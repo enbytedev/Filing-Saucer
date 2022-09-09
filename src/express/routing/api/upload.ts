@@ -20,12 +20,12 @@ let name = '';
 
 function genName(email: any, ext: string) {
     name = crypto.createHash('shake256', {outputLength: 8}).update(uuidv1()).update(email).update(crypto.randomBytes(256)).digest("hex");
-    name = name + ext;
+    name = name + ext.toLowerCase();
     return name;
 }
 
 function writeUploadToDatabase(email: any, name: string) {
-    databaseDao.newFileUpload(email, name);
+    databaseDao.createUpload(email, name);
 }
 
 export default async (req: any, res: any) => {

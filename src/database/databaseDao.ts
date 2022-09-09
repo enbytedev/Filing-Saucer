@@ -3,8 +3,9 @@ import { dbInfo } from '../setup/config.js';
 
 import login from './login.js';
 import register from './register.js';
-import fileUpload from './fileUpload.js';
+import createUpload from './createUpload.js';
 import deleteUpload from './deleteUpload.js';
+import getUserNameFromFile from './getUserNameFromFile.js';
 
 export const connection = mysql.createPool({
     host     : dbInfo.host,
@@ -24,21 +25,20 @@ export default {
     loginUser: async (email: string, password: string, cb: Function) => {
         login(email, password, (isCorrect: boolean) => { cb(isCorrect); });
     },
-    getName: async (email: string, cb: Function) => {
-        let rows: any = await connection.execute('SELECT `name` FROM `users` WHERE `email` = ?', [email]);
-        cb(rows[0][0].name);
-    },
-    newFileUpload: async (email: string, filename: string) => {
-        fileUpload(email, filename);
+    getUserNameFromEmail: async (email: string, cb: Function) => {
+        let rows: any = await connection.execute('SELECT `name` FROM `users` WHERE `email` = ?', [email]); cb(rows[0][0].name);
     },
     getHistory: async (email: string | undefined, cb: Function) => {
-        if (email != undefined) {
-            let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `email` = ?', [email]);
-            cb(rows[0]);
-        }
+        if (email != undefined) { let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `email` = ?', [email]); cb(rows[0]); }
+    },
+    createUpload: async (email: string, filename: string) => {
+        createUpload(email, filename);
     },
     deleteUpload: async (email: string, filename: string) => {
         deleteUpload(email, filename);
+    },
+    getUserNameFromFile: async (filename: string, cb: Function) => {
+        getUserNameFromFile(filename, (name: string) => { cb(name); });
     }
 };
 
