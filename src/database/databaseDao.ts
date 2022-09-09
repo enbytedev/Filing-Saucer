@@ -29,10 +29,10 @@ export default {
         let rows: any = await connection.execute('SELECT `name` FROM `users` WHERE `email` = ?', [email]); cb(rows[0][0].name);
     },
     getHistory: async (email: string | undefined, cb: Function) => {
-        if (email != undefined) { let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `email` = ?', [email]); cb(rows[0]); }
+        if (email != undefined) { await connection.execute('SELECT `filename`, `originalname`, `date`, `private` FROM `uploads` WHERE `email` = ?', [email]).then((results: any) => { cb(results[0]); }); }
     },
-    createUpload: async (email: string, filename: string) => {
-        createUpload(email, filename);
+    createUpload: async (email: string, filename: string, originalname: string) => {
+        createUpload(email, filename, originalname);
     },
     deleteUpload: async (email: string, filename: string) => {
         deleteUpload(email, filename);
@@ -40,8 +40,17 @@ export default {
     getUserNameFromFile: async (filename: string, cb: Function) => {
         getUserNameFromFile(filename, (name: string) => { cb(name); });
     },
+    getOriginalNameFromFile: async (filename: string, cb: Function) => {
+        let rows: any = await connection.execute('SELECT `originalname` FROM `uploads` WHERE `filename` = ?', [filename]); cb(rows[0][0].originalname);
+    },
+    isFilePrivate: async (filename: string) => {
+        let rows: any = await connection.execute('SELECT `private` FROM `uploads` WHERE `filename` = ?', [filename]); return rows[0][0].private[0] == 1;
+    },
     isNameTaken: async (filename: string) => {
         let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `filename` = ?', [filename]); if (rows[0].length > 0) { return true; } else { return false; };
+    },
+    setFilePrivate: async (filename: string, isPrivate: boolean) => {
+        connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]);
     }
 };
 
@@ -50,7 +59,7 @@ export function setupDatabase() {
         connection.execute(`CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, uploads VARCHAR(255), PRIMARY KEY (id));`)
         .then(() => { console.debug("Table `users` exists or has been created; ready to proceed!", "Database"); })
         .catch((err: any) => { console.error(err, "Database"); process.exit(1); });
-        connection.execute(`CREATE TABLE IF NOT EXISTS uploads (id INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) NOT NULL, filename VARCHAR(255) NOT NULL, date VARCHAR(255) NOT NULL, PRIMARY KEY (id));`)
+        connection.execute(`CREATE TABLE IF NOT EXISTS uploads (id INT NOT NULL AUTO_INCREMENT, email VARCHAR(255) NOT NULL, filename VARCHAR(255) NOT NULL, originalname VARCHAR(255) NOT NULL, date VARCHAR(255) NOT NULL, private BIT NOT NULL, PRIMARY KEY (id));`)
         .then(() => { console.debug("Table `uploads` exists or has been created; ready to proceed!", "Database"); })
         .catch((err: any) => { console.error(err, "Database"); process.exit(1); });
 

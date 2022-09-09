@@ -6,12 +6,14 @@ export default async (req: Request, res: Response) => {
     renderHistory(req, res, "");
 }
 
-export function renderHistory(req: Request, res: Response, message: string) {
-    databaseDao.getHistory((req.session as UserSessionInterface).email, (history: any) => {
-        let files: Array<String> = [];
-        for (history of history) {
-            files.push(history.filename);
+export async function renderHistory(req: Request, res: Response, message: string) {
+    databaseDao.getHistory((req.session as UserSessionInterface).email, async (history: any) => {
+        var count = history.length;
+        let bundles: Array<any> = [];
+        for (var i = 0; i < count; i++) {
+            bundles.push([history[i].filename, history[i].originalname, new Date(parseInt(history[i].date)).toLocaleString(), history[i].private[0] == 1]);
         }
-        res.render('user/history.ejs', { info: message, files: files });
+
+        res.render('user/history.ejs', { info: message, bundles: bundles });
     });
 }

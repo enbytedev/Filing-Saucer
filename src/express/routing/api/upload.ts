@@ -28,17 +28,13 @@ async function genName(email: any, ext: string) {
     return name;
 }
 
-function writeUploadToDatabase(email: any, name: string) {
-    databaseDao.createUpload(email, name);
-}
-
 export default async (req: any, res: any) => {
         try {
             await upload(req, res);
             if (req.file == undefined) { renderDash(req, res, `no file selected...`); }
             else {
-            writeUploadToDatabase((req.session as UserSessionInterface).email, name);
-            renderDash(req, res, `file uploaded successfully...`);
+                databaseDao.createUpload(String((req.session as UserSessionInterface).email), name, req.file.originalname);
+                renderDash(req, res, `file uploaded successfully...`);
             }
         } catch (err: any) {
             if (err.code == 'LIMIT_FILE_SIZE') { renderDash(req, res, `filesize exceeded ${config.maxFileSizeMB}MB; upload aborted...`); }
