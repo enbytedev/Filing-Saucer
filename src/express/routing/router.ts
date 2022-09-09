@@ -13,6 +13,11 @@ export const setRoutes = (app: Express, cb: Function) => {
     router.get("/login", redirectLoggedIn, browserRateLimit, routes.authRoutes.login);
     router.get("/register", redirectLoggedIn, browserRateLimit, routes.authRoutes.register);
 
+    // share
+    router.get("/share/:name", browserRateLimit, routes.shareRoutes.share);
+    router.get("/share/:name/download", browserRateLimit, routes.shareRoutes.downloadFile);
+    router.get("/share/:name/view", browserRateLimit, routes.shareRoutes.viewFile);
+
     // logged in
     router.get("/dash", restrictedContent, browserRateLimit, routes.userRoutes.dash);
     router.get("/history", restrictedContent, browserRateLimit, routes.userRoutes.history);

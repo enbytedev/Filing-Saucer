@@ -2,16 +2,18 @@ import { Request, Response, NextFunction } from 'express';
 import { UserSessionInterface } from './sessionInterfaces.js';
 import config from '../../setup/config.js';
 import rateLimit from 'express-rate-limit';
-import basicRoutes from "./basic/exports.js";
+import basicRoutes from "./basic/export.js";
 import authRoutes from "./auth/export.js";
 import apiRoutes from './api/export.js';
-import userRoutes from './user/exports.js';
+import userRoutes from './user/export.js';
+import shareRoutes from './share/export.js';
 
 const routes = {
     basicRoutes,
     authRoutes,
     apiRoutes,
     userRoutes,
+    shareRoutes,
 }
 
 export function restrictedContent(req: Request, res: Response, next: NextFunction) {
