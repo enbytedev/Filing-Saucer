@@ -4,6 +4,7 @@ import { dbInfo } from '../setup/config.js';
 import login from './login.js';
 import register from './register.js';
 import fileUpload from './fileUpload.js';
+import deleteUpload from './deleteUpload.js';
 
 export const connection = mysql.createPool({
     host     : dbInfo.host,
@@ -35,6 +36,9 @@ export default {
             let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `email` = ?', [email]);
             cb(rows[0]);
         }
+    },
+    deleteUpload: async (email: string, filename: string) => {
+        deleteUpload(email, filename);
     }
 };
 

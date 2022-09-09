@@ -13,7 +13,8 @@ export default {
     maxFileSizeMB: process.env.maxFileSizeMB ?? '',
     logPath: process.env.logPath ?? '',
     checkUpdates: process.env.checkUpdates ?? '',
-    logLevel: process.env.logLevel ?? ''
+    logLevel: process.env.logLevel ?? '',
+    uploadDirectory: process.env.uploadDirectory ?? ''
 }
 
 export const dbInfo = {

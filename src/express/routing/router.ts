@@ -19,6 +19,7 @@ export const setRoutes = (app: Express, cb: Function) => {
 
     // api
     router.get("/logout", restrictedContent, apiRateLimit, routes.apiRoutes.logout);
+    router.get("/delete/:name", restrictedContent, apiRateLimit, routes.apiRoutes.deleteUpload);
     router.post("/login", apiRateLimit, routes.apiRoutes.login);
     router.post("/register", apiRateLimit, routes.apiRoutes.register);
     router.post("/upload", restrictedContent, apiRateLimit, routes.uploadRoutes.upload);

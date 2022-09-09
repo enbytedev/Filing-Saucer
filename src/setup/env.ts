@@ -20,6 +20,7 @@ function setup() {
     verifySet(config.maxFileSizeMB, "maxFileSizeMB");
     verifySet(config.browserRateLimit, "accessRateLimit");
     verifySet(config.apiRateLimit, "apiRateLimit");
+    verifySet(config.uploadDirectory, "uploadDirectory");
 
     // Check for updates if checkUpdates is true
     if (config.checkUpdates == "true") {

@@ -10,7 +10,7 @@ import { renderDash } from '../user/dash.js';
 
 const upload = util.promisify(multer({
     storage: multer.diskStorage({   
-        destination: 'uploads',
+        destination: path.format({dir: config.uploadDirectory, base: ''}),
         filename: (req, file, cb) => { cb(null, genName((req.session as UserSessionInterface).email, path.extname(file.originalname))); }
     }),
     limits: { fileSize: 1000000 * Number(config.maxFileSizeMB) },
