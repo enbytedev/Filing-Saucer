@@ -19,11 +19,11 @@
             <a href="/update/file/<%= bundle[0] %>/private/false">
               <button class="button-pink">Make Public</button>
             </a>
-            <a href="/share/<%= bundle[0] %>/download">
+            <a href="/share/<%= bundle[0] %>/download" target="_blank">
               <button class="button-blue">Download</button>
             </a>
             <% } else { %>
-            <a href="/share/<%= bundle[0] %>">
+            <a href="/share/<%= bundle[0] %>" target="_blank">
               <button class="button-pink">Open</button>
             </a>
             <a href="/update/file/<%= bundle[0] %>/private/true">
