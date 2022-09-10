@@ -42,11 +42,11 @@ export default {
     deleteUpload: async (email: string, filename: string) => {
         deleteUpload(email, filename);
     },
-    getUserNameFromFile: async (filename: string, cb: Function) => {
-        getUserNameFromFile(filename, (name: string) => { cb(name); });
+    getUserNameFromFile: async (filename: string): Promise<string> => {
+        return getUserNameFromFile(filename);
     },
-    getOriginalNameFromFile: async (filename: string, cb: Function) => {
-        let rows: any = await connection.execute('SELECT `originalname` FROM `uploads` WHERE `filename` = ?', [filename]); cb(rows[0][0].originalname);
+    getOriginalNameFromFile: async (filename: string) => {
+        let rows: any = await connection.execute('SELECT `originalname` FROM `uploads` WHERE `filename` = ?', [filename]); return (rows[0][0].originalname);
     },
     isFilePrivate: async (filename: string) => {
         let rows: any = await connection.execute('SELECT `private` FROM `uploads` WHERE `filename` = ?', [filename]); return rows[0][0].private[0] == 1;
@@ -54,14 +54,13 @@ export default {
     isNameTaken: async (filename: string) => {
         let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `filename` = ?', [filename]); if (rows[0].length > 0) { return true; } else { return false; };
     },
-    isCurrentUserOwner: async (filename: string, email: string) => {
-        return await connection.execute('SELECT `email` FROM `uploads` WHERE `filename` = ?', [filename]).then((rows: any) => {
-            if (rows[0][0].email == email) { return true; } else { return false; }; });
+    isCurrentUserFileOwner: async (filename: string, email: string) => {
+        return await connection.execute('SELECT `email` FROM `uploads` WHERE `filename` = ?', [filename]).then((rows: any) => { if (rows[0][0].email == email) { return true; } else { return false; }; });
     },
-    setFilePrivate: async (filename: string, isPrivate: boolean) => {
+    setFilePrivacy: async (filename: string, isPrivate: boolean) => {
         connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]);
     },
-    isUserFull: async (email: string) => {
+    isUserStorageFull: async (email: string) => {
         return connection.execute('SELECT `email` FROM `uploads` WHERE `email` = ?', [email]).then((rows: any) => { return rows[0].length >= config.maxUploadCount; });
     },
     updateUser: async (email: string, name: string, newpassword: string | null, password: string, cb: Function) => {

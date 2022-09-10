@@ -8,8 +8,8 @@ export default async (req: Request, res: Response) => {
 }
 
 export async function setPrivate(req: Request, res: Response) {
-    if (await databaseDao.isCurrentUserOwner(req.params.name, String((req.session as UserSessionInterface).email))) {
-        await databaseDao.setFilePrivate(req.params.name, req.params.value == "true");
+    if (await databaseDao.isCurrentUserFileOwner(req.params.name, String((req.session as UserSessionInterface).email))) {
+        await databaseDao.setFilePrivacy(req.params.name, req.params.value == "true");
         await new Promise(r => setTimeout(r, 500));
         renderHistory(req, res, `privacy for ${req.params.name} set to ${req.params.value}`);
     }
