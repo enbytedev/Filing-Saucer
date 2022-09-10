@@ -2,12 +2,23 @@ import { Response, Request } from 'express';
 import config from '../../../setup/config.js';
 import path from 'path';
 import databaseDao from '../../../database/databaseDao.js';
+import { UserSessionInterface } from '../sessionInterfaces.js';
 
 const uploadDirectory = path.format({dir: config.uploadDirectory, base: ''});
 
 export async function downloadFile(req: Request, res: Response) {
     let userFirstName = (await databaseDao.getUserNameFromFile(req.params.name)).toLowerCase();
-    if (await databaseDao.isFilePrivate(req.params.name)) { res.render('share/private.ejs', {fileName: req.params.name, userFirstName: userFirstName}); return; }
+    if (await databaseDao.isFilePrivate(req.params.name)) {
+        if (await databaseDao.isCurrentUserFileOwner(req.params.name, String((req.session as UserSessionInterface).email))) {
+            res.download(uploadDirectory + req.params.name, (err) => {
+                if (err) { res.render('basic/notFound.ejs'); }
+            });
+            return;
+        } else {
+        res.render('share/private.ejs', {fileName: req.params.name, userFirstName: userFirstName});
+        return;
+    }
+    }
     res.download(uploadDirectory + req.params.name, (err) => {
         if (err) { res.render('basic/notFound.ejs'); }
     });
