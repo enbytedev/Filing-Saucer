@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import databaseDao from '../../../database/databaseDao.js';
+import databaseAccess from '../../../database/databaseAccess.js';
 
 export default async (req: Request, res: Response) => {
     if (req.body.code == "") { giveUserError("Please provide the token sent to your email!"); return; }
@@ -10,11 +10,10 @@ export default async (req: Request, res: Response) => {
     let email = req.body.email.toLowerCase();
     email = email.replace(/\s+/g, '');
 
-    let result: number = await databaseDao.validateToken(email, req.body.code)
+    let result: number = await databaseAccess.validateToken(email, req.body.code)
     if (result == 0) {
-        databaseDao.changePassword(email, req.body.password, () => {
-            res.render('auth/login.ejs', { error: 'Password changed! Please login.' });
-        });
+        databaseAccess.updateUser("password", email, req.body.password)
+        res.render('auth/login.ejs', { error: 'Password changed! Please login.' });
     } else if (result == 1) { 
         giveUserError("Token has expired. Please request a new token.");
         return;

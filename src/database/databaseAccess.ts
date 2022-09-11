@@ -1,16 +1,16 @@
 import mysql from 'mysql2/promise';
-import config from '../setup/config.js';
 import { dbInfo } from '../setup/config.js';
 
-import login from './login.js';
-import register from './register.js';
+import login from './functions/userAccount/loginUser.js';
+import register from './functions/userAccount/registerUser.js';
 import createUpload from './createUpload.js';
 import deleteUpload from './deleteUpload.js';
 import getUserNameFromFile from './getUserNameFromFile.js';
-import updateUser from './updateUser.js';
+import updateUser from './functions/userAccount/updateUser.js';
 import generateToken from './generateToken.js';
 import validateToken from './validateToken.js';
-import changePassword from './changePassword.js';
+
+import { isUserFileOwner, isNameTaken, isFilePrivate, isUserStorageFull, isPasswordCorrect } from './functions/validate/boolean.js';
 
 export const connection = mysql.createPool({
     host     : dbInfo.host,
@@ -49,32 +49,31 @@ export default {
         let rows: any = await connection.execute('SELECT `originalname` FROM `uploads` WHERE `filename` = ?', [filename]); return (rows[0][0].originalname);
     },
     isFilePrivate: async (filename: string) => {
-        let rows: any = await connection.execute('SELECT `private` FROM `uploads` WHERE `filename` = ?', [filename]); return rows[0][0].private[0] == 1;
+        return isFilePrivate(filename);
     },
     isNameTaken: async (filename: string) => {
-        let rows: any = await connection.execute('SELECT `filename` FROM `uploads` WHERE `filename` = ?', [filename]); if (rows[0].length > 0) { return true; } else { return false; };
+        return isNameTaken(filename);    
     },
-    isCurrentUserFileOwner: async (filename: string, email: string) => {
-        return await connection.execute('SELECT `email` FROM `uploads` WHERE `filename` = ?', [filename]).then((rows: any) => { if (rows[0][0].email == email) { return true; } else { return false; }; });
+    isUserFileOwner: async (filename: string, email: string) => {
+        return isUserFileOwner(filename, email);
+    },
+    isUserStorageFull: async (email: string) => {
+        return isUserStorageFull(email);
+    },
+    isPasswordCorrect: async (email: string, password: string) => {
+        return isPasswordCorrect(email, password);
     },
     setFilePrivacy: async (filename: string, isPrivate: boolean) => {
         connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]);
     },
-    isUserStorageFull: async (email: string) => {
-        return connection.execute('SELECT `email` FROM `uploads` WHERE `email` = ?', [email]).then((rows: any) => { return rows[0].length >= config.maxUploadCount; });
-    },
-    updateUser: async (email: string, name: string, newpassword: string | null, password: string, cb: Function) => {
-        updateUser(email, name, newpassword, password, cb);
+    updateUser: async (operation: string, email: string, argument: string) => {
+        return updateUser(operation, email, argument);
     },
     generateToken: async (email: string) => {
         return generateToken(email);
     },
     validateToken: async (email: string, token: string) => {
         return validateToken(email, token);
-    },
-    changePassword: async (email: string, password: string, cb: Function) => {
-        changePassword(email, password);
-        cb();
     }
 }
 

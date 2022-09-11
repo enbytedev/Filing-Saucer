@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import nodemailer from 'nodemailer';
-import databaseDao from '../../../database/databaseDao.js';
+import databaseAccess from '../../../database/databaseAccess.js';
 import { emailInfo } from '../../../setup/config.js';
 
 export const transporter = nodemailer.createTransport({
@@ -24,7 +24,7 @@ export default async (req: Request, res: Response) => {
         from: `${emailInfo.emailFrom}`,
         to: req.body.email,
         subject: 'Password Reset @ Filing Saucer',
-        text: `Hello, ${await databaseDao.getUserNameFromEmail(req.body.email, () => {})}! You have requested a password reset. You may use the code below to reset your password. If you did not request a password reset, please ignore this email.\nCode: ${await databaseDao.generateToken(req.body.email)}`
+        text: `Hello, ${await databaseAccess.getUserNameFromEmail(req.body.email, () => {})}! You have requested a password reset. You may use the code below to reset your password. If you did not request a password reset, please ignore this email.\nCode: ${await databaseAccess.generateToken(req.body.email)}`
     };
 
     transporter.sendMail(mailOptions, function(error: any, info: any) {

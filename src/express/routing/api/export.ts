@@ -1,10 +1,10 @@
-import login from './login.js';
-import register from './register.js';
+import login from './userAccount/loginUser.js';
+import register from './userAccount/registerUser.js';
 import logout from './logout.js';
 import upload from './upload.js';
 import deleteUpload from './deleteUpload.js';
 import updateFile from './updateFile.js';
-import updateAccount from './updateAccount.js';
+import updateUser from './userAccount/updateUser.js';
 import requestReset from './requestReset.js';
 import resetPassword from './resetPassword.js';
 
@@ -15,7 +15,7 @@ const apiRoutes = {
     upload,
     deleteUpload,
     updateFile,
-    updateAccount,
+    updateUser,
     requestReset,
     resetPassword,
 }

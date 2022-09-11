@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import path from 'path';
 import fs from 'fs';
 import config from '../../../setup/config.js';
-import databaseDao from '../../../database/databaseDao.js';
+import databaseDao from '../../../database/databaseAccess.js';
 
 const uploadDirectory = path.format({dir: config.uploadDirectory, base: ''});
 

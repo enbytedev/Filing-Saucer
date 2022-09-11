@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { UserSessionInterface } from '../sessionInterfaces.js';
-import databaseDao from '../../../database/databaseDao.js';
+import databaseDao from '../../../database/databaseAccess.js';
 
 export default async (req: Request, res: Response) => {
     renderHistory(req, res, "");

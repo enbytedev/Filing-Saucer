@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
-import databaseDao from '../../../database/databaseDao.js';
-import { UserSessionInterface } from '../sessionInterfaces.js';
+import databaseAccess from '../../../../database/databaseAccess.js';
+import { UserSessionInterface } from '../../sessionInterfaces.js';
 
 export default async (req: Request, res: Response) => {
     if (req.body.email == "" || req.body.password == "") { giveUserError("Please provide an email and password!"); return; }
@@ -9,9 +9,9 @@ export default async (req: Request, res: Response) => {
     let email = req.body.email.toLowerCase();
     email = email.replace(/\s+/g, '');
 
-    databaseDao.loginUser(email, req.body.password, (isCorrect: boolean) => {
+    databaseAccess.loginUser(email, req.body.password, (isCorrect: boolean) => {
         if (isCorrect) {
-            databaseDao.getUserNameFromEmail(email, (name: any) => {
+            databaseAccess.getUserNameFromEmail(email, (name: any) => {
                 (req.session as UserSessionInterface).email = email;
                 (req.session as UserSessionInterface).firstName = name;
                 res.redirect('/dash');

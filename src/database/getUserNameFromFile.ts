@@ -1,4 +1,4 @@
-import { connection } from './databaseDao.js';
+import { connection } from './databaseAccess.js';
 
 export default async (filename: string) => {
     return connection.execute('SELECT `email` FROM `uploads` WHERE `filename` = ?', [filename]).then((results: any) => {
