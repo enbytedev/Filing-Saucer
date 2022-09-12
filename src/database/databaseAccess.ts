@@ -3,8 +3,8 @@ import { dbInfo } from '../setup/config.js';
 
 import login from './functions/userAccount/loginUser.js';
 import register from './functions/userAccount/registerUser.js';
-import createUpload from './createUpload.js';
-import deleteUpload from './deleteUpload.js';
+import createUpload from './functions/handleUpload/createUpload.js';
+import deleteUpload from './functions/handleUpload/deleteUpload.js';
 import updateUser from './functions/userAccount/updateUser.js';
 import generateToken from './functions/handleToken/generateToken.js';
 import validateToken from './functions/handleToken/validateToken.js';
@@ -51,8 +51,8 @@ export default {
         generateToken,
         validateToken
     },
-    setFilePrivacy: async (filename: string, isPrivate: boolean) => {
-        connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]);
+    setValue: {
+        setFilePrivacy: async (filename: string, isPrivate: boolean) => { connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]); }
     }
 }
 

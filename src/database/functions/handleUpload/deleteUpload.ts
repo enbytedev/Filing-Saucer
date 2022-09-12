@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import config from '../setup/config.js';
-import { connection } from './databaseAccess.js';
+import config from '../../../setup/config.js';
+import { connection } from '../../databaseAccess.js';
 
 const uploadDirectory = path.format({dir: config.uploadDirectory, base: ''});
 
