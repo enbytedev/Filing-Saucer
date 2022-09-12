@@ -1,7 +1,6 @@
-import { connection } from './databaseDao.js';
+import { connection } from '../../databaseAccess.js';
 
 export default async (email: string, token: string) => {
-
     return await connection.execute('SELECT * FROM `tokens` WHERE `email` = ? AND `token` = ?', [email, token]).then((rows: any) => {
         if (rows[0].length > 0) {
             let expiry = new Date(parseInt(rows[0][0].expiry));
@@ -14,12 +13,11 @@ export default async (email: string, token: string) => {
                 return 1;
             }
         } else {
-            clearTokens(email);
             return -1;
         }
     });
 
-    function clearTokens(_email: string) {
-        // connection.execute('DELETE FROM `tokens` WHERE `email` = ?', [email]);
+    function clearTokens(email: string) {
+        connection.execute('DELETE FROM `tokens` WHERE `email` = ?', [email]);
     }
 }

@@ -1,13 +1,13 @@
 import { Response, Request } from 'express';
 import { UserSessionInterface } from '../sessionInterfaces.js';
-import databaseDao from '../../../database/databaseDao.js';
+import databaseDao from '../../../database/databaseAccess.js';
 
 export default async (req: Request, res: Response) => {
     renderHistory(req, res, "");
 }
 
 export async function renderHistory(req: Request, res: Response, message: string) {
-    databaseDao.getHistory((req.session as UserSessionInterface).email, async (history: any) => {
+    databaseDao.getInfo.getHistory((req.session as UserSessionInterface).email, async (history: any) => {
         var count = history.length;
         let bundles: Array<any> = [];
         for (var i = 0; i < count; i++) {

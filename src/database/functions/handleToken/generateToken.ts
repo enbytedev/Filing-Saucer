@@ -1,4 +1,4 @@
-import { connection } from './databaseDao.js';
+import { connection } from '../../databaseAccess.js';
 import sugarcube from 'sugarcube';
 
 export default async (email: string) => {

@@ -28,11 +28,11 @@ export const setRoutes = (app: Express, cb: Function) => {
     // api
     router.get("/logout", restrictedContent, apiRateLimit, routes.apiRoutes.logout);
     router.get("/delete/:name", restrictedContent, apiRateLimit, routes.apiRoutes.deleteUpload);
-    router.get("/update/file/:name/:setting/:value", restrictedContent, apiRateLimit, routes.apiRoutes.updateFile);
-    router.post("/update/account", restrictedContent, apiRateLimit, routes.apiRoutes.updateAccount);
+    router.get("/update/file/:name/:setting/:value", restrictedContent, apiRateLimit, routes.apiRoutes.updateUpload);
+    router.post("/update/account", restrictedContent, apiRateLimit, routes.apiRoutes.updateUser);
     router.post("/login", apiRateLimit, routes.apiRoutes.login);
     router.post("/register", apiRateLimit, routes.apiRoutes.register);
-    router.post("/upload", restrictedContent, apiRateLimit, routes.apiRoutes.upload);
+    router.post("/upload", restrictedContent, apiRateLimit, routes.apiRoutes.createUpload);
     router.post("/forgot", apiRateLimit, routes.apiRoutes.requestReset);
     router.post("/reset", apiRateLimit, routes.apiRoutes.resetPassword);
 

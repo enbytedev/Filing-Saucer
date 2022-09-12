@@ -3,10 +3,10 @@ import path from 'path';
 import util from 'util';
 import { v1 as uuidv1 } from 'uuid';
 import crypto from 'crypto';
-import databaseDao from '../../../database/databaseDao.js';
-import { UserSessionInterface } from '../sessionInterfaces.js';
-import config from '../../../setup/config.js';
-import { renderDash } from '../user/dash.js';
+import databaseAccess from '../../../../database/databaseAccess.js';
+import { UserSessionInterface } from '../../sessionInterfaces.js';
+import config from '../../../../setup/config.js';
+import { renderDash } from '../../user/dash.js';
 
 const upload = util.promisify(multer({
     storage: multer.diskStorage({   
@@ -21,7 +21,7 @@ let name = '';
 async function genName(email: any, ext: string) {
     name = crypto.createHash('shake256', {outputLength: 8}).update(uuidv1()).update(email).update(crypto.randomBytes(256)).digest("hex");
     name = name + ext.toLowerCase();
-    if (await databaseDao.isNameTaken(name)) {
+    if (await databaseAccess.checks.isNameTaken(name)) {
         console.warn("Name already taken, retrying... a system administrator should check resource usage if this recurs.", "Upload");
         genName(email, ext);
     }
@@ -29,12 +29,12 @@ async function genName(email: any, ext: string) {
 }
 
 export default async (req: any, res: any) => {
-    if (await databaseDao.isUserStorageFull(String((req.session as UserSessionInterface).email))) { renderDash(req, res, `you have uploaded the maximum number of files allowed. please delete a few to proceed...`); } else {
+    if (await databaseAccess.checks.isUserStorageFull(String((req.session as UserSessionInterface).email))) { renderDash(req, res, `you have uploaded the maximum number of files allowed. please delete a few to proceed...`); } else {
         try {
             await upload(req, res);
             if (req.file == undefined) { renderDash(req, res, `no file selected...`); }
             else {
-                databaseDao.createUpload(String((req.session as UserSessionInterface).email), name, req.file.originalname);
+                databaseAccess.handleUpload.createUpload(String((req.session as UserSessionInterface).email), name, req.file.originalname);
                 renderDash(req, res, `file uploaded successfully...`);
             }
         } catch (err: any) {

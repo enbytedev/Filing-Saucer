@@ -1,21 +1,21 @@
-import login from './login.js';
-import register from './register.js';
-import logout from './logout.js';
-import upload from './upload.js';
-import deleteUpload from './deleteUpload.js';
-import updateFile from './updateFile.js';
-import updateAccount from './updateAccount.js';
-import requestReset from './requestReset.js';
-import resetPassword from './resetPassword.js';
+import login from './userAccount/loginUser.js';
+import register from './userAccount/registerUser.js';
+import logout from './userAccount/logout.js';
+import createUpload from './handleUpload/createUpload.js';
+import deleteUpload from './handleUpload/deleteUpload.js';
+import updateUpload from './handleUpload/updateUpload.js';
+import updateUser from './userAccount/updateUser.js';
+import requestReset from './forgotPassword/requestReset.js';
+import resetPassword from './forgotPassword/resetPassword.js';
 
 const apiRoutes = {
     login,
     register,
     logout,
-    upload,
+    createUpload,
     deleteUpload,
-    updateFile,
-    updateAccount,
+    updateUpload,
+    updateUser,
     requestReset,
     resetPassword,
 }
