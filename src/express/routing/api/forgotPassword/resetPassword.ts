@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import databaseAccess from '../../../database/databaseAccess.js';
+import databaseAccess from '../../../../database/databaseAccess.js';
 
 export default async (req: Request, res: Response) => {
     if (req.body.code == "") { giveUserError("Please provide the token sent to your email!"); return; }

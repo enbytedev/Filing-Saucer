@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
-import databaseAccess from '../../../database/databaseAccess.js';
-import { UserSessionInterface } from '../sessionInterfaces.js';
-import { renderHistory } from '../user/history.js';
+import databaseAccess from '../../../../database/databaseAccess.js';
+import { UserSessionInterface } from '../../sessionInterfaces.js';
+import { renderHistory } from '../../user/history.js';
 
 export default async (req: Request, res: Response) => {
     if (req.params.setting == "private") { setPrivate(req, res); }

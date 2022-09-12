@@ -3,10 +3,10 @@ import path from 'path';
 import util from 'util';
 import { v1 as uuidv1 } from 'uuid';
 import crypto from 'crypto';
-import databaseAccess from '../../../database/databaseAccess.js';
-import { UserSessionInterface } from '../sessionInterfaces.js';
-import config from '../../../setup/config.js';
-import { renderDash } from '../user/dash.js';
+import databaseAccess from '../../../../database/databaseAccess.js';
+import { UserSessionInterface } from '../../sessionInterfaces.js';
+import config from '../../../../setup/config.js';
+import { renderDash } from '../../user/dash.js';
 
 const upload = util.promisify(multer({
     storage: multer.diskStorage({   

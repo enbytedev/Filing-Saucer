@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import nodemailer from 'nodemailer';
-import databaseAccess from '../../../database/databaseAccess.js';
-import { emailInfo } from '../../../setup/config.js';
+import databaseAccess from '../../../../database/databaseAccess.js';
+import { emailInfo } from '../../../../setup/config.js';
 
 export const transporter = nodemailer.createTransport({
     host: `${emailInfo.emailHost}`,
