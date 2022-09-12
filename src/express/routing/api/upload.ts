@@ -34,7 +34,7 @@ export default async (req: any, res: any) => {
             await upload(req, res);
             if (req.file == undefined) { renderDash(req, res, `no file selected...`); }
             else {
-                databaseAccess.createUpload(String((req.session as UserSessionInterface).email), name, req.file.originalname);
+                databaseAccess.handleUpload.createUpload(String((req.session as UserSessionInterface).email), name, req.file.originalname);
                 renderDash(req, res, `file uploaded successfully...`);
             }
         } catch (err: any) {

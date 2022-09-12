@@ -43,11 +43,9 @@ export default {
         register,
         updateUser
     },
-    createUpload: async (email: string, filename: string, originalname: string) => {
-        createUpload(email, filename, originalname);
-    },
-    deleteUpload: async (email: string, filename: string) => {
-        deleteUpload(email, filename);
+    handleUpload: {
+        createUpload,
+        deleteUpload
     },
     setFilePrivacy: async (filename: string, isPrivate: boolean) => {
         connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]);
