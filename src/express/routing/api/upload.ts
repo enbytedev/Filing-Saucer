@@ -21,7 +21,7 @@ let name = '';
 async function genName(email: any, ext: string) {
     name = crypto.createHash('shake256', {outputLength: 8}).update(uuidv1()).update(email).update(crypto.randomBytes(256)).digest("hex");
     name = name + ext.toLowerCase();
-    if (await databaseAccess.isNameTaken(name)) {
+    if (await databaseAccess.checks.isNameTaken(name)) {
         console.warn("Name already taken, retrying... a system administrator should check resource usage if this recurs.", "Upload");
         genName(email, ext);
     }
@@ -29,7 +29,7 @@ async function genName(email: any, ext: string) {
 }
 
 export default async (req: any, res: any) => {
-    if (await databaseAccess.isUserStorageFull(String((req.session as UserSessionInterface).email))) { renderDash(req, res, `you have uploaded the maximum number of files allowed. please delete a few to proceed...`); } else {
+    if (await databaseAccess.checks.isUserStorageFull(String((req.session as UserSessionInterface).email))) { renderDash(req, res, `you have uploaded the maximum number of files allowed. please delete a few to proceed...`); } else {
         try {
             await upload(req, res);
             if (req.file == undefined) { renderDash(req, res, `no file selected...`); }

@@ -9,9 +9,9 @@ export default async (req: Request, res: Response) => {
     let email = req.body.email.toLowerCase();
     email = email.replace(/\s+/g, '');
 
-    databaseAccess.loginUser(email, req.body.password, (isCorrect: boolean) => {
+    databaseAccess.userAccount.login(email, req.body.password, (isCorrect: boolean) => {
         if (isCorrect) {
-            databaseAccess.getUserNameFromEmail(email, (name: any) => {
+            databaseAccess.getInfo.getUserNameFromEmail(email, (name: any) => {
                 (req.session as UserSessionInterface).email = email;
                 (req.session as UserSessionInterface).firstName = name;
                 res.redirect('/dash');

@@ -18,7 +18,7 @@ export default async (req: Request, res: Response) => {
     }
 
     // Register user in database and then log them in. Give error message for different conditions.
-    databaseAccess.registerUser(email, req.body.password, req.body.name, (response: number) => {
+    databaseAccess.userAccount.register(email, req.body.password, req.body.name, (response: number) => {
         if (response == 0) {
             res.redirect('/login');
         } else if (response == -1) {

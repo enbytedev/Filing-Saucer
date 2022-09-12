@@ -12,7 +12,7 @@ export default async (req: Request, res: Response) => {
 
     let result: number = await databaseAccess.validateToken(email, req.body.code)
     if (result == 0) {
-        databaseAccess.updateUser("password", email, req.body.password)
+        databaseAccess.userAccount.updateUser("password", email, req.body.password)
         res.render('auth/login.ejs', { error: 'Password changed! Please login.' });
     } else if (result == 1) { 
         giveUserError("Token has expired. Please request a new token.");

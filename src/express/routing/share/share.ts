@@ -8,9 +8,9 @@ const uploadDirectory = path.format({dir: config.uploadDirectory, base: ''});
 
 export default async (req: Request, res: Response) => {
     if (!fs.existsSync(uploadDirectory + req.params.name)) { res.render('basic/notFound.ejs'); return; }
-    let userFirstName = (await databaseDao.getUserNameFromFile(req.params.name)).toLowerCase();
-    if (await databaseDao.isFilePrivate(req.params.name)) { res.render('share/private.ejs', {fileName: req.params.name, userFirstName: userFirstName}); return; }
-    res.render('share/share.ejs', {fileName: req.params.name, originalFileName: await databaseDao.getOriginalNameFromFile(req.params.name), userFirstName: userFirstName.toLowerCase(), enablePreview: await isPreviewable(req.params.name)});
+    let userFirstName = (await databaseDao.getInfo.getUserNameFromFile(req.params.name)).toLowerCase();
+    if (await databaseDao.checks.isFilePrivate(req.params.name)) { res.render('share/private.ejs', {fileName: req.params.name, userFirstName: userFirstName}); return; }
+    res.render('share/share.ejs', {fileName: req.params.name, originalFileName: await databaseDao.getInfo.getOriginalNameFromFile(req.params.name), userFirstName: userFirstName.toLowerCase(), enablePreview: await isPreviewable(req.params.name)});
 
     function isPreviewable(fileName: string) {
         if (fileName.endsWith('.png') 

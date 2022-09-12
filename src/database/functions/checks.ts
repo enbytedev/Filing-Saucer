@@ -1,5 +1,5 @@
-import { connection } from '../../databaseAccess.js';
-import config from '../../../setup/config.js';
+import { connection } from '../databaseAccess.js';
+import config from '../../setup/config.js';
 import bcrypt from 'bcrypt';
 
 export async function isUserFileOwner(filename: string, email: string) {
