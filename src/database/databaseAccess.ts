@@ -6,11 +6,10 @@ import register from './functions/userAccount/registerUser.js';
 import createUpload from './createUpload.js';
 import deleteUpload from './deleteUpload.js';
 import updateUser from './functions/userAccount/updateUser.js';
-import generateToken from './generateToken.js';
-import validateToken from './validateToken.js';
+import generateToken from './functions/handleToken/generateToken.js';
+import validateToken from './functions/handleToken/validateToken.js';
 
-import { isUserFileOwner, isNameTaken, isFilePrivate, isUserStorageFull, isPasswordCorrect } from './functions/checks.js';
-
+import { isUserFileOwner, isNameTaken, isFilePrivate, isUserStorageFull, isPasswordCorrect, isEmailInDatabase } from './functions/checks.js';
 import { getUserNameFromEmail, getHistory, getUserNameFromFile, getOriginalNameFromFile } from './functions/getInfo.js';
 
 export const connection = mysql.createPool({
@@ -36,7 +35,8 @@ export default {
         isNameTaken,
         isFilePrivate,
         isUserStorageFull,
-        isPasswordCorrect
+        isPasswordCorrect,
+        isEmailInDatabase
     },
     userAccount: {
         login,
@@ -47,14 +47,12 @@ export default {
         createUpload,
         deleteUpload
     },
+    handleToken: {
+        generateToken,
+        validateToken
+    },
     setFilePrivacy: async (filename: string, isPrivate: boolean) => {
         connection.execute('UPDATE `uploads` SET `private` = ? WHERE `filename` = ?', [isPrivate ? 1 : 0, filename]);
-    },
-    generateToken: async (email: string) => {
-        return generateToken(email);
-    },
-    validateToken: async (email: string, token: string) => {
-        return validateToken(email, token);
     }
 }
 

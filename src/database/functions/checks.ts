@@ -33,3 +33,8 @@ export async function isPasswordCorrect(email: string, password: string) {
         });
     });
 }
+
+export async function isEmailInDatabase(email: string) {
+    return await connection.execute('SELECT `email` FROM `users` WHERE `email` = ?', [email])
+    .then((rows: any) => { return rows[0].length > 0; });
+}

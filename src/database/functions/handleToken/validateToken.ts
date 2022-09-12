@@ -1,4 +1,4 @@
-import { connection } from './databaseAccess.js';
+import { connection } from '../../databaseAccess.js';
 
 export default async (email: string, token: string) => {
     return await connection.execute('SELECT * FROM `tokens` WHERE `email` = ? AND `token` = ?', [email, token]).then((rows: any) => {
@@ -13,7 +13,6 @@ export default async (email: string, token: string) => {
                 return 1;
             }
         } else {
-            clearTokens(email);
             return -1;
         }
     });
