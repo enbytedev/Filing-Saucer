@@ -10,7 +10,7 @@ import generateToken from './functions/handleToken/generateToken.js';
 import validateToken from './functions/handleToken/validateToken.js';
 
 import { isUserFileOwner, isNameTaken, isFilePrivate, isUserStorageFull, isPasswordCorrect, isEmailInDatabase } from './functions/checks.js';
-import { getUserNameFromEmail, getHistory, getUserNameFromFile, getOriginalNameFromFile } from './functions/getInfo.js';
+import { getUserNameFromEmail, getHistory, getUserNameFromFile, getOriginalNameFromFile, getTimezoneFromEmail } from './functions/getInfo.js';
 
 export const connection = mysql.createPool({
     host     : dbInfo.host,
@@ -28,7 +28,8 @@ export default {
         getUserNameFromEmail,
         getHistory,
         getUserNameFromFile,
-        getOriginalNameFromFile
+        getOriginalNameFromFile,
+        getTimezoneFromEmail
     },
     checks: {
         isUserFileOwner,

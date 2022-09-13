@@ -19,3 +19,7 @@ export async function getUserNameFromFile(filename: string): Promise<string> {
 export async function getOriginalNameFromFile(filename: string) {
     let rows: any = await connection.execute('SELECT `originalname` FROM `uploads` WHERE `filename` = ?', [filename]); return (rows[0][0].originalname);
 }
+
+export async function getTimezoneFromEmail(email: string) {
+    let rows: any = await connection.execute('SELECT `timezone` FROM `users` WHERE `email` = ?', [email]); return (rows[0][0].timezone);
+}

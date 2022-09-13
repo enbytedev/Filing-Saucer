@@ -6,6 +6,8 @@ export default async (operation: string, email: string, argument: string) => {
         return updateName(email, argument);
     } else if (operation === 'password') {
         return updatePassword(email, argument);
+    } else if (operation === 'timezone') {
+        return updateTimezone(email, argument);
     }
 }
 
@@ -20,5 +22,10 @@ function updatePassword(email: string, password: string) {
 
 function updateName(email: string, name: string) {
     connection.execute('UPDATE `users` SET `name` = ? WHERE `email` = ?', [name, email]);
+    return true;
+}
+
+function updateTimezone(email: string, timezone: string) {
+    connection.execute('UPDATE `users` SET `timezone` = ? WHERE `email` = ?', [timezone, email]);
     return true;
 }

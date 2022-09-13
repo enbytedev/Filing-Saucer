@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import databaseAccess from '../../../../database/databaseAccess.js';
 import { renderRegister } from '../../auth/register.js';
 import emailRegex from '../../../../helpers/emailRegex.js';
+import tzList from '../../../../helpers/tzList.js';
 
 export default async (req: Request, res: Response) => {
     if (req.body.email == "" 
@@ -10,6 +11,8 @@ export default async (req: Request, res: Response) => {
     || req.body.timezone == "") { 
         renderRegister(req, res, "Please fill in all fields!"); return; 
     }
+
+    if (!tzList.includes(req.body.timezone)) { renderRegister(req, res, "Invalid timezone!"); return; }
 
     let email = req.body.email.toLowerCase(); // Make email lowercase for database consistency.
     email = email.replace(/\s+/g, ''); // Remove all whitespace from email.

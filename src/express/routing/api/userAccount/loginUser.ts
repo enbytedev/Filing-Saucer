@@ -11,9 +11,10 @@ export default async (req: Request, res: Response) => {
 
     databaseAccess.userAccount.login(email, req.body.password, (isCorrect: boolean) => {
         if (isCorrect) {
-            databaseAccess.getInfo.getUserNameFromEmail(email, (name: any) => {
+            databaseAccess.getInfo.getUserNameFromEmail(email, async (name: any) => {
                 (req.session as UserSessionInterface).email = email;
                 (req.session as UserSessionInterface).firstName = name;
+                (req.session as UserSessionInterface).timezone = await databaseAccess.getInfo.getTimezoneFromEmail(email);
                 res.redirect('/dash');
             });
         } else { giveUserError("Invalid email or password!"); }
