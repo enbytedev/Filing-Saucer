@@ -19,9 +19,17 @@
                 <label for="password">Password:</label><br>
                 <input type="password" name="password" id="password" value="*****">
             </p>
+            <p>
+                <label for="timezone">Timezone:</label><br>
+                <input list="timezone" name="timezone" value="<%- currentTimezone %>">
+                <datalist id="timezone">
+                    <% for (var timezone of timezoneList) { %>
+                    <option value="<%= timezone %>">
+                    <% } %>
+                </datalist>
             <p><hr>
-                <label for="oldpassword">(Old) Password to Confirm Changes:</label><br>
-                <input type="password" name="oldpassword" id="oldpassword" value="*****">
+                <label for="oldpassword">Current Password to Confirm Changes:</label><br>
+                <input type="password" name="oldpassword" id="oldpassword" value="">
             </p><br>
                 <input class="button-blue" type="submit" value="Save">
             </p>

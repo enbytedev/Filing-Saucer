@@ -1,5 +1,6 @@
 import { Response, Request } from 'express';
 import databaseAccess from '../../../../database/databaseAccess.js';
+import tzList from '../../../../helpers/tzList.js';
 import { UserSessionInterface } from '../../sessionInterfaces.js';
 import { renderAccount } from '../../user/account.js';
 
@@ -13,6 +14,12 @@ export default async (req: Request, res: Response) => {
         if (String((req.session as UserSessionInterface).firstName) != req.body.name) {
             databaseAccess.userAccount.updateUser("name", String((req.session as UserSessionInterface).email), req.body.name)
             .then(() => { (req.session as UserSessionInterface).firstName = req.body.name; })
+            .catch(() => { console.error(`Something went wrong while updating name for user ${String((req.session as UserSessionInterface).email)}`); renderAccount(req, res, "Something went wrong"); })
+        }
+        if (String((req.session as UserSessionInterface).timezone) != req.body.timezone) {
+            if (!tzList.includes(req.body.timezone)) { renderAccount(req, res, "Invalid timezone"); return; }
+            databaseAccess.userAccount.updateUser("timezone", String((req.session as UserSessionInterface).email), req.body.timezone)
+            .then(() => { (req.session as UserSessionInterface).timezone = req.body.timezone; })
             .catch(() => { console.error(`Something went wrong while updating name for user ${String((req.session as UserSessionInterface).email)}`); renderAccount(req, res, "Something went wrong"); })
         }
     } else {

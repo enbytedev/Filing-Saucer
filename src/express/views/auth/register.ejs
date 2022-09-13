@@ -20,10 +20,19 @@
               <input type="password" name="password" id="password">
             </p>
             <p>
+              <label for="timezone">Timezone:</label><br>
+              <input list="timezone" name="timezone">
+              <datalist id="timezone">
+                <% for (var timezone of timezones) { %>
+                <option value="<%= timezone %>">
+                <% } %>
+              </datalist>
+            </p>
+            <p>
               <input class="button-blue" type="submit" value="Register">
             </p>
           </form>
-        <%- error %>
+        <%- message %>
       </div>
     </div>
   </body>
