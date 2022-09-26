@@ -2,6 +2,7 @@ import config, { dbInfo, emailInfo } from './config.js';
 import confectionery from 'confectionery';
 import sugarcube from 'sugarcube';
 import fs from 'fs';
+import setupExpress from '../express/express.js';
 
 /**
  * Setup the application
@@ -15,13 +16,15 @@ function setup() {
     // Use logfiles if logPath is set.
     if (config.logPath != '') {
         confectionery.config.logPath(config.logPath);
-        console.info("Logging to " + config.logPath, "Setup");
+        console.info("Logging to " + config.logPath, "Setup Tasks");
     }
     verifyVariables();
 
     process.nextTick(() => {
-        console.info("Successfully setup the application.", "Setup");
+        console.info("Successfully setup the application.", "Setup Tasks");
     });
+
+    setupExpress();
     checkForUpdates();
 }
 
@@ -34,8 +37,8 @@ function checkForUpdates() {
             let packageJson = JSON.parse(fs.readFileSync("package.json", 'utf8'));
             sugarcube.misc.updateChecker.github("https://api.github.com/repos/enbytedev/filing-saucer/releases/latest", packageJson["version"], true);
         } catch (error) {
-            console.error("Unable to check for updates!", "Setup");
-            console.error(error, "Setup");
+            console.error("Unable to check for updates!", "Setup Tasks");
+            console.error(error, "Setup Tasks");
         }
     }
 }
@@ -56,7 +59,7 @@ function verifyVariables() {
     for (let i of Object.keys(emailInfo)) verifySet(emailInfo[i], i);
 
     if (unsetVariables.length > 0) {
-        console.error(unsetVariables.join(", ") + " is not set!", "Environment");
+        console.error(unsetVariables.join(", ") + " is not set!", "Setup Tasks");
         process.exit(1);
     }
 }
