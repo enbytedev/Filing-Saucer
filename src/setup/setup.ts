@@ -1,8 +1,9 @@
-import config, { dbInfo, emailInfo } from './config.js';
+import config, { databaseConfiguration, emailConfiguration } from './config.js';
 import confectionery from 'confectionery';
 import sugarcube from 'sugarcube';
 import fs from 'fs';
 import setupExpress from '../express/express.js';
+import Database from '../database/databaseAccess.js';
 
 /**
  * Setup the application
@@ -24,6 +25,7 @@ function setup() {
         console.info("Successfully setup the application.", "Setup Tasks");
     });
 
+    Database.setupDatabase();
     setupExpress();
     checkForUpdates();
 }
@@ -55,8 +57,8 @@ function verifyVariables() {
     }
 
     for (let i of Object.keys(config)) verifySet(config[i], i);
-    for (let i of Object.keys(dbInfo)) verifySet(dbInfo[i], i);
-    for (let i of Object.keys(emailInfo)) verifySet(emailInfo[i], i);
+    for (let i of Object.keys(databaseConfiguration)) verifySet(databaseConfiguration[i], i);
+    for (let i of Object.keys(emailConfiguration)) verifySet(emailConfiguration[i], i);
 
     if (unsetVariables.length > 0) {
         console.error(unsetVariables.join(", ") + " is not set!", "Setup Tasks");

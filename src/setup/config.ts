@@ -48,7 +48,7 @@ const generalConfiguration = {
 } as GeneralConfiguration;
 export default generalConfiguration;
 
-export const dbInfo = {
+export const databaseConfiguration = {
     host: process.env.dbHost ?? '',
     port: process.env.dbPort ?? '',
     user: process.env.dbUser ?? '',
@@ -56,7 +56,7 @@ export const dbInfo = {
     database: process.env.dbName ?? ''
 } as DatabaseConfiguration;
 
-export const emailInfo = {
+export const emailConfiguration = {
     host: process.env.emailHost ?? '',
     port: process.env.emailPort ?? '',
     account: process.env.emailAccount ?? '',
