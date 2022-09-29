@@ -6,22 +6,22 @@ import { sendToDashIfLoggedIn } from '../middleware/redirectIf.js';
 // import { sendToLoginIfNotLoggedIn, sendToDashIfLoggedIn } from '../middleware/redirectIf.js';
 
 import basic from './routes/basic.js';
+import auth from './routes/auth.js';
 
 const router = Router();
 
 /**
  * Set the routes to the ExpressJS instance
- * @param app The ExpressJS instance
- * @param cb 
+ * @param app The ExpressJS instance 
  */
 export const setRoutes = (app: Express) => {
     console.debug(`Configuring Express routing...`, "ExpressJS Setup") 
     // basic
     router.get("/", sendToDashIfLoggedIn, browserRateLimit, basic.home);
 
-    // // auth
-    // router.get("/login", redirectLoggedIn, browserRateLimit, routes.authRoutes.login);
-    // router.get("/register", redirectLoggedIn, browserRateLimit, routes.authRoutes.register);
+    // auth
+    router.get("/login", sendToDashIfLoggedIn, browserRateLimit, auth.login);
+    router.get("/register", sendToDashIfLoggedIn, browserRateLimit, auth.register);
     // router.get("/forgot", redirectLoggedIn, browserRateLimit, routes.authRoutes.forgot);
     // router.get("/reset", redirectLoggedIn, browserRateLimit, routes.authRoutes.reset);
 

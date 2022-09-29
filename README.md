@@ -23,5 +23,7 @@
     <a href="/">
       <img alt="Status" src="https://img.shields.io/badge/Status-Stable-008000?style=for-the-badge" />
     </a>
+    <a href="https://www.contributor-covenant.org/version/2/1/code_of_conduct/">
+    <img alt="Contributor Code of Conduct" src="https://img.shields.io/badge/Contributor%20Covenant-2.1-008000?style=for-the-badge" />
 <hr>
 </p>
