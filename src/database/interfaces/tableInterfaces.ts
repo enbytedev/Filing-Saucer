@@ -1,8 +1,8 @@
 export interface IUser {
-    email?: string;
-    password?: string;
-    name?: string;
-    timezone?: string;
+    email: string;
+    password: string;
+    name: string;
+    timezone: string;
     uploads?: string;
 }
 
@@ -18,13 +18,6 @@ export interface IUpload {
     originalname?: string;
     date?: string;
     private?: number;
-}
-
-export interface IUserStrict extends IUser {
-    email: string;
-    password: string;
-    name: string;
-    timezone: string;
 }
 
 export interface IUploadStrict extends IUpload {
