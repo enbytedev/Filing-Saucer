@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { UserSessionInterface } from '../../../../helpers/sessionInterfaces.js';
-// import tzList from '../../../../helpers/tzList.js';
 import { RenderAuth } from '../render/auth.js';
 import { isEmailValid, isStringLongEnough, isPasswordSecure, isValidTimezone } from '../../../../helpers/validateInputs.js';
 import databaseAccess from '../../../../database/databaseAccess.js';

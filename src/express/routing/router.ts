@@ -28,12 +28,16 @@ export const setRoutes = (app: Express) => {
     router.get("/logout", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.render.auth.logout);
     // user
     router.get("/dash", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.dash);
+    router.get("/account", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.account);
 
     /* api */
 
     // auth api
     apiRouter.post("/login", apiRateLimit, Routes.api.auth.login);
     apiRouter.post("/register", apiRateLimit, Routes.api.auth.register);
+
+    // user api
+    apiRouter.post("/update-account", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.user.updateAccount);
 
     /* 404 */
     router.get("*", browserRateLimit, Routes.render.basic.notFound);
