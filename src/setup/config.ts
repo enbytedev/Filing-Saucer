@@ -10,7 +10,7 @@ interface GeneralConfiguration {
     apiRateLimit: string;
     uploadDirectory: string;
     maxUploadCount: string;
-    logLevel: string;
+    debugMode: string;
     logPath: string;
     checkUpdates: string;
     [keys: string]: any;
@@ -42,7 +42,7 @@ const generalConfiguration = {
     maxFileSizeMB: process.env.maxFileSizeMB ?? '20',
     logPath: process.env.logPath ?? 'logs/',
     checkUpdates: process.env.checkUpdates ?? 'true',
-    logLevel: process.env.logLevel ?? 'INFO',
+    debugMode: process.env.debugMode ?? 'false',
     uploadDirectory: process.env.uploadDirectory ?? 'uploads/',
     maxUploadCount: process.env.maxUploadCount ?? '10'
 } as GeneralConfiguration;

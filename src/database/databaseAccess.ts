@@ -1,7 +1,21 @@
+import confectionery from 'confectionery';
+import config from '../setup/config.js';
 import knex from 'knex';
 import { databaseConfiguration } from "../setup/config.js";
 import { ensureFileWasDeleted } from '../helpers/databaseHelpers.js';
 import { IUser, IToken, IUpload, IUserStrict, IUploadStrict } from "./interfaces/tableInterfaces.js";
+
+export const logger = confectionery.createLogger("Database");
+// Display debug information if debug mode is enabled
+if (config.debugMode == "true") {
+    logger.setLevel(4, 4);
+}
+logger.setFormat('CLASSIC');
+// Use logfiles if logPath is set.
+if (config.logPath != '') {
+    logger.setLogPath(config.logPath);
+    logger.info("Logging to " + config.logPath, "Database Logger");
+}
 
 const connection = knex({
     client: 'mysql2',
@@ -77,7 +91,7 @@ class Database {
             if (!await this.checks.isEmailInDatabase(user.email)) {
                 await this.users().insert(user);
             } else {
-                console.error('User with provided email already exists!', 'Database @ Add User');
+                logger.error('User with provided email already exists!', 'Database @ Add User');
             }
         },
         token: async (token: IToken) => {
@@ -98,7 +112,7 @@ class Database {
             if (ensureFileWasDeleted(filename)) {
                 await this.uploads().where({ filename }).del();
             } else {
-                console.error(`File ${filename} was not deleted! Not removing from database.`, "Database @ Remove Upload");
+                logger.error(`File ${filename} was not deleted! Not removing from database.`, "Database @ Remove Upload");
             }
         }
     }
@@ -118,6 +132,7 @@ class Database {
      * Setup the database, creating the tables if they don't exist.
      */
     public setupDatabase() {
+        logger.debug('Configuring database connection...', 'Database @ Setup Database');
         connection.schema.hasTable('Users').then((exists: boolean) => {
             if (!exists) {
                 connection.schema.createTable('Users', (table: any) => {
@@ -127,8 +142,10 @@ class Database {
                     table.string('timezone');
                     table.string('uploads');
                 }).then(() => {
-                    console.log('Created Users table');
+                    logger.log('Created Users table', 'Database @ Setup Database');
                 });
+            } else {
+                logger.debug('Users table already exists', 'Database @ Setup Database');
             }
         });
 
@@ -139,8 +156,10 @@ class Database {
                     table.string('token');
                     table.string('expires');
                 }).then(() => {
-                    console.log('Created Tokens table');
+                    logger.log('Created Tokens table', 'Database @ Setup Database');
                 });
+            } else {
+                logger.debug('Tokens table already exists', 'Database @ Setup Database');
             }
         });
 
@@ -153,8 +172,10 @@ class Database {
                     table.string('date');
                     table.boolean('private');
                 }).then(() => {
-                    console.log('Created Uploads table');
+                    logger.log('Created Uploads table', 'Database @ Setup Database');
                 });
+            } else {
+                logger.debug('Uploads table already exists', 'Database @ Setup Database');
             }
         });
     }

@@ -1,7 +1,7 @@
 import { Express, Router } from 'express';
 import { browserRateLimit } from '../middleware/rateLimit.js';
 import { sendToDashIfLoggedIn } from '../middleware/redirectIf.js';
-
+import { logger } from '../express.js';
 // import { browserRateLimit, apiRateLimit } from '../middleware/rateLimit.js';
 // import { sendToLoginIfNotLoggedIn, sendToDashIfLoggedIn } from '../middleware/redirectIf.js';
 
@@ -15,7 +15,7 @@ const router = Router();
  * @param app The ExpressJS instance 
  */
 export const setRoutes = (app: Express) => {
-    console.debug(`Configuring Express routing...`, "ExpressJS Setup") 
+    logger.debug(`Configuring Express routing...`, "ExpressJS Setup") 
     // basic
     router.get("/", sendToDashIfLoggedIn, browserRateLimit, basic.home);
 
