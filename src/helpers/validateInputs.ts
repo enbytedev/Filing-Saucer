@@ -1,5 +1,5 @@
-import emailRegex from "./emailRegex.js";
-import tzList from "./tzList.js";
+import {emailRegex} from "./getSimple.js";
+import {tzList} from "./getSimple.js";
 
 export function isEmailValid(email: string) {
     if (email == "") { return false; }

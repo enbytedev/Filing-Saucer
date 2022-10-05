@@ -1,6 +1,6 @@
 import { Express, Router } from 'express';
 import { browserRateLimit, apiRateLimit } from '../middleware/rateLimit.js';
-import { sendToDashIfLoggedIn } from '../middleware/redirectIf.js';
+import { sendToDashIfLoggedIn, sendToLoginIfNotLoggedIn } from '../middleware/redirectIf.js';
 import { logger } from '../express.js';
 // import { browserRateLimit, apiRateLimit } from '../middleware/rateLimit.js';
 // import { sendToLoginIfNotLoggedIn, sendToDashIfLoggedIn } from '../middleware/redirectIf.js';
@@ -25,6 +25,9 @@ export const setRoutes = (app: Express) => {
     // auth
     router.get("/login", sendToDashIfLoggedIn, browserRateLimit, Routes.render.auth.login);
     router.get("/register", sendToDashIfLoggedIn, browserRateLimit, Routes.render.auth.register);
+    router.get("/logout", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.render.auth.logout);
+    // user
+    router.get("/dash", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.dash);
 
     /* api */
 
