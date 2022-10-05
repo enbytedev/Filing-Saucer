@@ -1,6 +1,7 @@
 import confectionery from 'confectionery';
 import config from '../setup/config.js';
 import knex from 'knex';
+import bcrypt from 'bcrypt';
 import { databaseConfiguration } from "../setup/config.js";
 import { ensureFileWasDeleted } from '../helpers/databaseHelpers.js';
 import { IUser, IToken, IUpload, IUserStrict, IUploadStrict } from "./interfaces/tableInterfaces.js";
@@ -20,11 +21,11 @@ if (config.logPath != '') {
 const connection = knex({
     client: 'mysql2',
     connection: {
-      host : databaseConfiguration.host,
-      port : parseInt(databaseConfiguration.port),
-      user : databaseConfiguration.user,
-      password : databaseConfiguration.password,
-      database : databaseConfiguration.database
+        host: databaseConfiguration.host,
+        port: parseInt(databaseConfiguration.port),
+        user: databaseConfiguration.user,
+        password: databaseConfiguration.password,
+        database: databaseConfiguration.database
     },
     pool: { min: 2, max: 10 }
 });
@@ -75,10 +76,9 @@ class Database {
             const uploads = await this.uploads().where({ email });
             return uploads.length >= 10;
         },
-        isPasswordCorrect: async (email: string, password: string) => {
-            // TODO: Reimplement password hashing
+        isPasswordCorrect: async (email: string, password: string): Promise<boolean> => {
             const user = await this.users().where({ email }).first();
-            return user.password === password;
+            return bcrypt.compare(password, user.password);
         },
         isEmailInDatabase: async (email: string) => {
             const user = await this.users().where({ email }).first();
@@ -87,19 +87,23 @@ class Database {
     }
 
     public add = {
-        user: async (user: IUserStrict) => {
-            if (!await this.checks.isEmailInDatabase(user.email)) {
-                await this.users().insert(user);
-            } else {
-                logger.error('User with provided email already exists!', 'Database @ Add User');
-            }
+        user: async (user: IUserStrict): Promise<boolean> => {
+            return await this.users().insert(user).then((res) => {
+                if (res) {
+                    logger.debug('Added user ' + user.email, 'Database @ Add User');
+                    return true;
+                } else {
+                    logger.error('Failed to add user ' + user.email, 'Database @ Add User');
+                    return false;
+                }
+            });
         },
         token: async (token: IToken) => {
             await this.tokens().insert(token);
         },
         upload: async (upload: IUploadStrict) => {
             if (upload.email && upload.originalname && await this.checks.isUserStorageFull(upload.email) && await this.checks.isNameTaken(upload.originalname)) {
-            await this.uploads().insert(upload);
+                await this.uploads().insert(upload);
             }
         }
     }
@@ -119,12 +123,12 @@ class Database {
 
     public update = {
         user: async (user: RequireProperty<IUser, 'email'>) => {
-                let email = user.email.toLowerCase();
-                await this.users().where({ email }).update(user);
+            let email = user.email.toLowerCase();
+            await this.users().where({ email }).update(user);
         },
         upload: async (upload: RequireProperty<IUpload, 'filename'>) => {
-                let filename = upload.filename;
-                await this.uploads().where({ filename }).update(upload);
+            let filename = upload.filename;
+            await this.uploads().where({ filename }).update(upload);
         }
     }
 

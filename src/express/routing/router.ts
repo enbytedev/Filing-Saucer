@@ -1,27 +1,42 @@
 import { Express, Router } from 'express';
-import { browserRateLimit } from '../middleware/rateLimit.js';
+import { browserRateLimit, apiRateLimit } from '../middleware/rateLimit.js';
 import { sendToDashIfLoggedIn } from '../middleware/redirectIf.js';
 import { logger } from '../express.js';
 // import { browserRateLimit, apiRateLimit } from '../middleware/rateLimit.js';
 // import { sendToLoginIfNotLoggedIn, sendToDashIfLoggedIn } from '../middleware/redirectIf.js';
 
-import basic from './routes/basic.js';
-import auth from './routes/auth.js';
+import RoutesAggregate from './routes/routesAggregate.js';
+
+const Routes = new RoutesAggregate();
 
 const router = Router();
+const apiRouter = Router();
 
 /**
  * Set the routes to the ExpressJS instance
  * @param app The ExpressJS instance 
  */
 export const setRoutes = (app: Express) => {
-    logger.debug(`Configuring Express routing...`, "ExpressJS Setup") 
-    // basic
-    router.get("/", sendToDashIfLoggedIn, browserRateLimit, basic.home);
+    logger.debug(`Configuring Express routing...`, "ExpressJS Setup")
 
+    /* render */
+    // basic
+    router.get("/", sendToDashIfLoggedIn, browserRateLimit, Routes.render.basic.home);
     // auth
-    router.get("/login", sendToDashIfLoggedIn, browserRateLimit, auth.login);
-    router.get("/register", sendToDashIfLoggedIn, browserRateLimit, auth.register);
+    router.get("/login", sendToDashIfLoggedIn, browserRateLimit, Routes.render.auth.login);
+    router.get("/register", sendToDashIfLoggedIn, browserRateLimit, Routes.render.auth.register);
+
+    /* api */
+
+    // auth api
+    apiRouter.post("/login", apiRateLimit, Routes.api.auth.login);
+    apiRouter.post("/register", apiRateLimit, Routes.api.auth.register);
+
+    /* 404 */
+    router.get("*", browserRateLimit, Routes.render.basic.notFound);
+    apiRouter.get("*", browserRateLimit, Routes.render.basic.notFound);
+
+
     // router.get("/forgot", redirectLoggedIn, browserRateLimit, routes.authRoutes.forgot);
     // router.get("/reset", redirectLoggedIn, browserRateLimit, routes.authRoutes.reset);
 
@@ -45,9 +60,6 @@ export const setRoutes = (app: Express) => {
     // router.post("/upload", restrictedContent, apiRateLimit, routes.apiRoutes.createUpload);
     // router.post("/forgot", apiRateLimit, routes.apiRoutes.requestReset);
     // router.post("/reset", apiRateLimit, routes.apiRoutes.resetPassword);
-
-    // 404s
-    router.get("*", browserRateLimit, basic.Err404);
-
     app.use(router);
+    app.use('/api', apiRouter);
 }

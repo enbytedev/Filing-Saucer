@@ -4,9 +4,9 @@ class BasicRoutes {
     home(_req: Request, res: Response) {
         res.render('basic/home.ejs');
     }
-    Err404(_req: Request, res: Response) {
-        res.render('basic/Err404.ejs');
+    notFound(_req: Request, res: Response) {
+        res.render('basic/notFound.ejs');
     }
 }
 
-export default new BasicRoutes();
+export default BasicRoutes;

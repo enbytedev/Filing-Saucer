@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import tzList from '../../../helpers/tzList.js';
+import tzList from '../../../../helpers/tzList.js';
 
 class Render {
     login(_req: Request, res: Response, message: string) {
@@ -21,4 +21,4 @@ class AuthRoutes {
     }
 }
 
-export default new AuthRoutes();
+export default AuthRoutes;
