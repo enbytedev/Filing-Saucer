@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { replaceRegex } from 'sugarcube';
 import path from 'path';
 import util from 'util';
 import fs from 'fs';
@@ -46,7 +47,7 @@ export default UploadRoutes;
 
 async function genName(userId: any, name: string) {
     let i: number = -1;
-    let originalName: string = name;
+    let originalName: string = replaceRegex(name, '-', '/', '"', ':', ' ');
     while (fs.existsSync(path.format({ dir: config.uploadDirectory + path.sep + userId, base: name }))) {
         logger.debug("File name already taken, retrying name for userId: " + userId, "Upload");
         i++;
