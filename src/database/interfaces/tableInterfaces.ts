@@ -12,7 +12,15 @@ export interface IToken {
     expires?: string;
 }
 
-export interface IUpload {
+export interface IUploadOptional {
+    fileId?: string; // primary key, should auto increment. do not manually assign.
+    userId?: string;
+    filename?: string;
+    date?: string;
+    private?: number;
+}
+
+export interface IUpload extends IUploadOptional {
     userId: string;
     filename: string;
     date: string;

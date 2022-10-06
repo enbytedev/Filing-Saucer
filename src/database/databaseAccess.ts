@@ -4,7 +4,7 @@ import knex from 'knex';
 import bcrypt from 'bcrypt';
 import { databaseConfiguration } from "../setup/config.js";
 import { ensureFileWasDeleted } from '../helpers/databaseHelpers.js';
-import { IUser, IToken, IUpload } from "./interfaces/tableInterfaces.js";
+import { IUser, IToken, IUpload, IUploadOptional } from "./interfaces/tableInterfaces.js";
 
 export const logger = confectionery.createLogger("Database");
 // Display debug information if debug mode is enabled
@@ -53,8 +53,8 @@ class Database {
             const user = await this.users().where({ userId }).first();
             return user.timezone;
         },
-        getHistory: async (email: string) => {
-            const uploads = await this.uploads().where({ email });
+        getHistory: async (userId: string) => {
+            const uploads = await this.uploads().where({ userId });
             return uploads;
         },
         getHashedPasswordFromUserId: async (userId: string) => {
@@ -128,9 +128,9 @@ class Database {
             let email = user.email.toLowerCase();
             await this.users().where({ email }).update(user);
         },
-        upload: async (upload: RequireProperty<IUpload, 'filename'>) => {
-            let filename = upload.filename;
-            await this.uploads().where({ filename }).update(upload);
+        upload: async (upload: RequireProperty<IUploadOptional, 'fileId'>) => {
+            let fileId = upload.fileId;
+            await this.uploads().where({ fileId }).update(upload);
         }
     }
 

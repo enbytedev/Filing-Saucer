@@ -29,6 +29,7 @@ export const setRoutes = (app: Express) => {
     // user
     router.get("/dash", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.dash);
     router.get("/account", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.account);
+    router.get("/history", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.history);
 
     /* api */
 
@@ -41,6 +42,11 @@ export const setRoutes = (app: Express) => {
 
     // upload api
     apiRouter.post("/new-upload", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.upload.upload);
+
+    // share api
+
+    // update api
+    apiRouter.post("/update", apiRateLimit, Routes.api.update.process);
 
     /* 404 */
     router.get("*", browserRateLimit, Routes.render.basic.notFound);

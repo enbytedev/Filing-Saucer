@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UserSessionInterface } from '../../../../helpers/sessionInterfaces.js';
 import { getRandomGreeting, tzList } from '../../../../helpers/getSimple.js';
 import config from '../../../../setup/config.js';
+import databaseAccess from '../../../../database/databaseAccess.js';
 
 class Render {
     dash(req: Request, res: Response, message: string) {
@@ -14,6 +15,22 @@ class Render {
         let timezone = ((req.session as UserSessionInterface).timezone);
         res.render('user/account.ejs', { name: name, email: email, currentTimezone: timezone, timezoneList: tzList, error: message });
     }
+    history(req: Request, res: Response, message: string) {
+        let userId: string = String((req.session as UserSessionInterface).userId);
+        databaseAccess.getInfo.getHistory(userId).then(async (history: any) => {
+            console.log(await databaseAccess.getInfo.getHistory(userId));
+            var count = history.length;
+            let bundles: Array<any> = [];
+            for (var i = 0; i < count; i++) {
+                bundles.push([
+                    history[i].filename, 
+                    history[i].userId, 
+                    new Date(parseInt(history[i].date)).toLocaleString('en-US', {timeZone: await databaseAccess.getInfo.getTimezoneFromUserId(userId)}), 
+                    history[i].private[0] == 1]);
+            }
+            res.render('user/history.ejs', { info: message, bundles: bundles });
+        });
+    }
 }
 
 export const RenderUser = new Render();
@@ -24,6 +41,9 @@ class UserRoutes {
     }
     account(req: Request, res: Response) {
         RenderUser.account(req, res, "");
+    }
+    history(req: Request, res: Response) {
+        RenderUser.history(req, res, "");
     }
 }
 
