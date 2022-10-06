@@ -9,12 +9,15 @@ class AuthRoutes {
     async login(req: Request, res: Response) {
         if (!isEmailValid(req.body.email)) { RenderAuth.login(req, res, "Invalid email!"); return; }
         if (!isStringLongEnough(req.body.password)) { RenderAuth.login(req, res, "Please provide a password!"); return; }
+        if (!await databaseAccess.checks.isEmailInDatabase(req.body.email)) { RenderAuth.login(req, res, "This email is not registered!"); return; }
 
-        if (await databaseAccess.checks.isPasswordCorrect(req.body.email, req.body.password)) {
-                (req.session as UserSessionInterface).email = req.body.email.toLowerCase();
-                (req.session as UserSessionInterface).firstName = await databaseAccess.getInfo.getUserNameFromEmail(req.body.email);
-                (req.session as UserSessionInterface).timezone = await databaseAccess.getInfo.getTimezoneFromEmail(req.body.email);
-                res.redirect('/dash');
+        let userId = await databaseAccess.getInfo.getUserIdFromEmail(req.body.email);
+        if (await databaseAccess.checks.isPasswordCorrect(userId, req.body.password)) {
+            (req.session as UserSessionInterface).userId = userId;
+            (req.session as UserSessionInterface).email = req.body.email.toLowerCase();
+            (req.session as UserSessionInterface).firstName = await databaseAccess.getInfo.getUserNameFromUserId(userId);
+            (req.session as UserSessionInterface).timezone = await databaseAccess.getInfo.getTimezoneFromUserId(userId);
+            res.redirect('/dash');
         } else { RenderAuth.login(req, res, "Invalid email or password!"); }
     }
     async register(req: Request, res: Response) {
@@ -27,7 +30,7 @@ class AuthRoutes {
         let passwordHash: string = await bcrypt.hash(req.body.password, 10);
         let timezone: string = req.body.timezone;
 
-        if (await databaseAccess.add.user({email: req.body.email.toLowerCase(), password: passwordHash, name: req.body.name, timezone: timezone})) {
+        if (await databaseAccess.add.user({ email: req.body.email.toLowerCase(), password: passwordHash, name: req.body.name, timezone: timezone })) {
             (req.session as UserSessionInterface).email = req.body.email.toLowerCase();
             (req.session as UserSessionInterface).firstName = req.body.name;
             (req.session as UserSessionInterface).timezone = req.body.timezone;

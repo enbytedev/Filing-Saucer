@@ -1,9 +1,9 @@
 export interface IUser {
+    userId?: string; // primary key, should auto increment. do not manually assign.
     email: string;
     password: string;
     name: string;
     timezone: string;
-    uploads?: string;
 }
 
 export interface IToken {
@@ -13,17 +13,8 @@ export interface IToken {
 }
 
 export interface IUpload {
-    email?: string;
-    filename?: string;
-    originalname?: string;
-    date?: string;
-    private?: number;
-}
-
-export interface IUploadStrict extends IUpload {
-    email: string;
+    userId: string;
     filename: string;
-    originalname: string;
     date: string;
     private: number;
 }

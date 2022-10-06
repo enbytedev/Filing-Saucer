@@ -4,7 +4,7 @@ import knex from 'knex';
 import bcrypt from 'bcrypt';
 import { databaseConfiguration } from "../setup/config.js";
 import { ensureFileWasDeleted } from '../helpers/databaseHelpers.js';
-import { IUser, IToken, IUpload, IUploadStrict } from "./interfaces/tableInterfaces.js";
+import { IUser, IToken, IUpload } from "./interfaces/tableInterfaces.js";
 
 export const logger = confectionery.createLogger("Database");
 // Display debug information if debug mode is enabled
@@ -36,37 +36,37 @@ class Database {
     public uploads = () => connection('Uploads');
 
     public getInfo = {
-        getUserNameFromEmail: async (email: string) => {
+        getUserIdFromEmail: async (email: string) => {
             const user = await this.users().where({ email }).first();
+            return user.userId;
+        },
+        getUserNameFromUserId: async (userId: string) => {
+            const user = await this.users().where({ userId }).first();
             return user.name;
         },
-        getUserNameFromFile: async (filename: string) => {
+        getUserIdFromFilename: async (filename: string) => {
             const upload = await this.uploads().where({ filename }).first();
-            const user = await this.users().where({ email: upload.email }).first();
+            const user = await this.users().where({ userId: upload.userId }).first();
             return user.name;
         },
-        getOriginalNameFromFile: async (filename: string) => {
-            const upload = await this.uploads().where({ filename }).first();
-            return upload.originalname;
-        },
-        getTimezoneFromEmail: async (email: string) => {
-            const user = await this.users().where({ email }).first();
+        getTimezoneFromUserId: async (userId: string) => {
+            const user = await this.users().where({ userId }).first();
             return user.timezone;
         },
         getHistory: async (email: string) => {
             const uploads = await this.uploads().where({ email });
             return uploads;
         },
-        getHashedPasswordFromEmail: async (email: string) => {
-            const user = await this.users().where({ email }).first();
+        getHashedPasswordFromUserId: async (userId: string) => {
+            const user = await this.users().where({ userId }).first();
             return user.password;
         }
     }
 
     public checks = {
-        isUserFileOwner: async (email: string, filename: string) => {
+        isUserFileOwner: async (userId: string, filename: string) => {
             const upload = await this.uploads().where({ filename }).first();
-            return upload.email === email;
+            return upload.userId === userId;
         },
         isNameTaken: async (name: string) => {
             const user = await this.users().where({ name }).first();
@@ -76,12 +76,12 @@ class Database {
             const upload = await this.uploads().where({ filename }).first();
             return upload.private === 1;
         },
-        isUserStorageFull: async (email: string) => {
-            const uploads = await this.uploads().where({ email });
+        isUserStorageFull: async (userId: string) => {
+            const uploads = await this.uploads().where({ userId });
             return uploads.length >= 10;
         },
-        isPasswordCorrect: async (email: string, password: string): Promise<boolean> => {
-            const user = await this.users().where({ email }).first();
+        isPasswordCorrect: async (userId: string, password: string): Promise<boolean> => {
+            const user = await this.users().where({ userId }).first();
             return bcrypt.compare(password, user.password);
         },
         isEmailInDatabase: async (email: string) => {
@@ -105,7 +105,7 @@ class Database {
         token: async (token: IToken) => {
             await this.tokens().insert(token);
         },
-        upload: async (upload: IUploadStrict) => {
+        upload: async (upload: IUpload) => {
             await this.uploads().insert(upload);
         }
     }
@@ -142,11 +142,11 @@ class Database {
         connection.schema.hasTable('Users').then((exists: boolean) => {
             if (!exists) {
                 connection.schema.createTable('Users', (table: any) => {
-                    table.string('email').primary();
+                    table.increments('userId').primary();
+                    table.string('email').unique();
                     table.string('password');
                     table.string('name');
                     table.string('timezone');
-                    table.string('uploads');
                 }).then(() => {
                     logger.log('Created Users table', 'Database @ Setup Database');
                 });
@@ -158,7 +158,7 @@ class Database {
         connection.schema.hasTable('Tokens').then((exists: boolean) => {
             if (!exists) {
                 connection.schema.createTable('Tokens', (table: any) => {
-                    table.string('email');
+                    table.string('userId');
                     table.string('token');
                     table.string('expires');
                 }).then(() => {
@@ -172,11 +172,11 @@ class Database {
         connection.schema.hasTable('Uploads').then((exists: boolean) => {
             if (!exists) {
                 connection.schema.createTable('Uploads', (table: any) => {
-                    table.string('email');
+                    table.string('userId');
                     table.string('filename');
-                    table.string('originalname');
                     table.string('date');
                     table.boolean('private');
+                    table.primary(['userId', 'filename']);
                 }).then(() => {
                     logger.log('Created Uploads table', 'Database @ Setup Database');
                 });

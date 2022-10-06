@@ -10,7 +10,7 @@ class UserRoutes {
         let timezone: string;
         let passwordHash: string;
 
-        if (!await databaseAccess.checks.isPasswordCorrect(String((req.session as UserSessionInterface).email), req.body.oldpassword)) { RenderUser.account(req, res, "Incorrect password!"); return; }
+        if (!await databaseAccess.checks.isPasswordCorrect(String((req.session as UserSessionInterface).userId), req.body.oldpassword)) { RenderUser.account(req, res, "Incorrect password!"); return; }
         if (!isStringLongEnough(req.body.name, 2)) { RenderUser.account(req, res, "Name must be at least 2 characters long!"); return; }
 
         // If the timezone was changed, validate it and update it; otherwise assign it back to the session value.
@@ -25,7 +25,7 @@ class UserRoutes {
             passwordHash = await bcrypt.hash(req.body.password, 10);
         } else {
             // If the password is not changed, then use the old password hash; don't rehash.
-            passwordHash = await databaseAccess.getInfo.getHashedPasswordFromEmail(String((req.session as UserSessionInterface).email));
+            passwordHash = await databaseAccess.getInfo.getHashedPasswordFromUserId(String((req.session as UserSessionInterface).userId));
         }
 
         await databaseAccess.update.user({
