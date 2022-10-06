@@ -11,7 +11,7 @@ class Render {
     account(req: Request, res: Response, message: string) {
         let name = ((req.session as UserSessionInterface).firstName)?.toLowerCase();
         let email = ((req.session as UserSessionInterface).email)?.toLowerCase();
-        let timezone = ((req.session as UserSessionInterface).timezone)?.toLowerCase();
+        let timezone = ((req.session as UserSessionInterface).timezone);
         res.render('user/account.ejs', { name: name, email: email, currentTimezone: timezone, timezoneList: tzList, error: message });
     }
 }
