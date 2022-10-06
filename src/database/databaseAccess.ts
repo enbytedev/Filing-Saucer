@@ -172,11 +172,11 @@ class Database {
         connection.schema.hasTable('Uploads').then((exists: boolean) => {
             if (!exists) {
                 connection.schema.createTable('Uploads', (table: any) => {
+                    table.increments('fileId').primary();
                     table.string('userId');
                     table.string('filename');
                     table.string('date');
                     table.boolean('private');
-                    table.primary(['userId', 'filename']);
                 }).then(() => {
                     logger.log('Created Uploads table', 'Database @ Setup Database');
                 });
