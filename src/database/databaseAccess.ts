@@ -106,9 +106,7 @@ class Database {
             await this.tokens().insert(token);
         },
         upload: async (upload: IUploadStrict) => {
-            if (upload.email && upload.originalname && await this.checks.isUserStorageFull(upload.email) && await this.checks.isNameTaken(upload.originalname)) {
-                await this.uploads().insert(upload);
-            }
+            await this.uploads().insert(upload);
         }
     }
 

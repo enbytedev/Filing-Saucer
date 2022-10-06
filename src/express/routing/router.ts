@@ -39,6 +39,9 @@ export const setRoutes = (app: Express) => {
     // user api
     apiRouter.post("/update-account", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.user.updateAccount);
 
+    // upload api
+    apiRouter.post("/new-upload", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.upload.upload);
+
     /* 404 */
     router.get("*", browserRateLimit, Routes.render.basic.notFound);
     apiRouter.get("*", browserRateLimit, Routes.render.basic.notFound);
