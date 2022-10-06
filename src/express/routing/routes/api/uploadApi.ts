@@ -13,7 +13,7 @@ import { logger } from '../../../../index.js';
 let filename: string;
 
 class UploadRoutes {
-    async upload(req: Request, res: Response) {
+    async newUpload(req: Request, res: Response) {
         let userId = (req.session as UserSessionInterface).userId;
 
         // multer configuration.

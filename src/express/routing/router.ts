@@ -41,7 +41,7 @@ export const setRoutes = (app: Express) => {
     apiRouter.post("/update-account", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.user.updateAccount);
 
     // upload api
-    apiRouter.post("/new-upload", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.upload.upload);
+    apiRouter.post("/upload/new", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.upload.newUpload);
 
     // share api
 

@@ -16,7 +16,7 @@
             <h3><i><%= bundle[0] %><%= bundle[1] %><%= bundle[2] %> <%= bundle[3] %> <%= bundle[4] %> </i></h3>
             <h4>uploaded <%= bundle[2] %></h4>
             <% if (bundle[3]) { %>
-            <a href="/update/file/<%= bundle[0] %>/private/false">
+            <a href="/api/update/file/private/false/<%= bundle[0] %>">
               <button class="button-pink">Make Public</button>
             </a>
             <a href="/share/download/<%= bundle[1] %>/<%= bundle[0] %>/" target="_blank">
