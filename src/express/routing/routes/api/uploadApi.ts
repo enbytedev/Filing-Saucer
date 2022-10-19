@@ -31,7 +31,7 @@ class UploadRoutes {
             await uploadFile(req, res)
                 if (req.file == undefined) { RenderUser.dash(req, res, `no file selected...`); return; }
                 databaseAccess.add.upload({
-                    userId: String((req.session as UserSessionInterface).userId),
+                    userId: parseInt((req.session as UserSessionInterface).userId),
                     filename: filename,
                     date: Date.now().toString(),
                     private: 0

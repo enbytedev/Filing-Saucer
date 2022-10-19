@@ -18,15 +18,15 @@ class Render {
     history(req: Request, res: Response, message: string) {
         let userId: string = String((req.session as UserSessionInterface).userId);
         databaseAccess.getInfo.getHistory(userId).then(async (history: any) => {
-            console.log(await databaseAccess.getInfo.getHistory(userId));
             var count = history.length;
             let bundles: Array<any> = [];
             for (var i = 0; i < count; i++) {
                 bundles.push([
-                    history[i].filename, 
+                    history[i].fileId,
+                    history[i].filename,
                     history[i].userId, 
                     new Date(parseInt(history[i].date)).toLocaleString('en-US', {timeZone: await databaseAccess.getInfo.getTimezoneFromUserId(userId)}), 
-                    history[i].private[0] == 1]);
+                    history[i].private == 1]);
             }
             res.render('user/history.ejs', { info: message, bundles: bundles });
         });

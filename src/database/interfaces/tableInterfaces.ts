@@ -1,5 +1,5 @@
 export interface IUser {
-    userId?: string; // primary key, should auto increment. do not manually assign.
+    userId?: number; // primary key, should auto increment. do not manually assign.
     email: string;
     password: string;
     name: string;
@@ -13,15 +13,15 @@ export interface IToken {
 }
 
 export interface IUploadOptional {
-    fileId?: string; // primary key, should auto increment. do not manually assign.
-    userId?: string;
+    fileId?: number; // primary key, should auto increment. do not manually assign.
+    userId?: number;
     filename?: string;
     date?: string;
     private?: number;
 }
 
 export interface IUpload extends IUploadOptional {
-    userId: string;
+    userId: number;
     filename: string;
     date: string;
     private: number;

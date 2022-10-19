@@ -1,19 +1,19 @@
 import AuthRoutes from './authApi.js';
-import UserRoutes from './userApi.js';
+import UpdateUserRoutes from './updateUserApi.js';
 import UploadRoutes from './uploadApi.js';
-import UpdateRoutes from './updateApi.js';
+import UpdateRoutes from './updateFileApi.js';
 
 class ApiAggregate {
     constructor() {
         this.auth = new AuthRoutes();
-        this.user = new UserRoutes();
+        this.updateUser = new UpdateUserRoutes();
         this.upload = new UploadRoutes();
-        this.update = new UpdateRoutes();
+        this.updateFile = new UpdateRoutes();
     }
     public auth;
-    public user;
+    public updateUser;
+    public updateFile;
     public upload;
-    public update;
 }
 
 export default ApiAggregate

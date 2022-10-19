@@ -5,7 +5,7 @@ import {isStringLongEnough, isPasswordSecure, isValidTimezone } from '../../../.
 import databaseAccess from '../../../../database/databaseAccess.js';
 import bcrypt from 'bcrypt';
 
-class UserRoutes {
+class UpdateUserRoutes {
     async updateAccount(req: Request, res: Response) {
         let timezone: string;
         let passwordHash: string;
@@ -43,5 +43,5 @@ class UserRoutes {
     }
 }
 
-export default UserRoutes;
+export default UpdateUserRoutes;
 

@@ -37,16 +37,14 @@ export const setRoutes = (app: Express) => {
     apiRouter.post("/login", apiRateLimit, Routes.api.auth.login);
     apiRouter.post("/register", apiRateLimit, Routes.api.auth.register);
 
-    // user api
-    apiRouter.post("/update-account", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.user.updateAccount);
-
     // upload api
     apiRouter.post("/upload/new", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.upload.newUpload);
 
     // share api
 
     // update api
-    apiRouter.post("/update", apiRateLimit, Routes.api.update.process);
+    apiRouter.post("/update/file", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.updateFile.process);
+    apiRouter.post("/update/account", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.updateUser.updateAccount);
 
     /* 404 */
     router.get("*", browserRateLimit, Routes.render.basic.notFound);

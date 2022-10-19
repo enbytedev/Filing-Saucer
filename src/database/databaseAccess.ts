@@ -44,10 +44,10 @@ class Database {
             const user = await this.users().where({ userId }).first();
             return user.name;
         },
-        getUserIdFromFilename: async (filename: string) => {
-            const upload = await this.uploads().where({ filename }).first();
+        getUserIdFromFileId: async (fileId: string) => {
+            const upload = await this.uploads().where({ fileId }).first();
             const user = await this.users().where({ userId: upload.userId }).first();
-            return user.name;
+            return user.userId;
         },
         getTimezoneFromUserId: async (userId: string) => {
             const user = await this.users().where({ userId }).first();
@@ -128,7 +128,7 @@ class Database {
             let email = user.email.toLowerCase();
             await this.users().where({ email }).update(user);
         },
-        upload: async (upload: RequireProperty<IUploadOptional, 'fileId'>) => {
+        file: async (upload: RequireProperty<IUploadOptional, 'fileId'>) => {
             let fileId = upload.fileId;
             await this.uploads().where({ fileId }).update(upload);
         }

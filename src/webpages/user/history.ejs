@@ -13,21 +13,29 @@
         <%- info %>
         <% for (var bundle of bundles) { %> <div class="file">
         <div class="glass-clear" style="margin: 2%;">
-            <h3><i><%= bundle[0] %><%= bundle[1] %><%= bundle[2] %> <%= bundle[3] %> <%= bundle[4] %> </i></h3>
-            <h4>uploaded <%= bundle[2] %></h4>
-            <% if (bundle[3]) { %>
-            <a href="/api/update/file/private/false/<%= bundle[0] %>">
-              <button class="button-pink">Make Public</button>
-            </a>
+            <h3><%= bundle[1] %></i></h3>
+            <h4>uploaded <%= bundle[3] %></h4>
+            <% if (bundle[4] == 1) { %>
+
+            <form action="/api/update/file" method="post">
+              <input type="hidden" id="action" name="action" value="private">
+              <input type="hidden" id="fileId" name="fileId" value="<%= bundle[0] %>">
+              <input type="hidden" id="value" name="value" value="false">
+              <input type="submit" class="button-pink" value="Make Public">
+            </form>
+
             <a href="/share/download/<%= bundle[1] %>/<%= bundle[0] %>/" target="_blank">
               <button class="button-blue">Download</button>
             </a>
             <% } else { %>
+            <form action="/api/update/file" method="post">
+              <input type="hidden" id="action" name="action" value="private">
+              <input type="hidden" id="fileId" name="fileId" value="<%= bundle[0] %>">
+              <input type="hidden" id="value" name="value" value="true">
+              <input type="submit" class="button-pink" value="Make Private">
+            </form>
             <a href="/share/<%= bundle[0] %>" target="_blank">
               <button class="button-pink">Open</button>
-            </a>
-            <a href="/update/file/<%= bundle[0] %>/private/true">
-              <button class="button-blue">Make Private</button>
             </a>
             <% } %>
             <a href="/delete/<%= bundle[0] %>">
@@ -37,5 +45,27 @@
           </div><% } %>
       </div>
     </div>
+
+    <script>
+      const button = document.getElementById('post-btn');
+
+      button.addEventListener('click', async _ => {
+        try {     
+          const response = await fetch('/api/update/file', {
+            method: 'post',
+            body: {
+              "action": "private",
+              "payload": {
+                "fileId": 1,
+                "value": 0
+              }
+            }
+          });
+          console.log('Completed!', response);
+        } catch(err) {
+          console.error(`Error: ${err}`);
+        }
+      });
+    </script>
   </body>
 </html>
