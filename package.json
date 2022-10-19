@@ -24,7 +24,6 @@
   "homepage": "https://github.com/Aerial-Laptop/Filing-Saucer#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "colors": "^1.4.0",
     "confectionery": "^1.0.1",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
