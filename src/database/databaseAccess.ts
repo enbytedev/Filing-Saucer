@@ -40,6 +40,11 @@ class Database {
             const user = await this.users().where({ email }).first();
             return user.userId;
         },
+        getUserNameFromFileId: async (fileId: string) => {
+            const upload = await this.uploads().where({ fileId }).first();
+            const user = await this.users().where({ userId: upload.userId }).first();
+            return user.name;
+        },
         getUserNameFromUserId: async (userId: string) => {
             const user = await this.users().where({ userId }).first();
             return user.name;
@@ -76,8 +81,8 @@ class Database {
             const user = await this.users().where({ name }).first();
             return user !== undefined;
         },
-        isFilePrivate: async (filename: string) => {
-            const upload = await this.uploads().where({ filename }).first();
+        isFilePrivate: async (fileId: string) => {
+            const upload = await this.uploads().where({ fileId }).first();
             return upload.private === 1;
         },
         isUserStorageFull: async (userId: string) => {
@@ -91,6 +96,10 @@ class Database {
         isEmailInDatabase: async (email: string) => {
             const user = await this.users().where({ email }).first();
             return user !== undefined;
+        },
+        isFileInDatabase: async (fileId: string) => {
+            const upload = await this.uploads().where({ fileId }).first();
+            return upload !== undefined;
         }
     }
 

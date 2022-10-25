@@ -30,6 +30,8 @@ export const setRoutes = (app: Express) => {
     router.get("/dash", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.dash);
     router.get("/account", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.account);
     router.get("/history", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.history);
+    // share
+    router.get("/share/:fileId", browserRateLimit, Routes.render.share.share);
 
     /* api */
 
@@ -39,8 +41,6 @@ export const setRoutes = (app: Express) => {
 
     // upload api
     apiRouter.post("/upload/new", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.upload.newUpload);
-
-    // share api
 
     // update api
     apiRouter.post("/update/file", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.updateFile.process);
@@ -53,11 +53,6 @@ export const setRoutes = (app: Express) => {
 
     // router.get("/forgot", redirectLoggedIn, browserRateLimit, routes.authRoutes.forgot);
     // router.get("/reset", redirectLoggedIn, browserRateLimit, routes.authRoutes.reset);
-
-    // // share
-    // router.get("/share/:name", browserRateLimit, routes.shareRoutes.share);
-    // router.get("/share/:name/download", browserRateLimit, routes.shareRoutes.downloadFile);
-    // router.get("/share/:name/view", browserRateLimit, routes.shareRoutes.viewFile);
 
     // // logged in
     // router.get("/dash", restrictedContent, browserRateLimit, routes.userRoutes.dash);
