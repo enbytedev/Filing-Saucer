@@ -60,6 +60,10 @@ class Database {
         getHashedPasswordFromUserId: async (userId: string) => {
             const user = await this.users().where({ userId }).first();
             return user.password;
+        },
+        getFileNameFromFileId: async (fileId: string) => {
+            const upload = await this.uploads().where({ fileId }).first();
+            return upload.filename;
         }
     }
 

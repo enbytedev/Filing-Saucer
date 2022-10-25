@@ -1,6 +1,8 @@
 import setup from './setup/setup.js';
 import config from './setup/config.js';
 import confectionery from 'confectionery';
+import kitchenlight from 'kitchenlight'; // Import kitchenlight to use it's debugger tools. It doesn't need to be used in the code.
+kitchenlight.applyToConsole(); // Apply kitchenlight to the console.
 
 export const logger = confectionery.createLogger("Main");
 
