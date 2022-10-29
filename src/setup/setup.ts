@@ -1,4 +1,4 @@
-import { logger } from '../index.js';
+import { logger } from './mainLogger.js';
 import config, { databaseConfiguration, emailConfiguration } from './config.js';
 import sugarcube from 'sugarcube';
 import fs from 'fs';

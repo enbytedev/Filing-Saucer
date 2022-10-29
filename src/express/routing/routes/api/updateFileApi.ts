@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import databaseAccess from '../../../../database/databaseAccess.js';
 import { UserSessionInterface } from '../../../../helpers/sessionInterfaces.js';
-import {logger} from '../../../../index.js';
+import {logger} from '../../../../setup/mainLogger.js';
 import { RenderUser } from '../render/user.js';
 
 class UpdateFileRoutes {

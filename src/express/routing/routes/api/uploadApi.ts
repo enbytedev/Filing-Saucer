@@ -8,7 +8,7 @@ import { RenderUser } from '../render/user.js';
 import databaseAccess from '../../../../database/databaseAccess.js';
 import config from '../../../../setup/config.js';
 import multer from 'multer';
-import { logger } from '../../../../index.js';
+import { logger } from '../../../../setup/mainLogger.js';
 
 let filename: string;
 
