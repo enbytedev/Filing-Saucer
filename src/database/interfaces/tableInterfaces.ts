@@ -7,7 +7,7 @@ export interface IUser {
 }
 
 export interface IToken {
-    email?: string;
+    userId?: string;
     token?: string;
     expires?: string;
 }

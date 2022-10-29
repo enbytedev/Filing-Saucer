@@ -8,6 +8,12 @@ class Render {
     register(_req: Request, res: Response, message: string) {
         res.render('auth/register.ejs', { timezones: tzList, message: message });
     }
+    requestPasswordReset(_req: Request, res: Response, message: string) {
+        res.render('auth/requestPasswordReset.ejs', { message: message });
+    }
+    passwordReset(_req: Request, res: Response, message: string) {
+        res.render('auth/passwordReset.ejs', { message: message });
+    }
 }
 
 export const RenderAuth = new Render();
@@ -23,6 +29,12 @@ class AuthRoutes {
         req.session.destroy(() => {
             res.redirect('/');
         });
+    }
+    requestPasswordReset(_req: Request, res: Response) {
+        RenderAuth.requestPasswordReset(_req, res, "");
+    }
+    passwordReset(_req: Request, res: Response) {
+        RenderAuth.passwordReset(_req, res, "");
     }
 }
 

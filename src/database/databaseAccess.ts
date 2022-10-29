@@ -36,6 +36,10 @@ class Database {
     public uploads = () => connection('Uploads');
 
     public getInfo = {
+        getUserNameFromEmail: async (email: string) => {
+            const user = await this.users().where({ email: email }).first();
+            return user.name;
+        },
         getUserIdFromEmail: async (email: string) => {
             const user = await this.users().where({ email }).first();
             return user.userId;

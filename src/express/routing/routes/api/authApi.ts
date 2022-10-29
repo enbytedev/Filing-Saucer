@@ -2,8 +2,11 @@ import { Request, Response } from 'express';
 import { UserSessionInterface } from '../../../../helpers/sessionInterfaces.js';
 import { RenderAuth } from '../render/auth.js';
 import { isEmailValid, isStringLongEnough, isPasswordSecure, isValidTimezone } from '../../../../helpers/validateInputs.js';
+import { emailConfiguration } from '../../../../setup/config.js';
 import databaseAccess from '../../../../database/databaseAccess.js';
 import bcrypt from 'bcrypt';
+import { transporter } from '../../../../helpers/emailTransporter.js';
+import sugarcube from 'sugarcube';
 
 class AuthRoutes {
     async login(req: Request, res: Response) {
@@ -37,6 +40,33 @@ class AuthRoutes {
             res.redirect('/dash');
         } else { RenderAuth.register(req, res, "Something went wrong!"); }
     }
+    async requestReset(req: Request, res: Response) {
+        // Make email lowercase and remove spaces for database consistency.
+        let email = req.body?.email.toLowerCase();
+        email = email.replace(/\s+/g, '');
+
+        if (email == "" && isEmailValid(email)) { RenderAuth.requestPasswordReset(req, res, "Please provide an email!"); return; }
+        if (!await databaseAccess.checks.isEmailInDatabase(email)) { return RenderAuth.requestPasswordReset(req, res, "Invalid email!"); }
+
+        let token = sugarcube.randomNumber(8);
+
+        databaseAccess.add.token({ userId: await databaseAccess.getInfo.getUserIdFromEmail(email), token: token, expires: (Date.now() + 600000).toString() });
+
+        var mailOptions = {
+            from: `${emailConfiguration.from}`,
+            to: email,
+            subject: 'Password Reset @ Filing Saucer',
+            text: `Hello, ${await databaseAccess.getInfo.getUserNameFromEmail(email)}! You have requested a password reset. You may use the code below to reset your password. If you did not request a password reset, please ignore this email.\nCode: ${token}`
+        };
+
+        transporter.sendMail(mailOptions, function(error: any, info: any) {
+            if (error) {console.error(error);} else {
+                console.debug('Email sent: ' + info.response);
+                res.render('auth/passwordReset.ejs', { message: 'Email sent! Please check your inbox.' });
+            }
+        });
+    }
+    
 }
 
 export default AuthRoutes;

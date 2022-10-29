@@ -26,6 +26,8 @@ export const setRoutes = (app: Express) => {
     router.get("/login", sendToDashIfLoggedIn, browserRateLimit, Routes.render.auth.login);
     router.get("/register", sendToDashIfLoggedIn, browserRateLimit, Routes.render.auth.register);
     router.get("/logout", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.render.auth.logout);
+    router.get("/forgot", sendToDashIfLoggedIn, browserRateLimit, Routes.render.auth.requestPasswordReset);
+    router.get("/reset", sendToDashIfLoggedIn, browserRateLimit, Routes.render.auth.passwordReset);
     // user
     router.get("/dash", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.dash);
     router.get("/account", sendToLoginIfNotLoggedIn, browserRateLimit, Routes.render.user.account);
@@ -34,10 +36,11 @@ export const setRoutes = (app: Express) => {
     router.get("/share/:fileId", browserRateLimit, Routes.render.share.share);
 
     /* api */
-
     // auth api
     apiRouter.post("/login", apiRateLimit, Routes.api.auth.login);
     apiRouter.post("/register", apiRateLimit, Routes.api.auth.register);
+    router.post("/forgot", apiRateLimit, Routes.api.auth.requestReset);
+    // router.post("/reset", apiRateLimit, routes.apiRoutes.resetPassword);
 
     // upload api
     apiRouter.post("/upload/new", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.upload.newUpload);
@@ -49,10 +52,6 @@ export const setRoutes = (app: Express) => {
     /* 404 */
     router.get("*", browserRateLimit, Routes.render.basic.notFound);
     apiRouter.get("*", browserRateLimit, Routes.render.basic.notFound);
-
-
-    // router.get("/forgot", redirectLoggedIn, browserRateLimit, routes.authRoutes.forgot);
-    // router.get("/reset", redirectLoggedIn, browserRateLimit, routes.authRoutes.reset);
 
     // // logged in
     // router.get("/dash", restrictedContent, browserRateLimit, routes.userRoutes.dash);
@@ -67,8 +66,6 @@ export const setRoutes = (app: Express) => {
     // router.post("/login", apiRateLimit, routes.apiRoutes.login);
     // router.post("/register", apiRateLimit, routes.apiRoutes.register);
     // router.post("/upload", restrictedContent, apiRateLimit, routes.apiRoutes.createUpload);
-    // router.post("/forgot", apiRateLimit, routes.apiRoutes.requestReset);
-    // router.post("/reset", apiRateLimit, routes.apiRoutes.resetPassword);
     app.use(router);
     app.use('/api', apiRouter);
 }
