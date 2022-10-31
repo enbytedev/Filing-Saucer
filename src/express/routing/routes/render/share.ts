@@ -6,15 +6,17 @@ import { UserSessionInterface } from '../../../../helpers/sessionInterfaces.js';
 
 class ShareRoutes {
     async share(req: Request, res: Response) {
-        let filePath = await getFilePath(req.params.fileId as string);
+        let fileId: string = req.params?.fileId;
 
-        if (typeof req.params.fileId !== "string" || filePath.length < 1 || !(await databaseAccess.checks.isFileInDatabase(req.params.fileId))) {
+        if (fileId.length < 1 || !(await databaseAccess.checks.isFileInDatabase(fileId))) {
             res.render('basic/notFound.ejs');
             return;
         }
 
-        if (await databaseAccess.checks.isFilePrivate(req.params.fileId)) {
-            if ((req.session as UserSessionInterface).userId != await databaseAccess.getInfo.getUserIdFromFileId(req.params.fileId)) {
+        let filePath = await getFilePath(fileId);
+        
+        if (await databaseAccess.checks.isFilePrivate(fileId)) {
+            if ((req.session as UserSessionInterface).userId != await databaseAccess.getInfo.getUserIdFromFileId(fileId)) {
                 res.render('share/private.ejs');
                 return;
             }
@@ -29,10 +31,10 @@ class ShareRoutes {
             return;
         }
 
-        let userName = await databaseAccess.getInfo.getUserNameFromFileId(req.params.fileId);
-        let fileName = await databaseAccess.getInfo.getFileNameFromFileId(req.params.fileId);
+        let userName = await databaseAccess.getInfo.getUserNameFromFileId(fileId);
+        let fileName = await databaseAccess.getInfo.getFileNameFromFileId(fileId);
 
-        res.render('share/share.ejs', { fileId: req.params.fileId, userName: userName, fileName: fileName, enablePreview: isPreviewable(fileName) });
+        res.render('share/share.ejs', { fileId: fileId, userName: userName, fileName: fileName, enablePreview: isPreviewable(fileName) });
     }
 }
 
