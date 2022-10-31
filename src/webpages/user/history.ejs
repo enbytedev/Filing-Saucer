@@ -47,27 +47,5 @@
           </div><% } %>
       </div>
     </div>
-
-    <script>
-      const button = document.getElementById('post-btn');
-
-      button.addEventListener('click', async _ => {
-        try {     
-          const response = await fetch('/api/update/file', {
-            method: 'post',
-            body: {
-              "action": "private",
-              "payload": {
-                "fileId": 1,
-                "value": 0
-              }
-            }
-          });
-          console.log('Completed!', response);
-        } catch(err) {
-          console.error(`Error: ${err}`);
-        }
-      });
-    </script>
   </body>
 </html>

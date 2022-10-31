@@ -52,20 +52,7 @@ export const setRoutes = (app: Express) => {
     /* 404 */
     router.get("*", browserRateLimit, Routes.render.basic.notFound);
     apiRouter.get("*", browserRateLimit, Routes.render.basic.notFound);
-
-    // // logged in
-    // router.get("/dash", restrictedContent, browserRateLimit, routes.userRoutes.dash);
-    // router.get("/history", restrictedContent, browserRateLimit, routes.userRoutes.history);
-    // router.get("/account", restrictedContent, browserRateLimit, routes.userRoutes.account);
-
-    // // api
-    // router.get("/logout", restrictedContent, apiRateLimit, routes.apiRoutes.logout);
-    // router.get("/delete/:name", restrictedContent, apiRateLimit, routes.apiRoutes.deleteUpload);
-    // router.get("/update/file/:name/:setting/:value", restrictedContent, apiRateLimit, routes.apiRoutes.updateUpload);
-    // router.post("/update/account", restrictedContent, apiRateLimit, routes.apiRoutes.updateUser);
-    // router.post("/login", apiRateLimit, routes.apiRoutes.login);
-    // router.post("/register", apiRateLimit, routes.apiRoutes.register);
-    // router.post("/upload", restrictedContent, apiRateLimit, routes.apiRoutes.createUpload);
+    
     app.use(router);
     app.use('/api', apiRouter);
 }
