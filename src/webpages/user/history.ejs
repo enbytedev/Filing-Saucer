@@ -38,9 +38,11 @@
               <button class="button-pink">Open</button>
             </a>
             <% } %>
-            <a href="/delete/<%= bundle[0] %>">
-              <button class="button-blue">Delete</button>
-            </a>
+            <form action="/api/update/file" method="post">
+              <input type="hidden" id="action" name="action" value="delete">
+              <input type="hidden" id="fileId" name="fileId" value="<%= bundle[0] %>">
+              <input type="submit" class="button-blue" value="Delete">
+            </form>
             <br>
           </div><% } %>
       </div>

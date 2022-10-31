@@ -131,11 +131,11 @@ class Database {
         token: async (token: string) => {
             await this.tokens().where({ token }).del();
         },
-        upload: async (filename: string) => {
-            if (ensureFileWasDeleted(filename)) {
-                await this.uploads().where({ filename }).del();
+        upload: async (fileId: string) => {
+            if (ensureFileWasDeleted(fileId)) {
+                await this.uploads().where({ fileId }).del();
             } else {
-                logger.error(`File ${filename} was not deleted! Not removing from database.`, "Database @ Remove Upload");
+                logger.error(`File ${fileId} was not deleted! Not removing from database.`, "Database @ Remove Upload");
             }
         }
     }
