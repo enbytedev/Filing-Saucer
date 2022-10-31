@@ -40,7 +40,7 @@ export const setRoutes = (app: Express) => {
     apiRouter.post("/login", apiRateLimit, Routes.api.auth.login);
     apiRouter.post("/register", apiRateLimit, Routes.api.auth.register);
     router.post("/forgot", apiRateLimit, Routes.api.auth.requestReset);
-    // router.post("/reset", apiRateLimit, routes.apiRoutes.resetPassword);
+    router.post("/reset", apiRateLimit, Routes.api.auth.resetPassword);
 
     // upload api
     apiRouter.post("/upload/new", sendToLoginIfNotLoggedIn, apiRateLimit, Routes.api.upload.newUpload);

@@ -66,7 +66,17 @@ class AuthRoutes {
             }
         });
     }
-    
+    async resetPassword(req: Request, res: Response) {
+        if (req.body?.token == "") { RenderAuth.passwordReset(req, res, "Please provide a token!"); return; }
+        if (!isPasswordSecure(req.body?.password)) { RenderAuth.passwordReset(req, res, "Your new password must have at least 6 characters, uppercase and lowercase letters, and a number!"); return; }
+        let token = req.body.token;
+        let passwordHash: string = await bcrypt.hash(req.body.password, 10);
+        let response: number = await databaseAccess.update.processUserUpdateToken(token, passwordHash);
+        if (response == 0) {
+            res.render('auth/login.ejs', { message: 'Password reset! You may now login.' });
+        } else if (response == 1) { RenderAuth.passwordReset(req, res, "Token has expired!"); 
+        } else if (response == 2) { RenderAuth.passwordReset(req, res, "Invalid token!"); }
+    }
 }
 
 export default AuthRoutes;

@@ -148,7 +148,25 @@ class Database {
         file: async (upload: RequireProperty<IUploadOptional, 'fileId'>) => {
             let fileId = upload.fileId;
             await this.uploads().where({ fileId }).update(upload);
-        }
+        },
+        processUserUpdateToken: async (token: string, hashedPassword: string) => {
+            if (token == undefined) { return 2; }
+            const tokenInfo = await this.tokens().where({ token: token }).first();
+            // Check if token exists
+            if (!tokenInfo) { return 2; }
+            // Make sure token is not expired
+            let expires = new Date(parseInt(tokenInfo.expires)).toString();
+            let currentDate = Date.now().toString();
+            if (expires > currentDate) {
+                let userId = tokenInfo.userId;
+                await this.tokens().where({ token: token }).del();
+
+                await this.users().where({ userId }).update({ password: hashedPassword });
+
+                return 0;
+            } else { return 1; }
+            
+        },
     }
 
     /**
