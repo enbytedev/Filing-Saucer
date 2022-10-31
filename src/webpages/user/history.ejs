@@ -1,0 +1,51 @@
+<html lang="en">
+  <%- include('../partials/header.ejs') %>
+  <body>
+    <div class="section">
+      <img src="/public/ICON.png" alt="" height="200px" width="200px">
+      <div class="glass-pink" style="margin: 50;">
+        <h1>upload history</h1>
+        <h2><i>your previously uploaded files are listed below</i></h2>
+        <button class="button-blue" onclick="window.location.href='/dash'">Home</button></a>
+      </div>
+      <div class="glass-blue">
+        <h2>history.</h2><br>
+        <%- info %>
+        <% for (var bundle of bundles) { %> <div class="file">
+        <div class="glass-clear" style="margin: 2%;">
+            <h3><%= bundle[1] %></i></h3>
+            <h4>uploaded <%= bundle[3] %></h4>
+            <% if (bundle[4] == 1) { %>
+
+            <form action="/api/update/file" method="post">
+              <input type="hidden" id="action" name="action" value="private">
+              <input type="hidden" id="fileId" name="fileId" value="<%= bundle[0] %>">
+              <input type="hidden" id="value" name="value" value="false">
+              <input type="submit" class="button-pink" value="Make Public">
+            </form>
+
+            <a href="/share/download/<%= bundle[1] %>/<%= bundle[0] %>/" target="_blank">
+              <button class="button-blue">Download</button>
+            </a>
+            <% } else { %>
+            <form action="/api/update/file" method="post">
+              <input type="hidden" id="action" name="action" value="private">
+              <input type="hidden" id="fileId" name="fileId" value="<%= bundle[0] %>">
+              <input type="hidden" id="value" name="value" value="true">
+              <input type="submit" class="button-pink" value="Make Private">
+            </form>
+            <a href="/share/<%= bundle[0] %>" target="_blank">
+              <button class="button-pink">Open</button>
+            </a>
+            <% } %>
+            <form action="/api/update/file" method="post">
+              <input type="hidden" id="action" name="action" value="delete">
+              <input type="hidden" id="fileId" name="fileId" value="<%= bundle[0] %>">
+              <input type="submit" class="button-blue" value="Delete">
+            </form>
+            <br>
+          </div><% } %>
+      </div>
+    </div>
+  </body>
+</html>
