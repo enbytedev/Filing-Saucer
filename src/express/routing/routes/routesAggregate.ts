@@ -1,4 +1,4 @@
-import ApiAggregate from './api/ApiAggregate.js';
+import ApiAggregate from './api/apiAggregate.js';
 import RenderAggregate from './render/renderAggregate.js';
 
 class RoutesAggregate {
